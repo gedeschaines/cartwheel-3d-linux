@@ -1,0 +1,13 @@
+__pycache__
+bin/*
+lib/*
+obj/
+screenShots/*
+tmp/*
+*.o
+*.exe
+.pyc
+.so
+*~
+*.swp
+
