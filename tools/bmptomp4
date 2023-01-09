@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# FILE: bmptomp4
+# DATE: 2 JAN 2023
+# AUTH: G. E. Deschaines
+# PROG: Shell script to encode a series of BMP image files into named MP4 video file.
+# DESC: Invoke in the directory holding the BMP files. Assumes names of the BMP files
+#       of the form "####.bmp", with #### in the range [0000-9999]. Basename for the
+#       ffmpeg created ".mp4" file may be given as the first command line argument.
+
+# Get WxH size of the BMP images in pixels and the number of frames to encode.
+SIZE=`file 0000.bmp | awk '{ print($7"x"$9) }'`
+typeset -i NUMF=`ls -1 *.bmp | wc -l`
+NFRM=$((--NUMF))
+
+# Set name of MP4 file.
+if [ "$1" == "" ]
+then
+  # assign name of the form "0000_${NFRM}"
+  typeset -i NCHR=${#NFRM}
+  if [ $NCHR -lt 2 ]; then NAME="0000_000${NFRM}"
+  elif [ $NCHR -lt 3 ]; then NAME="0000_00${NFRM}"
+  elif [ $NCHR -lt 4 ]; then NAME="0000_0${NFRM}"
+  else NAME="0000_${NFRM}"
+  fi
+else
+  # assign name as given on command line
+  NAME=$1
+fi
+
+# Invoke ffmpeg to create ${NAME}.mp4; assuming a framerate of 30 FPS.
+ffmpeg -r 30 -f image2 -s ${SIZE} -start_number 0 -i '%04d.bmp' -frames:v ${NUMF} -codec:v libx264 -crf 25 -pix_fmt yuv420p ${NAME}.mp4
+
