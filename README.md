@@ -20,7 +20,7 @@ Continuing research on 3D physics-based character animation by the character ani
 
 ### Screenshots ###
 
-The following screenshots depicting edit style and character modes of the Style Editor were captured from `cartwheel-3d` built and run on an Ubuntu 18.04 platform using GNU C++ compiler v8.4, Swig v3.0.12 and Python v2.7.17.
+The following screenshots depicting edit style and character modes of the Style Editor were captured from `cartwheel-3d` built and run on an Ubuntu 18.04 platform using GNU C++ compiler v8.4, SWIG v3.0.12, Python v2.7.17 and wxPython v3.0.2.
 
  <div margin="0px" align="left">
   <table border="0" valign="MIDDLE">
