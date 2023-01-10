@@ -51,18 +51,15 @@ The following screenshots depicting edit style and character modes of the Style 
 
 See the YouTube videos of the SIGGRAPH 2010 Generalized Biped Walking Control project:
 
- <div margin="0px" align="left"><br>
- [Part 1](https://www.youtube.com/watch?v=lOxeyyooDmw)<br>
- [Part 2](https://www.youtube.com/watch?v=MHj8RDfyqP0)
- </div><br>
+  * [Part 1](https://www.youtube.com/watch?v=lOxeyyooDmw)
+  * [Part 2](https://www.youtube.com/watch?v=MHj8RDfyqP0)
 
 and sample `cartwheel-3d` execution on Linux demonstration videos:
 
- <div margin="0px" align="left"><br>
- [BasicEditor](https://youtu.be/pgX6k8qZzKI) - screen capture using SimpleScreenRecorder<br>
- [BasicWalker](https://youtu.be/6bCgt1Kw17w) - screenshot BMP images converted to MP4 using ffmpeg
- </div><br>
+  * [BasicEditor](https://youtu.be/pgX6k8qZzKI) - screen capture using SimpleScreenRecorder
+  * [BasicWalker](https://youtu.be/6bCgt1Kw17w) - screenshot BMP images converted to MP4 using ffmpeg<BR><RB>
 
+<br>
 Projects owners:
 
  * [Stelian Coros](http://crl.ethz.ch/people/coros/index.html)
