@@ -4,6 +4,7 @@ Created on 2009-09-02
 @author: beaudoin
 '''
 
+
 def callOnObjectOrList( objectOrList, function ):
     """Apply the specified function on :
         - The single element passed as first parameter
@@ -134,12 +135,14 @@ def getProxyClass( object ):
     of the wrapped object.
     """
     from App import Proxys
-
+    
     className = getClassName(object)
 
     try:
         # Create an instance of the equivalent python wrapper class
         return Proxys.__dict__[className]
+    except KeyError :
+        raise KeyError( "No proxy class known for object of name '%s'." % className ) 
     except NameError:
         raise NameError( "No proxy class known for object of type '%s'." % className )    
 

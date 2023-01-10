@@ -150,7 +150,7 @@ class CharacterScalerFront(CharacterScaler):
             glEnd()
         except Exception as e:
             glEnd()
-            print "Exception while drawing scaled character interface: " + str(e)
+            print("Exception while drawing scaled character interface: {0}".format(str(e)))
             traceback.print_exc(file=sys.stdout)
             
         

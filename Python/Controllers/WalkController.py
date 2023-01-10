@@ -17,7 +17,7 @@ class WalkController(Core.IKVMCController):
         return self.__class__.__name__
         
     def initialSetup(self):
-        """Call this method for the first setup of the dance controller"""
+        """Call this method for the first setup of the walk controller"""
         self.desiredCoronalStepLength = 0.04
         
         self.defaultStepSize = 0.275
@@ -41,7 +41,7 @@ class WalkController(Core.IKVMCController):
         self.swingFootTrajectory.addKnot(1, Point3d(0, 0.05 + 0, sagittalPlaneFutureFootPos - footStart));
         
         
-    def performPreTasks(self, contactForces):
+    def performPreTasks(self, dt, contactForces):
         """Performs all the tasks that need to be done before the physics simulation step."""          
         v = self.getV()
         d = self.getD()
@@ -69,7 +69,7 @@ class WalkController(Core.IKVMCController):
                 
         self.legOrientation = Core.cvar.SimGlobals_duckWalk
         
-        super(WalkController,self).performPreTasks(contactForces)
+        super(WalkController,self).performPreTasks(dt, contactForces)
                
     def performPostTasks(self, dt, contactForces):
         """Performs all the tasks that need to be done after the physics simulation step."""          
@@ -83,7 +83,7 @@ class WalkController(Core.IKVMCController):
         
         if super(WalkController,self).performPostTasks(dt, contactForces):
             v = self.getV()
-            print "step: %3.5f %3.5f %3.5f. Vel: %3.5f %3.5f %3.5f. phi = %f\n" % (step.x, step.y, step.z, v.x, v.y, v.z, phi);
+            print("step: %3.5f %3.5f %3.5f. Vel: %3.5f %3.5f %3.5f. phi = %f\n" % (step.x, step.y, step.z, v.x, v.y, v.z, phi))
             self.setupParameters()
         
         

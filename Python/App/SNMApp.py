@@ -6,6 +6,7 @@ Created on 2009-08-26
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
 import PyUtils, wx, Physics, Utils, time, math, sys, Core
 from ObservableList import ObservableList
 from Curve import Curve
@@ -14,7 +15,8 @@ from MathLib import Vector3d, Point3d
 
 def _printout( text ):
     """Private. Redirect the passed text to stdout."""
-    sys.stdout.write(text)
+    if text is not None:
+        sys.stdout.write(text)
     
 # Make sure the DLLs use the python stdout for printout
 Utils.registerPrintFunction( _printout )
@@ -35,6 +37,22 @@ class SNMApp(wx.App):
         :see: wx.BasicApp.__init__`
         """
         
+        # Set-up starting state
+        self._dt = dt      
+        self._drawShadows = True
+        self._simulationSecondsPerSecond = 1   # 1 = real time, 2 = twice real time, 1/2 = half real time
+        self._animationRunning = False
+        self._cameraFollowCharacter = False
+        self._drawCollisionVolumes = False
+        self._followedCharacter = None # Pointer to focused character
+        self._captureScreenShots = False
+        self._screenShotNumber = 0
+        self._printStepReport = True
+        self._kinematicMotion = False
+        self._staircase = None
+        self._snapshotToolSet = None
+        self._snapshotTree = None
+        
         wx.App.__init__(self, redirect, filename, useBestVisual, clearSigInt)
 
         # No annoying error logging window
@@ -46,11 +64,10 @@ class SNMApp(wx.App):
         style = wx.DEFAULT_FRAME_STYLE
         if size == wx.DefaultSize :
             size = wx.GetDisplaySize()
-            size.height *= 0.75        
-            size.width *= 0.75
+            size.Scale(0.75, 0.75)
             if glCanvasSize == wx.DefaultSize :
                 style |= wx.MAXIMIZE
-       
+        
         # Setup the environment for the python interactive console
         consoleEnvironment = {
             "wx" : wx,
@@ -81,40 +98,32 @@ class SNMApp(wx.App):
         # Show the application
         self._frame.Show()
         
-        # Set-up starting state
-        self._dt = dt      
-        self._drawShadows = True
-        self._simulationSecondsPerSecond = 1   # 1 = real time, 2 = twice real time, 1/2 = half real time
-        self._animationRunning = False
-        self._cameraFollowCharacter = False
-        self._drawCollisionVolumes = False
-        self._followedCharacter = None # Pointer to focused character
-        self._captureScreenShots = False
-        self._printStepReport = True
-        self._screenShotNumber = 0
+        # Set-up physics world
         self._worldOracle = Core.WorldOracle()
         self._worldOracle.initializeWorld( Physics.world() )
-        self._kinematicMotion = False
         
         # Set-up starting list of characters and controllers
         self._characters = []
     
         # Define the observables
-        self._controllerList = ObservableList() 
+        self._controllerList = ObservableList()
         self._characterObservable = PyUtils.Observable()
         self._animationObservable = PyUtils.Observable()
         self._cameraObservable = PyUtils.Observable()
         self._optionsObservable = PyUtils.Observable()
         self._curveList = ObservableList()
-        self._snapshotTree = SnapshotBranch()
-            
+        self._snapshotTree = SnapshotBranch() 
     #
     # Private methods
         
     def draw(self):
         """Draw the content of the world"""
         world = Physics.world()
-                    
+        
+        if self._staircase is not None:
+            if not self._staircase.isLoaded():
+                self._staircase.load()
+
         glEnable(GL_LIGHTING)
         if self._drawCollisionVolumes:
             world.drawRBs(Physics.SHOW_MESH|Physics.SHOW_CD_PRIMITIVES)
@@ -126,7 +135,7 @@ class SNMApp(wx.App):
         if self._drawShadows:
             self._glCanvas.beginShadows()
             world.drawRBs(Physics.SHOW_MESH)
-            self._glCanvas.endShadows()    
+            self._glCanvas.endShadows()   
 
     def postDraw(self):
         """Perform some operation once the entire OpenGL window has been drawn"""
@@ -192,9 +201,11 @@ class SNMApp(wx.App):
                     self._stance = Core.LEFT_STANCE
             return
 
-
-        
         world = Physics.world()
+        if self._staircase is not None:
+            if not self._staircase.isLoaded():
+                self._staircase.load()
+
         controllers = self._controllerList._objects
         contactForces = world.getContactForces()
         for controller in controllers :
@@ -209,20 +220,17 @@ class SNMApp(wx.App):
                 v = controller.getV()
                 phi = controller.getPhase()
                 if self._printStepReport:
-                    print "step: %3.5f %3.5f %3.5f. Vel: %3.5f %3.5f %3.5f  phi = %f" % ( step.x, step.y, step.z, v.x, v.y, v.z, phi)
+                    print("step: %3.5f %3.5f %3.5f. Vel: %3.5f %3.5f %3.5f  phi = %f" % ( step.x, step.y, step.z, v.x, v.y, v.z, phi))
 
         
-    
     def cameraTargetFunction(self, currentTarget):
         """Private! Return the point to target, or None if nothing to target."""
         if not self._cameraFollowCharacter or self._followedCharacter == None:
             return None
-        
         pos = self._followedCharacter.getRoot().getCMPosition()
         pos.y = currentTarget.y
         return pos
     
-
     #    
     # Accessors
     
@@ -318,6 +326,12 @@ class SNMApp(wx.App):
         """Does the application animate only kinematic motion?"""
         return self._kinematicMotion
     
+    def getStaircase(self):
+        return self._staircase
+
+    def setStaircase(self, staircase):
+        self._staircase = staircase
+
     def captureScreenShots(self, capture):
         """Indicates whether the application should capture a screenshot at every frame."""
         if capture != self._captureScreenShots:
@@ -330,7 +344,7 @@ class SNMApp(wx.App):
     
     #
     # Public methods
-       
+
     def deleteAllObjects(self):
         """Delete all objects: characters, rigid bodies, snapshots, etc."""
         if self._followedCharacter is not None :           
@@ -341,8 +355,13 @@ class SNMApp(wx.App):
         self._controllerList.clear()
         import Physics
         Physics.world().destroyAllObjects()
-        self.deleteAllSnapshots()        
-       
+        if self._staircase is not None:
+            if self._staircase.isLoaded():
+                self._staircase.unload()       
+        #self.deleteAllSnapshots()     
+    
+    # For Character
+    
     def addCharacter(self, character):
         """Adds a character to the application and the world"""
         import Physics
@@ -355,6 +374,9 @@ class SNMApp(wx.App):
             self._cameraFollowCharacter = True
             self._cameraObservable.notifyObservers()
         self._characterObservable.notifyObservers()
+        if self._staircase is not None:
+            if not self._staircase.isLoaded():
+                self._staircase.load()
 
     def deleteCharacter(self, character):
         """Removes a character from the application. Specify either a name, an index, or an instance of a character object."""        
@@ -385,7 +407,8 @@ class SNMApp(wx.App):
         character = self.getCharacter(character)
         character.recenter()
         
-    
+    # For Controller List
+       
     def addController(self, controller):
         """Adds a controller to the application"""
         return self._controllerList.add(controller)
@@ -405,8 +428,9 @@ class SNMApp(wx.App):
     def getControllerList(self):
         """Returns the controller list object. Useful for observation."""
         return self._controllerList
-    
-    
+
+    # For Curve List
+
     def addCurve(self, name, trajectory1d, phiPtr = None):
         """Adds a curve to the application"""
         return self._curveList.add( Curve(name, trajectory1d, phiPtr) )
@@ -430,9 +454,21 @@ class SNMApp(wx.App):
     def getCurveList(self):
         """Returns the curve list object. Useful for observation."""
         return self._curveList
+
+    # For Snapshot Tree
+
+    def setSnapshotToolSet(self, toolSet):
+        self._snapshotToolSet = toolSet
+        
+    def getSnapshotToolSet(self):
+        return self._snapshotToolSet
     
+    def setSnapshotTree(self, snapshotBranch):
+        """Set top-level SnapshotBranch if instantiated external to SNMApp."""
+        self._snapshotTree = snapshotBranch
+            
     def getSnapshotTree(self):
-        """Returns the top-level SnapshotBranch that can be observed.""" 
+        """Returns the top-level SnapshotBranch that can be observed."""
         return self._snapshotTree
     
     def takeSnapshot(self):
@@ -455,9 +491,9 @@ class SNMApp(wx.App):
     def deleteAllSnapshots(self):
         """Delete all the snapshots of the world."""
         self._snapshotTree = SnapshotBranch()    
-    #
-    # For observers
-    #    
+
+    # For Observers
+  
     def addCharacterObserver(self, observer):
         self._characterObservable.addObserver(observer)
     
@@ -488,4 +524,3 @@ class SNMApp(wx.App):
     def deleteOptionsObserver(self, observer):
         self._optionsObservable.deleteObserver(observer)
         
-    

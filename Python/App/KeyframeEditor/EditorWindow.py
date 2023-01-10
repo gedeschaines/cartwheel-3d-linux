@@ -25,6 +25,7 @@ class EditorWindow(GLUtils.GLUIContainer):
 
     def __init__( self, parent, posableCharacter, handlesSide, handlesFront, stanceKneeHandle, swingFootHandleSagittal, swingFootHandleCoronal, swingFootHandleHeight,
                   time, controller, stanceFootToSwingFootTrajectory, minWidth=-1, minHeight=-1, checkBoxVisible=True):
+
         super(EditorWindow,self).__init__(parent)
 
         self._sizer = GLUtils.GLUIBoxSizer(GLUtils.GLUI_VERTICAL)
@@ -94,8 +95,8 @@ class CharacterEditorWindow(UI.GLUITools.WindowWithControlPoints):
                   time, controller, stanceFootToSwingFootTrajectory, converter, x=0, y=0, width=0, height=0, minWidth=-1, minHeight=-1 ):
         """A keyframe edition window. Character are always forced to left stance."""
         
-        super(CharacterEditorWindow,self).__init__(parent,x,y,width,height, minWidth, minHeight, boundsY=(-0.1,1.9), forceAspectRatio='x')
-        
+        super(CharacterEditorWindow,self).__init__(parent, x=x, y=y, width=width, height=height, minWidth=minWidth, minHeight=minHeight, boundsY=(-0.1,1.9), forceAspectRatio='x')
+         
         self._converter = converter
 
         self._posableCharacter = posableCharacter
@@ -159,6 +160,7 @@ class CharacterEditorWindow(UI.GLUITools.WindowWithControlPoints):
         self._posableCharacter.updatePose( self._time, self._stanceFootToSwingFootTrajectory.evaluate_catmull_rom(self._time) )
 
         try:
+            
             glColor3d(0.4,0.5,0.0)
             
             self._drawLine( self._lArm )
@@ -171,7 +173,7 @@ class CharacterEditorWindow(UI.GLUITools.WindowWithControlPoints):
                     
         except Exception as e:
             glEnd()
-            print "Exception while drawing scaled character interface: " + str(e)
+            print("Exception while drawing scaled character interface: {0}".format(str(e)))
             traceback.print_exc(file=sys.stdout)
  
     def _drawLine(self, line ):
@@ -206,6 +208,7 @@ class BaseControlPoint(UI.GLUITools.ControlPoint):
 class BaseHandleControlPoint(BaseControlPoint):
     
     def __init__( self, posableCharacter, time, converter, handle ):
+        
         super(BaseHandleControlPoint,self).__init__(posableCharacter, time, converter)
         self._handle  = handle        
         
@@ -216,6 +219,7 @@ stanceKneeSpeed = 4.2  # Increase this to make stance knee handle rotate more qu
 class HandleControlPoint(BaseHandleControlPoint):
     
     def __init__( self, posableCharacter, time, converter, handle ):
+        
         super(HandleControlPoint,self).__init__(posableCharacter, time, converter, handle)
         
         characterJointName = handle.getJointName().replace("STANCE_","l").replace("SWING_","r")
@@ -325,7 +329,6 @@ class ConverterZY(object):
     def to2d(self,vec):
         return (vec.z, vec.y)
     
-    
     def to3d(self,vec):
         return (0, vec[1], vec[0])
 
@@ -348,4 +351,4 @@ class ConverterXY(object):
     
     def project(self, vec):
         vec.z = 0
-    
+        

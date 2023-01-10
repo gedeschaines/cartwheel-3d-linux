@@ -39,14 +39,14 @@ class Model(object):
         self._optionsObservable.addObserver(observer)
         
     def displayInterface(self, display):
-        """Indicates wheter the interface for editing style should be displayed."""
+        """Indicates whether the interface for editing style should be displayed."""
         if display != self.getDisplayInterface() :
             self._container.setVisible(display)
             self._container.getParent().layout()
             self._optionsObservable.notifyObservers()
         
     def getDisplayInterface(self):
-        """Indicates wheter the interface for editing style is currently displayed."""
+        """Indicates whether the interface for editing style is currently displayed."""
         return self._container.isVisible()
     
 
@@ -67,7 +67,6 @@ class Model(object):
     def _create(self):
         """Creates the basic model class for the simple keyframe editor. Characters are always forced to left stance."""        
 
-        
         app = wx.GetApp()
         
         try: 
@@ -135,6 +134,7 @@ class Model(object):
                 checkBoxVisible = False
             else :
                 checkBoxVisible = True
+                
             editor = EditorWindow( self._container, 
                                    posableCharacter = posableCharacter, 
                                    handlesSide = handlesSide, 

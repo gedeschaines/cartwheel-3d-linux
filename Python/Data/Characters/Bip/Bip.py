@@ -50,7 +50,7 @@ data = Character(
     
         ArticulatedRigidBody(
             name = "lUpperArm",
-            meshes = [ (path.join(meshDir, "lUpperArm.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "lupperarm.obj"), colourDark) ],
             mass = 2.2,
             moi = (0.005, 0.02, 0.02),
             cdps = [ CapsuleCDP((-0.15,0,0), (0.15,0,0), 0.05) ],
@@ -59,7 +59,7 @@ data = Character(
             
         ArticulatedRigidBody(
             name = "lLowerArm",
-            meshes = [ (path.join(meshDir, "lLowerArm.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "llowerarm.obj"), colourDark) ],
             mass = 1.7,
             moi = (0.0024, 0.025, 0.025),
             cdps = [ CapsuleCDP((-0.15,0,0), (0.15,0,0), 0.05) ],
@@ -68,7 +68,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "rUpperArm",
-            meshes = [ (path.join(meshDir, "rUpperArm.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "rupperarm.obj"), colourDark) ],
             mass = 2.2,
             moi = (0.005, 0.02, 0.02),
             cdps = [ CapsuleCDP((-0.15,0,0), (0.15,0,0), 0.05) ],
@@ -77,7 +77,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "rLowerArm",
-            meshes = [ (path.join(meshDir, "rLowerArm.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "rlowerarm.obj"), colourDark) ],
             mass = 1.7,
             moi = (0.0024, 0.025, 0.025),
             cdps = [ CapsuleCDP((-0.15,0,0), (0.15,0,0), 0.05) ],
@@ -86,7 +86,7 @@ data = Character(
         
         ArticulatedRigidBody(
             name = "lUpperLeg",
-            meshes = [ (path.join(meshDir, "lUpperLeg.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "lupperleg.obj"), colourDark) ],
             mass = 6.6,
             moi = (0.15, 0.022, 0.15),
             cdps = [ CapsuleCDP((0, 0.12, 0), (0, -0.26, 0), 0.05) ],
@@ -95,7 +95,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "lLowerLeg",
-            meshes = [ (path.join(meshDir, "lLowerLeg.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "llowerleg.obj"), colourDark) ],
             mass = 3.2,
             moi = (0.055, 0.007, 0.055),
             cdps = [ CapsuleCDP((0, 0.12, 0), (0, -0.2, 0), 0.05) ],
@@ -104,7 +104,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "rUpperLeg",
-            meshes = [ (path.join(meshDir, "rUpperLeg.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "rupperleg.obj"), colourDark) ],
             mass = 6.6,
             moi = (0.15, 0.022, 0.15),
             cdps = [ CapsuleCDP((0, 0.12, 0), (0, -0.26, 0), 0.05) ],
@@ -113,7 +113,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "rLowerLeg",
-            meshes = [ (path.join(meshDir, "rLowerLeg.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "rlowerleg.obj"), colourDark) ],
             mass = 3.2,
             moi = (0.055, 0.007, 0.055),
             cdps = [ CapsuleCDP((0, 0.12, 0), (0, -0.2, 0), 0.05) ],
@@ -122,7 +122,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "lFoot",
-            meshes = [ (path.join(meshDir, "lFoot.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "lfoot.obj"), colourDark) ],
             mass = 1.0,
             moi = (0.007, 0.008, 0.002),
             cdps = [ BoxCDP((-0.025, -0.033, -0.09), (0.025, 0.005, 0.055)) ],
@@ -136,7 +136,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "rFoot",
-            meshes = [ (path.join(meshDir, "rFoot.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "rfoot.obj"), colourDark) ],
             mass = 1.0,
             moi = (0.007, 0.008, 0.002),
             cdps = [ BoxCDP((-0.025, -0.033, -0.09), (0.025, 0.005, 0.055)) ],
@@ -150,7 +150,7 @@ data = Character(
 
         ArticulatedRigidBody(
             name = "lToes",
-            meshes = [ (path.join(meshDir, "lToes.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "ltoes.obj"), colourDark) ],
             mass = 0.2,
             moi = (0.002, 0.002, 0.0005),
             cdps = [ SphereCDP((0.0, -0.005, 0.025), 0.01) ],
@@ -160,7 +160,7 @@ data = Character(
             
         ArticulatedRigidBody(
             name = "rToes",
-            meshes = [ (path.join(meshDir, "rToes.obj"), colourDark) ],
+            meshes = [ (path.join(meshDir, "rtoes.obj"), colourDark) ],
             mass = 0.2,
             moi = (0.002, 0.002, 0.0005),
             cdps = [ SphereCDP((0.0, -0.005, 0.025), 0.01) ],

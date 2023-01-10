@@ -64,7 +64,7 @@ class DanceController(Core.IKVMCController):
                 takeAStep = True;
         
         v = self.getV()
-        print "v.x: %f, v.z: %f" % (v.x, v.z)
+        print("v.x: %f, v.z: %f" % (v.x, v.z))
         if math.fabs(v.x) < 0.1 and \
           math.fabs(v.z) < 0.05 and \
           math.fabs(Core.cvar.SimGlobals_VDelSagittal) <= 0.1 and \
@@ -80,10 +80,10 @@ class DanceController(Core.IKVMCController):
         """Checks the stance state"""
         if self.getDoubleStanceCOMError().length() > 0.06 :
             if self.doubleStanceMode :
-                print "Should take a step...\n"
+                print("Should take a step...\n")
             self.doubleStanceMode = False
         
-    def performPreTasks(self, contactForces):
+    def performPreTasks(self, dt, contactForces):
         """Performs all the tasks that need to be done before the physics simulation step."""          
         v = self.getV()
         d = self.getD()
@@ -204,7 +204,7 @@ class DanceController(Core.IKVMCController):
         
         if super(DanceController,self).performPostTasks(dt, contactForces):
             v = self.getV()
-            print "step: %3.5f %3.5f %3.5f. Vel: %3.5f %3.5f %3.5f. phi = %f\n" % (step.x, step.y, step.z, v.x, v.y, v.z, phi);
+            print("step: %3.5f %3.5f %3.5f. Vel: %3.5f %3.5f %3.5f. phi = %f\n" % (step.x, step.y, step.z, v.x, v.y, v.z, phi))
             self.setupParameters()
         
         

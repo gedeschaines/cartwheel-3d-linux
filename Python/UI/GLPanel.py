@@ -12,12 +12,15 @@ except ImportError:
     raise ImportError, "Required dependency wx.glcanvas not present"
 
 try:
+    import OpenGL
+    OpenGL.USE_FREEGLUT = True
     from OpenGL.GL import *
     from OpenGL.GLU import *
-    from OpenGL.GLUT import *
+    from OpenGL.GLUT import glutBitmapCharacter, GLUT_BITMAP_8_BY_13
 except ImportError:
     raise ImportError, "Required dependency OpenGL not present"
 
+import warnings
 import time
 import math
 import GLUtils
@@ -26,7 +29,7 @@ from MathLib import Vector3d, Point3d, TransformationMatrix
 class GLUITopLevelWindow( GLUtils.GLUITopLevelWindow ):
     
     def __init__(self, width, height, window):
-        super(GLUITopLevelWindow,self).__init__(width,height)
+        super(GLUITopLevelWindow,self).__init__(width, height)
         self._window = window
         
     def startMouseCapture(self):
@@ -41,12 +44,14 @@ class GLPanel(glcanvas.GLCanvas):
     def __init__(self, parent, id = wx.ID_ANY, pos=wx.DefaultPosition,
                  size=wx.DefaultSize, style=0,
                  name='glpane', attribList=(), fps=30):
-    
-        super(GLPanel, self).__init__(parent, id, pos, size, style, name, attribList)
+
+        super(GLPanel, self).__init__(parent, id, attribList, pos, size, style, name)
         
+        self._glContext = wx.glcanvas.GLContext(self)
         self._glInitialized = False
 
         width, height = self.GetSizeTuple()
+
         self._gluiTopLevelWindow  = GLUITopLevelWindow( width, height, self )
         self._gluiSizer = GLUtils.GLUIBoxSizer( GLUtils.GLUI_VERTICAL )
         self._gluiTopLevelWindow.setSizer( self._gluiSizer )
@@ -104,7 +109,8 @@ class GLPanel(glcanvas.GLCanvas):
         self._camera.setTarget( Point3d(0,1,0) )
         self._camera.modifyRotations( Vector3d( -0.18, -3.141592/2.0, 0 ) )
         self._cameraTargetFunction = None
-        
+    
+    
     #
     # wxPython Window Handlers
 
@@ -117,7 +123,7 @@ class GLPanel(glcanvas.GLCanvas):
         if self.IsShown() and self.GetContext():
             # Make sure the frame is shown before calling SetCurrent.
             self.Show()
-            self.SetCurrent()
+            self.SetCurrent(self._glContext)
 
             size = self.GetClientSize()
             self.onReshape(size.width, size.height)
@@ -125,7 +131,7 @@ class GLPanel(glcanvas.GLCanvas):
 
     def processPaintEvent(self, event):
         """Process the drawing event."""
-        self.SetCurrent()
+        self.SetCurrent(self._glContext)
 
         # This is a 'perfect' time to initialize OpenGL ... only if we need to
         if not self._glInitialized:
@@ -202,7 +208,7 @@ class GLPanel(glcanvas.GLCanvas):
         currentTime = time.clock()
         timeLeft = self._timeOfNextFrame - currentTime
         secondPerFrame = 1.0/self._fps
-        
+    
         if timeLeft > 0 :
             # Not enough elapsed time
             time.sleep( min(timeLeft, 0.001) )
@@ -224,7 +230,6 @@ class GLPanel(glcanvas.GLCanvas):
             if len(self._loadWindow) >= self._loadWindowSize :
                 self._load = sum(self._loadWindow) / float(len(self._loadWindow))
                 self._loadWindow = []
-            
          
         event.RequestMore()
 
@@ -233,7 +238,6 @@ class GLPanel(glcanvas.GLCanvas):
 
     def onInitGL(self):
         """Initialize OpenGL for use in the window."""
-
         glClearColor(0.0, 0.0, 0.0, 1)
         glShadeModel(GL_SMOOTH)
         glEnable(GL_DEPTH_TEST)
@@ -286,17 +290,19 @@ class GLPanel(glcanvas.GLCanvas):
         glEnable(GL_LIGHT1)
         glEnable(GL_LIGHT2)
 
+        self.onReshape(*self.GetSizeTuple())
+        
     def onReshape(self, width, height):
         """Reshape the OpenGL viewport based on the dimensions of the window."""
         glViewport(0, 0, width, height)
-        self._gluiTopLevelWindow.setSize( width, height ) 
+        self._gluiTopLevelWindow.setSize( width, height )
 
     def onDraw(self, *args, **kwargs):
         """Draw the window."""
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)
-
+        
         size = self.GetClientSize()
-
+        
         # Setup the 3D projection matrix
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
@@ -308,7 +314,7 @@ class GLPanel(glcanvas.GLCanvas):
         self._camera.applyCameraTransformations();
 
         if self._drawGround:
-            GLUtils.GLUtils_drawGround(50, 5, 98)
+            GLUtils.GLUtils_drawGround(50.0, 5.0, int(98))
 
         # Call all 3D drawing callbacks
         for callback in self._drawCallbacks:
@@ -328,12 +334,10 @@ class GLPanel(glcanvas.GLCanvas):
         # Call all 3D post drawing callbacks
         for callback in self._postDrawCallbacks:
             callback()
-
     #
     # Private methods
 
     def drawAxes(self):
-        
         glPushMatrix()
         glLoadIdentity()
         glTranslated(-3,-2.0,-6.0)
@@ -347,7 +351,6 @@ class GLPanel(glcanvas.GLCanvas):
         glPopMatrix()
         
     def printLoad(self):
-
         loadString = "FPS: %d  Load: %6.2f%%" % (self._fps, (self._load*100))
         size = self.GetClientSize()
 
@@ -360,7 +363,6 @@ class GLPanel(glcanvas.GLCanvas):
         glPushMatrix()
         glLoadIdentity()
         glDisable(GL_DEPTH_TEST)
-
 
         glColor4f(0,0,0,1)
         glRasterPos2f(200, 15)
@@ -376,6 +378,10 @@ class GLPanel(glcanvas.GLCanvas):
 
     #
     # Accessors
+    
+    def getGLContext(self):
+        """ Returns glContext associated with this Panel's glCanvas."""
+        return self._glContext
     
     def setDrawAxes(self, drawAxes):
         """Controls whether the axes should be drawn or not."""
@@ -533,22 +539,28 @@ class GLPanel(glcanvas.GLCanvas):
     
 def _createGLUIMouseEvent( mouseEvent ):
     """Converts a wx mouse event to a GLUIMouseEvent."""
-    result = GLUtils.GLUIMouseEvent()
-    result.altDown = mouseEvent.m_altDown
-    result.controlDown = mouseEvent.m_controlDown
-    result.leftDown = mouseEvent.m_leftDown
-    result.middleDown = mouseEvent.m_middleDown
-    result.rightDown = mouseEvent.m_rightDown
-    result.metaDown = mouseEvent.m_metaDown
-    result.shiftDown = mouseEvent.m_shiftDown
-    result.x = mouseEvent.m_x
-    result.y = mouseEvent.m_y
-    result.wheelRotation = mouseEvent.m_wheelRotation
-    result.wheelDelta = mouseEvent.m_wheelDelta
-    result.linesPerAction = mouseEvent.m_linesPerAction
-    result.moving = mouseEvent.Moving()
-    result.dragging = mouseEvent.Dragging()
     
-    return result
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', category=DeprecationWarning)
+        
+        result = GLUtils.GLUIMouseEvent()
+        result.altDown = mouseEvent.m_altDown
+        result.controlDown = mouseEvent.m_controlDown
+        result.leftDown = mouseEvent.m_leftDown
+        result.middleDown = mouseEvent.m_middleDown
+        result.rightDown = mouseEvent.m_rightDown
+        result.metaDown = mouseEvent.m_metaDown
+        result.shiftDown = mouseEvent.m_shiftDown
+        result.x = mouseEvent.m_x
+        result.y = mouseEvent.m_y
+        if hasattr(mouseEvent, 'm_wheelRotation'):
+            result.wheelRotation = mouseEvent.m_wheelRotation
+        if hasattr(mouseEvent, 'm_wheelDelta'):
+            result.wheelDelta = mouseEvent.m_wheelDelta
+        if hasattr(mouseEvent, 'm_linesPerAction'):
+            result.linesPerAction = mouseEvent.m_linesPerAction
+        result.moving = mouseEvent.Moving()
+        result.dragging = mouseEvent.Dragging()
     
+        return result
     

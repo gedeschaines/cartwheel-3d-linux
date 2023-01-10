@@ -16,7 +16,7 @@ class Model(object):
         """Creates a new model for a character description, including the required UI."""
         
         app = wx.GetApp()
-        glCanvas = app.getGLCanvas()             
+        glCanvas = app.getGLCanvas()
         
         self._container = glCanvas.addGLUITool( GLUtils.GLUIContainer )
         self._container.setVisible(False)
@@ -119,8 +119,8 @@ class Model(object):
         
         self._toolSet.update()
         
-        app.takeSnapshot()
-        
+        aSnapshot = app.getSnapshotTree().takeSnapshot()
+        ##app.getSnapshotToolSet().update()  # not needed; handled by Observers
         
     def getDesiredDuration(self):
         """Return the desired duration of a step."""

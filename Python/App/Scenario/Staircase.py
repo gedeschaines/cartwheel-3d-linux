@@ -29,6 +29,7 @@ class Staircase(Scenario.Scenario):
     #
     # Accessors
     #
+
     def getStairWidth(self):
         """Access the staircase width"""
         return self._staircaseWidth
@@ -101,7 +102,9 @@ class Staircase(Scenario.Scenario):
         """Sets the height of the right ramp, or None if no right ramp is desired"""
         self._rightRampHeight = rightRampHeight
     
-    
+    def isLoaded(self):
+        return self._loaded
+
     #
     # Public methods
     #
@@ -140,10 +143,13 @@ class Staircase(Scenario.Scenario):
             rampLen = self._stepCount * math.sqrt( self._riserHeight*self._riserHeight + self._threadDepth*self._threadDepth )
             box = PyUtils.RigidBody.createBox( (0.04,0.02,rampLen), pos = pos + deltaRamp + (delta * ((self._stepCount+1) * 0.5)) , locked = True, orientation=rampOrientation )
             Physics.world().addRigidBody(box)
-            
-        
-        
-        
-        
-        
     
+    def unload(self):
+        # This allows the staircase to be reloaded after a call to Physics.world().destroyAllObjects().
+        if self._loaded:
+            self._loaded = False
+
+    def update(self):
+        if not self._loaded:
+           self.load()
+

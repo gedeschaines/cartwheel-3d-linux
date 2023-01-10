@@ -1,4 +1,4 @@
-from App.UtilFuncs import fancify
+from PyUtils.Utils import fancify
 
 print fancify( 
 """Character(

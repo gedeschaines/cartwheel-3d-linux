@@ -18,8 +18,11 @@ def createBox( size=(1,1,1), colour=(0.6,0.6,0.6), moiScale = 1, withMesh = True
     If a negative mass parameter is specified, it will be scaled by the box volume and made positive.
     """
 
-    _fixMass( kwargs, size[0]*size[1]*size[2] )
-
+    if isinstance(size, Vector3d):
+        _fixMass( kwargs, size.x*size.y*size.z )
+    else:
+        _fixMass( kwargs, size[0]*size[1]*size[2] )
+        
     from App import Proxys
     proxy = Proxys.RigidBody( **kwargs )
     
@@ -34,7 +37,10 @@ def createArticulatedBox( size=(1,1,1), colour=(0.6,0.6,0.6), moiScale = 1, with
     If mass is negative, it will be scaled by the box volume and made positive.
     """
 
-    _fixMass( kwargs, size[0]*size[1]*size[2] )
+    if isinstance(size, Vector3d):
+        _fixMass( kwargs, size.x*size.y*size.z )
+    else:
+        _fixMass( kwargs, size[0]*size[1]*size[2] )
 
     from App import Proxys
     proxy = Proxys.ArticulatedRigidBody( **kwargs )
@@ -50,8 +56,10 @@ def createTaperedBox( size=(1,1,1), colour=(0.6,0.6,0.6), exponentBottom = 5, ex
         meshes, moi, cdps.
     If a negative mass parameter is specified, it will be scaled by the box volume and made positive.
     """
-
-    _fixMass( kwargs, size[0]*size[1]*size[2] )
+    if isinstance(size, Vector3d):
+        _fixMass( kwargs, size.x*size.y*size.z )
+    else:
+        _fixMass( kwargs, size[0]*size[1]*size[2] )
 
     from App import Proxys
     proxy = Proxys.RigidBody( **kwargs )
@@ -67,7 +75,10 @@ def createArticulatedTaperedBox( size=(1,1,1), colour=(0.6,0.6,0.6), exponentBot
     If mass is negative, it will be scaled by the box volume and made positive.
     """
 
-    _fixMass( kwargs, size[0]*size[1]*size[2] )
+    if isinstance(size, Vector3d):
+        _fixMass( kwargs, size.x*size.y*size.z )
+    else:
+        _fixMass( kwargs, size[0]*size[1]*size[2] )
 
     from App import Proxys
     proxy = Proxys.ArticulatedRigidBody( **kwargs )

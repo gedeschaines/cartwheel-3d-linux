@@ -10,11 +10,14 @@ class SnapshotTree(object):
     
     def __init__(self, toolPanel):
         """Adds a tool set for animation information to a toolpanel."""
+
         self._toolPanel = toolPanel
-        self._toolSet = toolPanel.createToolSet( "Snapshots", resizable = True )       
+        toolSet = toolPanel.createToolSet( "Snapshots", resizable = True )
+        self._toolSet = toolSet
+        
         app = wx.GetApp()
 
-        buttonPanel  = self._toolSet.addTool( wx.Panel )
+        buttonPanel  = toolSet.addTool(wx.Panel)
         self._takeSnapshotButton = wx.BitmapButton( buttonPanel, bitmap = wx.Bitmap('../data/ui/takeSnapshotButton.png',   wx.BITMAP_TYPE_PNG) )        
         self._takeSnapshotButton.SetBitmapDisabled( wx.Bitmap('../data/ui/takeSnapshotButtonDisabled.png',   wx.BITMAP_TYPE_PNG) )
         self._dontRestoreControllerParamsButton = UI.Ext.ToggleBitmapButton( buttonPanel, bitmap = wx.Bitmap('../data/ui/restoreControllerParams.png',   wx.BITMAP_TYPE_PNG) )
@@ -26,10 +29,10 @@ class SnapshotTree(object):
         self._nextButton = wx.BitmapButton( buttonPanel, bitmap = wx.Bitmap('../data/ui/nextSnapshotButton.png',   wx.BITMAP_TYPE_PNG) )
         self._nextButton.SetBitmapDisabled( wx.Bitmap('../data/ui/nextSnapshotButtonDisabled.png',   wx.BITMAP_TYPE_PNG) )
         
-        self._takeSnapshotButton.Bind( wx.EVT_BUTTON, lambda e: app.takeSnapshot() )
-        self._previousButton.Bind( wx.EVT_BUTTON, lambda e: app.previousSnapshot(self.restoreControllerParams()) )
-        self._restoreButton.Bind( wx.EVT_BUTTON, lambda e: app.restoreActiveSnapshot(self.restoreControllerParams()) )
-        self._nextButton.Bind( wx.EVT_BUTTON, lambda e: app.nextSnapshot(self.restoreControllerParams()) )
+        self._takeSnapshotButton.Bind( wx.EVT_BUTTON, lambda e: app.getSnapshotTree().takeSnapshot() )
+        self._previousButton.Bind( wx.EVT_BUTTON, lambda e: app.getSnapshotTree().previousSnapshot(self.restoreControllerParams()) )
+        self._restoreButton.Bind( wx.EVT_BUTTON, lambda e: app.getSnapshotTree().restoreActive(self.restoreControllerParams()) )
+        self._nextButton.Bind( wx.EVT_BUTTON, lambda e: app.getSnapshotTree().nextSnapshot(self.restoreControllerParams()) )
         
         self._hBoxButtons = wx.BoxSizer( wx.HORIZONTAL )
         self._hBoxButtons.Add(self._takeSnapshotButton)
@@ -40,12 +43,13 @@ class SnapshotTree(object):
         self._hBoxButtons.Add(self._nextButton)
         
         buttonPanel.SetSizerAndFit(self._hBoxButtons)
-
-        self._infoTree = self._toolSet.addTool( UI.InfoTreeBasic, 1, object = app.getSnapshotTree(), desiredHeight = 200, autoVisible = True, onUpdate = self.update )
+        
+        self._infoTree = toolSet.addTool( UI.InfoTreeBasic, 1, object = app.getSnapshotTree(), desiredHeight = 200, autoVisible = True, onUpdate = self.update )
         self._infoTree.Bind( wx.EVT_TREE_ITEM_ACTIVATED , self.selectSnapshot )
 
         self._activeTreeItemId = None
-
+        
+        
     #
     # Public methods
     #
@@ -75,7 +79,8 @@ class SnapshotTree(object):
             rootItem = tree.GetRootItem()
             nodeData = tree.GetItemPyData( rootItem )
             snapshot = nodeData.getObject().getCurrentSnapshot()
-        except AttributeError: return
+        except AttributeError: 
+            return
         
         if self._activeTreeItemId != None :
             currentSnapshot = tree.GetItemPyData( self._activeTreeItemId )

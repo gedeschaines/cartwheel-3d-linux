@@ -38,7 +38,6 @@ class MainWindow(wx.Frame):
 
         #
         # Create the menu
-        
         self._menuBar = wx.MenuBar()
         self._fileMenu = wx.Menu()
         self._fileMenu.Append( wx.ID_OPEN, "&Open" )
@@ -55,13 +54,14 @@ class MainWindow(wx.Frame):
 
         #
         # Create the GL canvas
-        attribList = (wx.glcanvas.WX_GL_RGBA, # RGBA
-                      wx.glcanvas.WX_GL_DOUBLEBUFFER, # Double Buffered
-                      wx.glcanvas.WX_GL_DEPTH_SIZE, 24,  # 24 bit depth
-                      wx.glcanvas.WX_GL_STENCIL_SIZE, 8 ) # 8 bit stencil
+        attribList = (wx.glcanvas.WX_GL_DOUBLEBUFFER,     # Double Buffered
+                      wx.glcanvas.WX_GL_DEPTH_SIZE, 16,   # 16 bit depth
+                      wx.glcanvas.WX_GL_STENCIL_SIZE, 8)  # 8 bit stencil
 
-        self._glCanvas = UI.GLPanel(self, fps = fps, size = glCanvasSize, attribList = attribList)      
-
+        self._glCanvas = UI.GLPanel(self, fps = fps, size = glCanvasSize, attribList = attribList)
+        assert self._glCanvas != None
+        assert self._glCanvas.getGLContext() != None
+         
         # Create the right window (sashed) where the tool panel will be
         self._rightWindow = wx.SashLayoutWindow(self)
         self._rightWindow.SetDefaultSize((MainWindow.MIN_TOOLPANEL_WIDTH * 1.3,-1))
@@ -121,7 +121,6 @@ class MainWindow(wx.Frame):
             self.SendSizeEvent()
 
 
-
     def onSashDragRightWindow(self, event):
         if event.GetDragStatus() == wx.SASH_STATUS_OUT_OF_RANGE:
             return
@@ -145,7 +144,7 @@ class MainWindow(wx.Frame):
         """Return the associated tool panel."""
         return self._toolPanel
 
-
     def getFps(self):
         """Return the desired frame per second for this window."""
         return self._glCanvas.getFps()
+

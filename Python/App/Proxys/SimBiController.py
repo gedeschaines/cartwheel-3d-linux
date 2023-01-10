@@ -178,7 +178,7 @@ LinearBalanceFeedback = Proxy.create( cls, caster = Core.castToLinearBalanceFeed
     
     
 cls = Core.IKVMCController
-IKVMCController = Proxy.create( cls,  parent = SimBiController, caster = Core.castToIKVMCController, loader = wx.GetApp().addController,
+IKVMCController = Proxy.create( wrappedClass = cls,  parent = SimBiController, caster = Core.castToIKVMCController, loader = wx.GetApp().addController,
     members = [
         Member.Trajectory1d( 'sagittalTrajectory',  None, cls.getSwingFootTrajectoryDeltaSagittal, cls.setSwingFootTrajectoryDeltaSagittal ),
         Member.Trajectory1d( 'coronalTrajectory', None, cls.getSwingFootTrajectoryDeltaCoronal, cls.setSwingFootTrajectoryDeltaCoronal ),

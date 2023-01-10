@@ -11,7 +11,7 @@ import sys
 
 class PythonConsole(wx.Panel):
     """A console to output python and a command line interprete.
-    You should only have one of this as it seize the standard output.
+    You should only have one of this as it seizes standard output.
     """
 
     def __init__(self, parent, id = wx.ID_ANY, pos=wx.DefaultPosition,
@@ -50,6 +50,8 @@ class PythonConsole(wx.Panel):
         self._runningCommand = u""
         self._globals = consoleEnvironment
         self._locals = consoleEnvironment
+        
+        ### NOTE: COMMENT OUT FOLLOWING LINE WHEN TRACE OR DEBUG PRINTING ###
         sys.stdout = self
 
 

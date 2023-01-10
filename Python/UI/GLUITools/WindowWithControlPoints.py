@@ -52,8 +52,7 @@ class WindowWithControlPoints(GLUtils.GLUIWindow):
               If None, aspect ratio is not adjusted by the window      
         See GLUIWindow for other parameters.
         """        
-        
-        super(WindowWithControlPoints,self).__init__(parent,x,y,width,height, minWidth, minHeight)
+        super(WindowWithControlPoints,self).__init__(parent, x=x, y=y, width=width, height=height, minWidth=minWidth, minHeight=minHeight)
         
         self._controlPoints = []
         
@@ -67,16 +66,16 @@ class WindowWithControlPoints(GLUtils.GLUIWindow):
         self._height = float(boundsY[1] - boundsY[0])
         
         if forceAspectRatio is not None:
-            if forceAspectRatio == 'x' :
+            if forceAspectRatio == 'x':
                 self._width = self._height * float(minWidth) / float(minHeight)
                 midX = (boundsX[0] + boundsX[1])/2.0
                 self._boundsX = (midX - self._width/2.0, midX + self._width/2.0) 
-            elif forceAspectRatio == 'y' :
+            elif forceAspectRatio == 'y':
                 self._height = width * float(minHeight) / float(minWidth)
                 midY = (boundsY[0] + boundsY[1])/2.0
                 self._boundsY = (midY - self._height/2.0, midY + self._height/2.0) 
             else :
-                raise ValueError( "forceAspectRation must be 'x', 'y' or None" )
+                raise ValueError( "forceAspectRatio must be 'x', 'y' or None" )
 
     def draw(self):
         """Draws the content of the window by calling self.drawContent(), then the control points."""
@@ -100,7 +99,7 @@ class WindowWithControlPoints(GLUtils.GLUIWindow):
                    
         except Exception as e:
             glEnd()
-            print "Exception while drawing WindowWithControlPoints interface: " + str(e)
+            print("Exception while drawing WindowWithControlPoints interface: {0}".format(str(e)))
             traceback.print_exc(file=sys.stdout)
             
         # Restore projection to pixel mode

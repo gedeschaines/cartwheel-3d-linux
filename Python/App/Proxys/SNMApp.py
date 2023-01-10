@@ -5,14 +5,13 @@ Created on 2009-09-02
 '''
 
 import Proxy, Member
-import App 
-
+import App
+  
 cls = App.ObservableList
 ObservableList = Proxy.create( cls, 
     members = [
         Member.ObjectList( 'objects', None, cls.get, cls.getCount, cls.add, embedInParentNode = True ),
     ] )
-
 
 cls = App.SnapshotBranch
 SnapshotBranch = Proxy.create( cls, 

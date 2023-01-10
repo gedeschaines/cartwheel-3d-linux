@@ -11,7 +11,8 @@ class Snapshot(PyUtils.Observable):
     
     def __init__(self, parentBranch):
         """Takes a shot of a world, add it to the specified branch."""
-        super(Snapshot,self).__init__()
+
+        super(Snapshot, self).__init__()
 
         self._time = time.localtime()
         
@@ -143,13 +144,13 @@ class SnapshotBranch(PyUtils.Observable):
     
     def __init__(self, parentSnapshot = None):
         """Pass the parent snapshot or None if this is the root branch."""
-        super(SnapshotBranch,self).__init__()
-        
-        self._parentSnapshot = parentSnapshot
              
+        super(SnapshotBranch,self).__init__()
+
+        self._parentSnapshot = parentSnapshot
+
         self._snapshots = []
         self._activeIndex = -1
-        
     #
     # Public methods
     #
@@ -157,11 +158,12 @@ class SnapshotBranch(PyUtils.Observable):
     def takeSnapshot(self):
         """Take a new snapshot and add it at the correct position in this branch, or one of its subbranches.
         Return the snapshot if it was taken, None otherwise."""
+
         if self._activeIndex == len(self._snapshots) - 1:
             snapshot = Snapshot(self)
             self._snapshots.append( snapshot )
             self._activeIndex = len(self._snapshots) - 1
-            self.notifyObservers()
+            self.notifyObservers()    
             return snapshot
         elif self._activeIndex > -1 :
             return self._snapshots[self._activeIndex]._takeSnapshot()
@@ -181,7 +183,7 @@ class SnapshotBranch(PyUtils.Observable):
         
     def previousSnapshot(self, restoreControllerParams = True):
         """Restore previous snapshot and set it as active. Return false if no previous snapshot could be restored,
-        in which case the previous branch should navigate."""                
+        in which case the previous branch should navigate."""            
         if self._activeIndex < 0 :
             return None
         
@@ -202,7 +204,7 @@ class SnapshotBranch(PyUtils.Observable):
         return self._snapshots[self._activeIndex]
         
     def nextSnapshot(self, restoreControllerParams = True):
-        """Restore next snapshot and set it as active. Return false if no next snapshot could be restored."""                
+        """Restore next snapshot and set it as active. Return false if no next snapshot could be restored."""             
         if self._activeIndex >= 0 :
             snapshot = self._snapshots[self._activeIndex]._nextSnapshot(restoreControllerParams)
             if snapshot is not None:
@@ -213,9 +215,12 @@ class SnapshotBranch(PyUtils.Observable):
         
         self._snapshots[self._activeIndex]._restore(restoreControllerParams)
         return self._snapshots[self._activeIndex]
-        
+    
+    def getSnapshotList(self):
+        return self._parentSnapshot
+    
     def getSnapshot(self, index):
-        """Access the snapshot at the specified index. Will not change the active snapshot.""" 
+        """Access the snapshot at the specified index. Will not change the active snapshot."""  
         return self._snapshots[index]
 
     def getSnapshotCount(self):

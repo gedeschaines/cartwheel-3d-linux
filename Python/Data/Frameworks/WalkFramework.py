@@ -14,7 +14,8 @@ character = PyUtils.load( "Characters.BipV3" )
 character.loadReducedStateFromFile( "Data/Characters/BipV3/Controllers/WalkingState.rs" );
 character.computeMass();
 #controller = PyUtils.load( "Characters.BipV3.Controllers.StylizedWalking", character )
-controller = PyUtils.load( "Characters.BipV3.Controllers.EditableWalking", character )
+#controller = PyUtils.load( "Characters.BipV3.Controllers.EditableWalking", character )
+controller = PyUtils.load( "Data.Temp.EditableWalking1", character )
 controller.setStance( Core.LEFT_STANCE );
 
 app = wx.GetApp()
@@ -23,5 +24,6 @@ behaviour = Core.TurnController(character, controller, worldOracle)
 behaviour.initializeDefaultParameters()
 controller.setBehaviour(behaviour)
 
-behaviour.requestHeading(0);
+behaviour.requestHeading(0.0);
+behaviour.requestVelocities(1.5, 0.0);
 behaviour.conTransitionPlan();

@@ -313,7 +313,7 @@ class CharacterDescription(object):
             radius = (headSizeX/2.0, headSizeY/2.0, headSizeZ/2.0),
             mass = -massScale, withMesh = False )
         character.addArticulatedRigidBody( head )
-        head.addMeshObj( "data/StockMeshes/head.obj", Vector3d(0,-0.064,0), Vector3d(headSizeX*6.5,headSizeY*4.6,headSizeZ*5.5) )
+        head.addMeshObj( "Data/StockMeshes/head.obj", Vector3d(0,-0.064,0), Vector3d(headSizeX*6.5,headSizeY*4.6,headSizeZ*5.5) )
         head.setColour( *red ) 
         head.addMesh( PyUtils.Mesh.createCylinder( 
             basePoint = (0,-headSizeY/2.0 - headOffsetY - torsoSizeY*0.1,0),
@@ -667,4 +667,3 @@ class _Symmetric(_Value):
         """Make sure the value is symmetric by coping the left side (1) into the right side (-1)."""
         self._side[0] = self._side[1]
         
-    

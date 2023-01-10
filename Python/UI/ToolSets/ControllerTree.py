@@ -171,7 +171,7 @@ class ButtonToolbar(wx.Panel):
             self._dirName=dialog.GetDirectory()
             pathName = os.path.join(self._dirName,fileName)
             file = open(pathName,'w')
-            file.write( "from App.Proxys import *\n\ndata = %s" % PyUtils.fancify( PyUtils.serialize(controller)) )
+            file.write( "from App.Proxys import *\n\ndata = %s" % PyUtils.Utils.fancify( PyUtils.serialize(controller)) )
             file.close()
         dialog.Destroy()
             
