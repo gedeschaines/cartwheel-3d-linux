@@ -1,23 +1,23 @@
 /*
-	Simbicon 1.5 Controller Editor Framework, 
+	Simbicon 1.5 Controller Editor Framework,
 	Copyright 2009 Stelian Coros, Philippe Beaudoin and Michiel van de Panne.
 	All rights reserved. Web: www.cs.ubc.ca/~van/simbicon_cef
 
 	This file is part of the Simbicon 1.5 Controller Editor Framework.
 
-	Simbicon 1.5 Controller Editor Framework is free software: you can 
+	Simbicon 1.5 Controller Editor Framework is free software: you can
 	redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
-	Simbicon 1.5 Controller Editor Framework is distributed in the hope 
-	that it will be useful, but WITHOUT ANY WARRANTY; without even the 
-	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+	Simbicon 1.5 Controller Editor Framework is distributed in the hope
+	that it will be useful, but WITHOUT ANY WARRANTY; without even the
+	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with Simbicon 1.5 Controller Editor Framework. 
+	along with Simbicon 1.5 Controller Editor Framework.
 	If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -101,7 +101,7 @@ protected:
 /**
 	these are quantities that get updated throughout the simulation
 */
-	//this value indicates which side is the stance side. 
+	//this value indicates which side is the stance side.
 	int stance;
 	//a pointer to the swing and stance feet
 	RigidBody* stanceFoot;
@@ -156,7 +156,7 @@ protected:
 	//this variable, updated everytime the controller state is advanced in time, is set to true if any body other than the feet are in contact
 	//with the ground, false otherwise. A higer level process can determine if the controller failed or not, based on this information.
 	bool bodyTouchedTheGround;
-	
+
 /**
 	A list of private methods...
 */
@@ -252,7 +252,6 @@ public:
 	*/
 	virtual ~SimBiController(void);
 
-
 	/**
 		Scale all the PD gains of the controller by the specified factor
 	*/
@@ -283,7 +282,7 @@ public:
 
 
 	/**
-		This method is used to set the stance 
+		This method is used to set the stance
 	*/
 	void setStance(int newStance);
 
@@ -318,7 +317,7 @@ public:
 	 */
 	uint getStateCount() const { return states.size(); }
 
-	void addState( SimBiConState* state_disown ) {	
+	void addState( SimBiConState* state_disown ) {
 		states.push_back( state_disown );
 		resolveJoints( state_disown );
 		notifyObservers();
@@ -375,11 +374,11 @@ public:
 		structure
 	*/
 	void setControllerState(const SimBiControllerState &cs);
-	
+
 	/**
 		This method loads all the pertinent information regarding the simbicon controller from a file.
 	*/
-	void loadFromFile(char* fName);
+	void loadFromFile(const char* fName);
 
 	/**
 		This method is used to return the value of bodyGroundContact
@@ -464,14 +463,14 @@ public:
 	}
 
 
-	// Evaluate the V trajectory 
+	// Evaluate the V trajectory
 	inline void computeV0( double phi, Vector3d* v0 ) {
 		SimBiConState* currState = states[getFSMState()];
 		computeDorV( phi, currState->vTrajX, currState->vTrajZ, stance, v0 );
 	}
 
 
-	// Evaluate the V trajectory 
+	// Evaluate the V trajectory
 	inline static void computeDorV( double phi, Trajectory1d* trajX, Trajectory1d* trajZ, int stance, Vector3d* result ) {
 		result->y = 0;
 		double signReverse = (stance == RIGHT_STANCE)?-1:1;
@@ -490,7 +489,7 @@ public:
 		notifyObservers();
 	}
 
-	inline int getStartingState() const { return startingState; } 
+	inline int getStartingState() const { return startingState; }
 
 
 };

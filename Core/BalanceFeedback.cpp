@@ -21,7 +21,7 @@ void LinearBalanceFeedback::loadFromFile(FILE* f){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);
@@ -126,14 +126,14 @@ double DoubleStanceFeedback::getFeedbackContribution(SimBiController* con, Joint
 		theBody = con->character->getRoot();
 
 	//we might want to initialize it (or add to it) some default value in case we are trying to control its projection
-	offset = 0; 
+	offset = 0;
 	double dToUse = theBody->getLocalCoordinates(con->doubleStanceCOMError).dotProductWith(feedbackProjectionAxis);
 	if (dToUse < dMin) dToUse = dMin;
 	if (dToUse > dMax) dToUse = dMax;
 
 
 	double vToUse = theBody->getLocalCoordinates(con->comVelocity).dotProductWith(feedbackProjectionAxis);
-	
+
 	if (vToUse < vMin) vToUse = vMin;
 	if (vToUse > vMax) vToUse = vMax;
 
@@ -178,7 +178,7 @@ void DoubleStanceFeedback::loadFromFile(FILE* f){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);

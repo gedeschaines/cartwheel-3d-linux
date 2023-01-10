@@ -70,7 +70,7 @@ void BipV3BalanceController::applyTrajectoryOffsets(){
 
 
 
-/*	
+/*
 	tmpTraj = curState->getTrajectory("SWING_Hip");
 	tmpTraj->components[0]->offset = SimGlobals::swingHipSagittal;
 
@@ -134,7 +134,7 @@ bool BipV3BalanceController::runASimulationStep(){
 //			tprintf("can stand!!! (%lf %lf)\n", comError, comVelError);
 			//both feet are on the ground, so make sure that the com position and velocity are not too far off...
 			//compute the character-relative coordinates of the left and right foot
-			tprintf("left: %lf, right: %lf, (%lf %lf)\n", leftFootPos.x, rightFootPos.x, comError, comVelError);
+			tprintf("left: %lf, right: %lf, (%lf %lf)\n", leftFootPos.x, rightFootPos.x, comError, comVError);
 			double maxComError = 0, maxComVError = 0;
 			if (comOffsetError.unit().dotProductWith(comVelError.unit())<-0.5){
 				maxComError = 0.05;
@@ -145,7 +145,7 @@ bool BipV3BalanceController::runASimulationStep(){
 			}
 			if (comError < maxComError && comVError < maxComVError && leftFootPos.x > 0.03 && leftFootPos.x < 0.1 && -rightFootPos.x > 0.03 && -rightFootPos.x < 0.1){
 				con = standingBalanceController;
-				tprintf("can stand!!! (%lf %lf)\n", comError, comVelError);
+				tprintf("can stand!!! (%lf %lf)\n", comError, comVError);
 			}
 		}
 	}else{
@@ -157,7 +157,7 @@ bool BipV3BalanceController::runASimulationStep(){
 				con->setStance(LEFT_STANCE);
 			else
 				con->setStance(RIGHT_STANCE);
-			tprintf("can't stand!!! (%lf %lf)\n", comError, comVelError);
+			tprintf("can't stand!!! (%lf %lf)\n", comError, comVError);
 		}
 	}
 

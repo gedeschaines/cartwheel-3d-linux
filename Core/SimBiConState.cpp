@@ -1,23 +1,23 @@
 /*
-	Simbicon 1.5 Controller Editor Framework, 
+	Simbicon 1.5 Controller Editor Framework,
 	Copyright 2009 Stelian Coros, Philippe Beaudoin and Michiel van de Panne.
 	All rights reserved. Web: www.cs.ubc.ca/~van/simbicon_cef
 
 	This file is part of the Simbicon 1.5 Controller Editor Framework.
 
-	Simbicon 1.5 Controller Editor Framework is free software: you can 
+	Simbicon 1.5 Controller Editor Framework is free software: you can
 	redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
-	Simbicon 1.5 Controller Editor Framework is distributed in the hope 
-	that it will be useful, but WITHOUT ANY WARRANTY; without even the 
-	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+	Simbicon 1.5 Controller Editor Framework is distributed in the hope
+	that it will be useful, but WITHOUT ANY WARRANTY; without even the
+	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with Simbicon 1.5 Controller Editor Framework. 
+	along with Simbicon 1.5 Controller Editor Framework.
 	If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -26,11 +26,13 @@
 #include "SimGlobals.h"
 #include "SimBiController.h"
 
-/** 
+#include <algorithm>
+
+/**
 	Update this component to recenter it around the new given D and V trajectories
 */
-void TrajectoryComponent::updateComponent(SimBiController* con, Joint* j, Trajectory1d& newDTrajX, Trajectory1d& newDTrajZ, Trajectory1d& newVTrajX, Trajectory1d& newVTrajZ, 
-										   Trajectory1d* oldDTrajX, Trajectory1d* oldDTrajZ, Trajectory1d* oldVTrajX, Trajectory1d* oldVTrajZ, 
+void TrajectoryComponent::updateComponent(SimBiController* con, Joint* j, Trajectory1d& newDTrajX, Trajectory1d& newDTrajZ, Trajectory1d& newVTrajX, Trajectory1d& newVTrajZ,
+										   Trajectory1d* oldDTrajX, Trajectory1d* oldDTrajZ, Trajectory1d* oldVTrajX, Trajectory1d* oldVTrajZ,
 										  int nbSamples ) {
 
 	if( bFeedback == NULL )
@@ -39,12 +41,12 @@ void TrajectoryComponent::updateComponent(SimBiController* con, Joint* j, Trajec
 	double startPhi = 0;
 	double endPhi = 0;
 	if( baseTraj.getKnotCount() > 0 ) {
-		startPhi = min( startPhi, baseTraj.getMinPosition() );
-		endPhi = min( startPhi, baseTraj.getMaxPosition() );
+		startPhi = std::min( startPhi, baseTraj.getMinPosition() );
+		endPhi = std::min( startPhi, baseTraj.getMaxPosition() );
 	}
 	if( newDTrajX.getKnotCount() > 0 ) {
-		startPhi = max( startPhi, newDTrajX.getMinPosition() );
-		endPhi = max( startPhi, newDTrajX.getMaxPosition() );
+		startPhi = std::max( startPhi, newDTrajX.getMinPosition() );
+		endPhi = std::max( startPhi, newDTrajX.getMaxPosition() );
 	}
 
 	Trajectory1d result;
@@ -116,7 +118,7 @@ void TrajectoryComponent::writeTrajectoryComponent(FILE* f){
 
 	fprintf( f, "\t\t%s\n", getConLineString(CON_TRAJ_COMPONENT) );
 
-	fprintf( f, "\t\t\t%s %lf %lf %lf\n", getConLineString(CON_ROTATION_AXIS), 
+	fprintf( f, "\t\t\t%s %lf %lf %lf\n", getConLineString(CON_ROTATION_AXIS),
 				rotationAxis.x, rotationAxis.y, rotationAxis.z );
 
 	if( reverseAngleOnLeftStance )
@@ -200,11 +202,11 @@ void TrajectoryComponent::readTrajectoryComponent(FILE* f){
 					reverseAngleOnLeftStance = true;
 				else if (strncmp(trim(line), "right", 5) == 0)
 					reverseAngleOnRightStance = true;
-				else 
+				else
 					throwError("When using the \'startingStance\' keyword, \'left\' or \'right\' must be specified!");
 				break;
 			case CON_NOT_IMPORTANT:
-				tprintf("Ignoring input line-2: \'%s\'\n", line); 
+				tprintf("Ignoring input line-2: \'%s\'\n", line);
 				break;
 			default:
 				throwError("Incorrect SIMBICON input file: \'%s\' - unexpected line.", buffer);
@@ -292,7 +294,7 @@ void Trajectory::readTrajectory(FILE* f){
 				components.push_back(newComponent);
 				break;
 			case CON_NOT_IMPORTANT:
-				tprintf("Ignoring input line: \'%s\'\n", line); 
+				tprintf("Ignoring input line: \'%s\'\n", line);
 				break;
 			default:
 				throwError("Incorrect SIMBICON input file: \'%s\' - unexpected line.", buffer);
@@ -316,7 +318,7 @@ void SimBiConState::readState(FILE* f, int offset){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);
@@ -428,9 +430,9 @@ void SimBiConState::writeState(FILE* f, int index){
 
 	fprintf( f, "\t%s %s\n", getConLineString(CON_STATE_DESCRIPTION), name );
 	fprintf( f, "\t%s %d\n", getConLineString(CON_NEXT_STATE), nextStateIndex );
-	fprintf( f, "\t%s %s\n", getConLineString(CON_TRANSITION_ON), 
+	fprintf( f, "\t%s %s\n", getConLineString(CON_TRANSITION_ON),
 		transitionOnFootContact?"footDown":"timeUp" );
-	
+
 	if( reverseStance )
 		fprintf( f, "\t%s reverse\n", getConLineString(CON_STATE_STANCE) );
 	else if( keepStance )
@@ -441,7 +443,7 @@ void SimBiConState::writeState(FILE* f, int index){
 		fprintf( f, "\t%s right\n", getConLineString(CON_STATE_STANCE) );
 
 	fprintf( f, "\t%s %lf\n", getConLineString(CON_STATE_TIME), stateTime );
-	
+
 	fprintf( f, "\n" );
 
 	if( dTrajX != NULL )
@@ -457,9 +459,9 @@ void SimBiConState::writeState(FILE* f, int index){
 
 	for( uint i=0; i<sTraj.size(); ++i ) {
 		fprintf( f, "\n" );
-		sTraj[i]->writeTrajectory( f );	
+		sTraj[i]->writeTrajectory( f );
 	}
-	
+
 	fprintf( f, "%s\n", getConLineString(CON_STATE_END) );
 
 
@@ -480,7 +482,7 @@ void SimBiConState::readTrajectory1d(FILE* f, Trajectory1d& result, int endingLi
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);
@@ -497,7 +499,7 @@ void SimBiConState::readTrajectory1d(FILE* f, Trajectory1d& result, int endingLi
 				if (sscanf(line, "%lf %lf", &temp1, &temp2) == 2){
 					result.addKnot(temp1, temp2);
 				}else
-					tprintf("Ignoring input line: \'%s\'\n", line); 
+					tprintf("Ignoring input line: \'%s\'\n", line);
 				break;
 			default:
 				throwError("Incorrect SIMBICON input file: \'%s\' - unexpected line.", buffer);
@@ -526,17 +528,17 @@ void SimBiConState::writeTrajectory1d(FILE* f, Trajectory1d& result, int startin
 }
 
 
-/** 
+/**
 	Update all the trajectories to recenter them around the new given D and V trajectories
 	Also save these new D and V trajectories.
 */
 void SimBiConState::updateDVTrajectories(SimBiController* con, Joint* j, Trajectory1d& newDTrajX, Trajectory1d& newDTrajZ, Trajectory1d& newVTrajX, Trajectory1d& newVTrajZ, int nbSamples ) {
 
 	int nbTraj = sTraj.size();
-	for( int i = 0; i < nbTraj; ++i ) {		
+	for( int i = 0; i < nbTraj; ++i ) {
 		sTraj[i]->updateComponents( con, j, newDTrajX, newDTrajZ, newVTrajX, newVTrajZ, dTrajX, dTrajZ, vTrajX, vTrajZ, nbSamples );
 	}
-	
+
 	if( dTrajX != NULL )
 		delete dTrajX;
 	if( dTrajZ != NULL )

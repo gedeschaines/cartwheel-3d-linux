@@ -7,8 +7,8 @@
 /**
 	This class implements the analytical solution for a simple linkage that is formed by a parent link and a child link connected by a joint - the child joint. It is assumed
 	that the parent can rotate about some relative coordinate frame - the grandparent frame (that can be the parent's parent in the linkage, or the world if
-	the parent is a root, since it can still rotate relative to the world frame) - about any axis - i.e. the parent is connected to the grandparent by a 
-	ball-in-socket joint that doesn't have any joint limits. The child can only rotate relative to the parent around the axis n. The vector v, in general, 
+	the parent is a root, since it can still rotate relative to the world frame) - about any axis - i.e. the parent is connected to the grandparent by a
+	ball-in-socket joint that doesn't have any joint limits. The child can only rotate relative to the parent around the axis n. The vector v, in general,
 	represents the axis that connects either the child joint to the child's end effector, or the parent's parent joint to the child joint. This class can be used
 	to retrieve the relative orientation between the parent and the grandparent, as well as the relative orientation between the parent and the child, so that
 	the child's end effector is as close as possible to a specified target. No joint limits are implemented by this solver.
@@ -16,7 +16,7 @@
 class AnalyticalIK{
 public:
 	/**
-		This method determines the position of the joint between the child and parent links. 
+		This method determines the position of the joint between the child and parent links.
 		Input (all quantities need to be measured in the same coordinate frame):
 			p1 - location of parent's point of revolution (for example the shoulder for an arm)
 			p2 - target location of end effector of child link (for example, the wrist location
@@ -30,7 +30,7 @@ public:
 		//the solution for this comes from computation of the intersection of two circles of radii r1 and r2, located at
 		//p1 and p2 respectively. There are, of course, two solutions to this problem. The calling application can differentiate between these
 		//by passing in n or -n for the plane normal.
-		
+
 		//this is the distance between p1 and p2. If it is > r1+r2, then we have no solutions. To be nice about it,
 		//we will set r to r1+r2 - the behaviour will be to reach as much as possible, even though you don't hit the target
 		double r = Vector3d(p1, p2).length();
@@ -51,15 +51,15 @@ public:
 	}
 
 	/**
-		This method determines the relative orientation between the parent link and its grandparent- this boils down to solving for the orientation 
-		that aligns two coordinate frames, where we know two perpendicular vectors from each that map to the other. 
+		This method determines the relative orientation between the parent link and its grandparent- this boils down to solving for the orientation
+		that aligns two coordinate frames, where we know two perpendicular vectors from each that map to the other.
 
 		Input:
 			vGlobal - parent's v expressed in grandparent coordinates
-			nGlobal	- this is the rotation axis that is used for the relative rotation between the child and the parent joint, expressed in 
+			nGlobal	- this is the rotation axis that is used for the relative rotation between the child and the parent joint, expressed in
 					  grandparent coordinates
 			vLocal  - parent's v expressed in the parent's local coordinates
-			nLocal  - this is the rotation axis that is used for the relative rotation between the child and the parent joint, expressed in 
+			nLocal  - this is the rotation axis that is used for the relative rotation between the child and the parent joint, expressed in
 					  parent's local coordinates
 		Output:
 			q		- the relative orientation between the parent and the grandparent (i.e. transforms vectors from parent coordinates to grandparent coordinates).
@@ -222,7 +222,7 @@ private:
 class HumanoidIKArm : public SimpleIKLinkage{
 public:
 	//this is the constructor - initialize the desired quantities
-	HumanoidIKArm(Character* bip, char* jMainName, char* jParentName) : SimpleIKLinkage(bip, bip->getJointByName(jMainName), bip->getJointIndex(jMainName), bip->getJointIndex(jParentName)){
+	HumanoidIKArm(Character* bip, const char* jMainName, const char* jParentName) : SimpleIKLinkage(bip, bip->getJointByName(jMainName), bip->getJointIndex(jMainName), bip->getJointIndex(jParentName)){
 		//compute the length of the upper arm
 		parentPointOfRevolutionP = parent->getParentJoint()->getChildJointPosition();
 		childPointOfRevolutionP = joint->getParentJointPosition();
@@ -250,7 +250,7 @@ public:
 		//get the orientations
 		Quaternion pOrientation, cOrientation;
 		getIKOrientations(&pOrientation, &cOrientation);
-		
+
 		//and apply them
 		ReducedCharacterStateArray state;
 		bip->getState(&state);

@@ -25,7 +25,7 @@ double WorldOracle::getWorldHeightAt(Point3d worldLoc){
 	return height;
 }
 
-void createSpheresRBFile(DynamicArray<Sphere> spheres, char* fName){
+void createSpheresRBFile(DynamicArray<Sphere> spheres, const char* fName){
 	FILE* fp = fopen(fName, "w");
 	//we'll create an RB with the correct CDP, mesh and position
 	for (uint i=0;i<spheres.size();i++){

@@ -1,5 +1,6 @@
 #pragma once
-#include "policy.h"
+
+#include "Policy.h"
 #include <Core/CompositeController.h>
 
 /**

@@ -22,7 +22,7 @@ CompositeController::CompositeController(Character* ch, char* input) : Controlle
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (feof(f))
 			break;
 		if (strlen(buffer)>195)
@@ -55,7 +55,7 @@ CompositeController::CompositeController(Character* ch, char* input) : Controlle
 				else if (strncmp(trim(line), "right", 5) == 0){
 					setStance(RIGHT_STANCE);
 				}
-				else 
+				else
 					throwError("When using the \'reverseTargetOnStance\' keyword, \'left\' or \'right\' must be specified!");
 				break;
 			default:
@@ -72,7 +72,7 @@ CompositeController::~CompositeController(void){
 }
 
 /**
-	This method is used to set the stance 
+	This method is used to set the stance
 */
 void CompositeController::setStance(int newStance){
 	for (uint i=0; i<controllers.size();i++)
@@ -146,16 +146,16 @@ int CompositeController::advanceInTime(double dt, DynamicArray<ContactPoint> *cf
 	double dtOverT = dt / primaryController->states[primaryController->FSMStateIndex]->stateTime;
 
 	if (secondaryController != NULL && synchronizeControllers == true)
-		dtOverT = dt / ((interpValue) * primaryController->states[primaryController->FSMStateIndex]->stateTime + (1-interpValue) * secondaryController->states[secondaryController->FSMStateIndex]->stateTime);	
+		dtOverT = dt / ((interpValue) * primaryController->states[primaryController->FSMStateIndex]->stateTime + (1-interpValue) * secondaryController->states[secondaryController->FSMStateIndex]->stateTime);
 
 
-	//If the primary decides that it should switch to the next state, then we will force all the other controllers switch to the next state as well. 
+	//If the primary decides that it should switch to the next state, then we will force all the other controllers switch to the next state as well.
 	//Otherwise, we will just update their phi's so that they are all in phase
 
 	int stateIndex;
 	//advance in time the main controller, and see if it decides it should switch stance/FSM state
 	bool newFSMState = ((stateIndex = primaryController->advanceInTime(primaryController->states[primaryController->FSMStateIndex]->stateTime * dtOverT, cfs)) != -1);
-	
+
 	//now take care of all the other controllers
 	for (uint i=0; i<controllers.size();i++){
 		controllers[i]->updateDAndV();

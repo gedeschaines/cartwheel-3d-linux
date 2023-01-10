@@ -3,6 +3,8 @@
 #include "ConUtils.h"
 #include <Utils/Utils.h>
 
+#include <algorithm>
+
 PoseController::PoseController(Character* ch) : Controller(ch){
 
 	//copy the current state of the character into the desired pose - makes sure that it's the correct size
@@ -28,7 +30,7 @@ PoseController::~PoseController(void){
 /**
 	This method is used to compute the PD torque that aligns a child coordinate frame to a parent coordinate frame.
 	Given: the current relative orientation of two coordinate frames (child and parent), the relative angular velocity,
-	the desired values for the relative orientation and ang. vel, as well as the virtual motor's PD gains. The torque 
+	the desired values for the relative orientation and ang. vel, as well as the virtual motor's PD gains. The torque
 	returned is expressed in the coordinate frame of the 'parent'.
 */
 Vector3d PoseController::computePDTorque(const Quaternion& qRel, const Quaternion& qRelD, const Vector3d& wRel, const Vector3d& wRelD, ControlParams* cParams){
@@ -36,9 +38,9 @@ Vector3d PoseController::computePDTorque(const Quaternion& qRel, const Quaternio
 	//the torque will have the form:
 	// T = kp*D(qRelD, qRel) + kd * (wRelD - wRel)
 
-	//Note: There can be problems computing the proper torque from the quaternion part, because q and -q 
+	//Note: There can be problems computing the proper torque from the quaternion part, because q and -q
 	//represent the same orientation. To make sure that we get the correct answer, we'll take into account
-	//the sign of the scalar part of qErr - both this and the v part will change signs in the same way if either 
+	//the sign of the scalar part of qErr - both this and the v part will change signs in the same way if either
 	//or both of qRel and qRelD are negative
 //	Quaternion qErr = qRel.getComplexConjugate() * qRelD;
 	Quaternion qErr = qRel.getComplexConjugate();
@@ -85,8 +87,8 @@ void PoseController::limitTorque(Vector3d* torque, ControlParams* cParams){
 }
 
 /**
-	This method is used to scale and apply joint limits to the torque that is passed in as a parameter. The orientation that transforms 
-	the torque from the coordinate frame that it is currently stored in, to the coordinate frame of the 'child' to which the torque is 
+	This method is used to scale and apply joint limits to the torque that is passed in as a parameter. The orientation that transforms
+	the torque from the coordinate frame that it is currently stored in, to the coordinate frame of the 'child' to which the torque is
 	applied to (it wouldn't make sense to scale the torques in any other coordinate frame)  is also passed in as a parameter.
 */
 void PoseController::scaleAndLimitTorque(Vector3d* torque, ControlParams* cParams, const Quaternion& qToChild){
@@ -121,7 +123,7 @@ void PoseController::computeTorques(DynamicArray<ContactPoint> *cfs){
 
 			RigidBody* parentRB = character->getJoint(i)->getParent();
 			RigidBody* childRB = character->getJoint(i)->getChild();
-			Quaternion parentQworld = parentRB->getOrientation().getComplexConjugate();			
+			Quaternion parentQworld = parentRB->getOrientation().getComplexConjugate();
 
 			Quaternion frameQworld;
 			Vector3d frameAngularVelocityInFrame;
@@ -142,10 +144,10 @@ void PoseController::computeTorques(DynamicArray<ContactPoint> *cfs){
 
 			Quaternion parentQframe = parentQworld * frameQworld.getComplexConjugate();
 
-			torques[i] = computePDTorque(parentQframe * currentOrientationInFrame, 
-										 parentQframe * desiredOrientationInFrame, 
-										 parentQframe.rotate(currentRelativeAngularVelocityInFrame), 
-										 parentQframe.rotate(desiredRelativeAngularVelocityInFrame), 
+			torques[i] = computePDTorque(parentQframe * currentOrientationInFrame,
+										 parentQframe * desiredOrientationInFrame,
+										 parentQframe.rotate(currentRelativeAngularVelocityInFrame),
+										 parentQframe.rotate(desiredRelativeAngularVelocityInFrame),
 										 &controlParams[i]);
 			torques[i] = parentRB->getWorldCoordinates(torques[i]);
 
@@ -167,7 +169,7 @@ void PoseController::computeTorques(DynamicArray<ContactPoint> *cfs){
 
 		}else{
 			torques[i].setValues(0,0,0);
-		} 
+		}
 	}
 
 }
@@ -185,11 +187,11 @@ void PoseController::parseGainLine(char* line){
 	char jName[100];
 	int jIndex;
 	int nrParams = 0;
-	nrParams = sscanf(line, "%s %lf %lf %lf %lf %lf %lf\n", jName, &kp, &kd, &tMax, &scX, &scY, &scZ); 
+	nrParams = sscanf(line, "%s %lf %lf %lf %lf %lf %lf\n", jName, &kp, &kd, &tMax, &scX, &scY, &scZ);
 	if (nrParams == 2){
 		Vector3d tmp;
 		character->getJointByName(jName)->getChild()->props.getLocalMOI(&tmp);
-		double maxM = max(tmp.x, tmp.y); maxM = max(maxM, tmp.z);
+		double maxM = std::max(tmp.x, tmp.y); maxM = std::max(maxM, tmp.z);
 		kd = kp/10;
 		tMax = 10000;
 		scX = tmp.x/maxM;
@@ -257,8 +259,8 @@ void PoseController::writeGains(FILE* f){
 		if( !joint ) continue;
 		const char* jName = joint->getName();
 
-		fprintf( f, "    %s\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n", 
-						jName, 
+		fprintf( f, "    %s\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
+						jName,
 						controlParams[jIndex].kp,
 						controlParams[jIndex].kd,
 						controlParams[jIndex].maxAbsTorque,

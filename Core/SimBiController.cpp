@@ -1,23 +1,23 @@
 /*
-	Simbicon 1.5 Controller Editor Framework, 
+	Simbicon 1.5 Controller Editor Framework,
 	Copyright 2009 Stelian Coros, Philippe Beaudoin and Michiel van de Panne.
 	All rights reserved. Web: www.cs.ubc.ca/~van/simbicon_cef
 
 	This file is part of the Simbicon 1.5 Controller Editor Framework.
 
-	Simbicon 1.5 Controller Editor Framework is free software: you can 
+	Simbicon 1.5 Controller Editor Framework is free software: you can
 	redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
-	Simbicon 1.5 Controller Editor Framework is distributed in the hope 
-	that it will be useful, but WITHOUT ANY WARRANTY; without even the 
-	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+	Simbicon 1.5 Controller Editor Framework is distributed in the hope
+	that it will be useful, but WITHOUT ANY WARRANTY; without even the
+	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with Simbicon 1.5 Controller Editor Framework. 
+	along with Simbicon 1.5 Controller Editor Framework.
 	If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -40,7 +40,7 @@ SimBiController::SimBiController(Character* b) : PoseController(b){
 
 	if (rFoot == NULL || lFoot == NULL)
 		throwError("The biped must have the rigid bodies lFoot and rFoot!");
-	
+
 	//and two hips connected to the root
 	Joint* lHip = b->getJointByName("lHip");
 	Joint* rHip = b->getJointByName("rHip");
@@ -52,7 +52,7 @@ SimBiController::SimBiController(Character* b) : PoseController(b){
 		throwError("The biped must have the joints lHip and rHip!");
 
 	root = b->getRoot();
-	
+
 	if (lHip->getParent() != rHip->getParent() || lHip->getParent() != root)
 		throwError("The biped's hips must have a common parent, which should be the root of the figure!");
 
@@ -67,7 +67,7 @@ SimBiController::SimBiController(Character* b) : PoseController(b){
 	rootPredictiveTorqueScale = 0;
 
 	bodyTouchedTheGround = false;
-	
+
 	startingState = 0;
 	startingStance = LEFT_STANCE;
 	initialBipState[0] = '\0';
@@ -92,7 +92,7 @@ SimBiController::~SimBiController(void){
 }
 
 /**
-	This method is used to set the stance 
+	This method is used to set the stance
 */
 void SimBiController::setStance(int newStance){
 	stance = newStance;
@@ -259,7 +259,7 @@ int SimBiController::advanceInTime(double dt, DynamicArray<ContactPoint> *cfs){
 		//if neither of the bodies involved are articulated, it means they are just props so we can ignore them
 		if ((*cfs)[i].rb1->isArticulated() == false && (*cfs)[i].rb2->isArticulated() == false)
 			continue;
-			
+
 		if (isFoot((*cfs)[i].rb1) || isFoot((*cfs)[i].rb2))
 			continue;
 
@@ -315,7 +315,7 @@ void SimBiController::updateTrackingPose(ReducedCharacterStateArray& trackingPos
 
 	trackingPose.clear();
 	this->character->getState(&trackingPose);
-	
+
 	ReducedCharacterState debugRS(&trackingPose);
 
 	//always start from a neutral desired pose, and build from there...
@@ -333,11 +333,11 @@ void SimBiController::updateTrackingPose(ReducedCharacterStateArray& trackingPos
 	for (int i=0;i<curState->getTrajectoryCount();i++){
 		//now we have the desired rotation angle and axis, so we need to see which joint this is intended for
 		int jIndex = curState->sTraj[i]->getJointIndex(stanceToUse);
-		
+
 		//if the index is -1, it must mean it's the root's trajectory. Otherwise we should give an error
 		if (curState->sTraj[i]->relToCharFrame == true || jIndex == swingHipIndex)
 			controlParams[jIndex].relToFrame = true;
-		Vector3d d0, v0; 
+		Vector3d d0, v0;
 		computeD0( phiToUse, &d0 );
 		computeV0( phiToUse, &v0 );
 //		Quaternion newOrientation = curState->sTraj[i]->evaluateTrajectory(this, character->getJoint(jIndex), stanceToUse, phiToUse, d - d0, v - v0);
@@ -363,7 +363,7 @@ void SimBiController::updateTrackingPose(ReducedCharacterStateArray& trackingPos
 				parent = j->getParent();
 				temp = debugRS.getJointRelativeOrientation(character->getJointIndex(j->name)) * temp;
 			}
-	
+
 			temp = qRootD * temp;
 			temp = temp.getComplexConjugate() * debugRS.getJointRelativeOrientation(i);
 			debugRS.setJointRelativeOrientation(temp, i);
@@ -545,9 +545,9 @@ void SimBiController::evaluateJointTargets(){
 			continue;
 
 		//get the desired joint orientation to track - include the feedback if necessary/applicable
-		Vector3d d0, v0; 
+		Vector3d d0, v0;
 		computeD0( phiToUse, &d0 );
-		computeV0( phiToUse, &v0 );	
+		computeV0( phiToUse, &v0 );
 		newOrientation = curState->sTraj[i]->evaluateTrajectory(this, character->getJoint(jIndex), stance, phiToUse, d - d0, v - v0);
 
 		//if the index is -1, it must mean it's the root's trajectory. Otherwise we should give an error
@@ -736,7 +736,7 @@ void SimBiController::resolveJoints(SimBiConState* state){
 	char tmpName[100];
 	for (uint i=0;i<state->sExternalForces.size();i++){
 		ExternalForce* ef = state->sExternalForces[i];
-	
+
 		//deal with the SWING_XXX' case
 		if (strncmp(ef->bName, "SWING_", strlen("SWING_"))==0){
 			strcpy(tmpName+1, ef->bName + strlen("SWING_"));
@@ -768,7 +768,7 @@ void SimBiController::resolveJoints(SimBiConState* state){
 		if (ef->leftStanceARB==NULL)
 			throwError("Cannot find joint %s\n", ef->bName);
 		ef->rightStanceARB = ef->leftStanceARB;
-	
+
 	}
 
 	for (uint i=0;i<state->sTraj.size();i++){
@@ -821,9 +821,9 @@ void SimBiController::writeToFile(char* fileName, char* stateFileName){
 	if (fileName == NULL || (f = fopen(fileName, "w")) == NULL)
 		return;
 
-	fprintf( f, "%s\n", getConLineString(CON_PD_GAINS_START) );	
+	fprintf( f, "%s\n", getConLineString(CON_PD_GAINS_START) );
 	fprintf( f, "#        joint name              Kp      Kd      MaxTorque    ScaleX        ScaleY        ScaleZ\n" );
-	fprintf( f, "    root\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n", 
+	fprintf( f, "    root\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
 					rootControlParams.kp,
 					rootControlParams.kd,
 					rootControlParams.maxAbsTorque,
@@ -835,17 +835,17 @@ void SimBiController::writeToFile(char* fileName, char* stateFileName){
 	fprintf( f, "%s\n", getConLineString(CON_PD_GAINS_END) );
 
 	fprintf( f, "\n" );
-	
+
 	if( stanceHipDamping > 0 ) {
 		fprintf( f, "%s %lf\n", getConLineString(CON_STANCE_HIP_DAMPING), stanceHipDamping );
 		fprintf( f, "%s %lf\n", getConLineString(CON_STANCE_HIP_MAX_VELOCITY), stanceHipMaxVelocity );
 	}
 
 	fprintf( f, "\n" );
-	
+
 
 	for( uint i=0; i<states.size(); ++i ) {
-	
+
 		fprintf( f, "\n\n" );
 		states[i]->writeState( f, i );
 
@@ -854,7 +854,7 @@ void SimBiController::writeToFile(char* fileName, char* stateFileName){
 	fprintf( f, "\n\n" );
 
 	fprintf( f, "%s %d\n", getConLineString(CON_START_AT_STATE), startingState );
-	fprintf( f, "%s %s\n", getConLineString(CON_STARTING_STANCE), 
+	fprintf( f, "%s %s\n", getConLineString(CON_STARTING_STANCE),
 		(stanceFoot == lFoot)?"left":"right" );
 	if( stateFileName == NULL )
 		fprintf( f, "%s %s\n", getConLineString(CON_CHARACTER_STATE), initialBipState );
@@ -890,7 +890,7 @@ void SimBiController::parseGainLine(char* line){
 /**
 	This method loads all the pertinent information regarding the simbicon controller from a file.
 */
-void SimBiController::loadFromFile(char* fName){
+void SimBiController::loadFromFile(const char* fName){
 	if (fName == NULL)
 		throwError("NULL file name provided.");
 	FILE *f = fopen(fName, "r");
@@ -961,7 +961,7 @@ void SimBiController::loadFromFile(char* fName){
 					setStance(RIGHT_STANCE);
 					startingStance = RIGHT_STANCE;
 				}
-				else 
+				else
 					throwError("When using the \'reverseTargetOnStance\' keyword, \'left\' or \'right\' must be specified!");
 				break;
 			case CON_NOT_IMPORTANT:

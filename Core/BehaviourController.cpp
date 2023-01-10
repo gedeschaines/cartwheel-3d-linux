@@ -227,7 +227,7 @@ void BehaviourController::conTransitionPlan(){
 
 /**
 	returns a panic level which is 0 if val is between minG and maxG, 1 if it's
-	smaller than minB or larger than maxB, and linearly interpolated 
+	smaller than minB or larger than maxB, and linearly interpolated
 */
 double getValueInFuzzyRange(double val, double minB, double minG, double maxG, double maxB){
 	if (val <= minB || val >= maxB)
@@ -266,7 +266,7 @@ bool BehaviourController::shouldAbort(){
 	//TODO: MIGHT NEED TO MAKE THESE CONSTANTS A FUNCTION OF THE LEG LENGTH AT SOME POINT!!!!!
 	if ((step.z > 0.6 && lowLCon->v.z > 0.2) || (step.z < -0.55 && lowLCon->v.z < -0.2))
 		return true;
-	
+
 	if (lowLCon->stance == LEFT_STANCE){
 		if ((step.x < -0.45 && lowLCon->v.x < -0.2) || (step.x > 0.35 && lowLCon->v.x > 0.2))
 			return true;
@@ -347,19 +347,26 @@ void BehaviourController::requestDuckFootedness(double df){
 	if an intersection is detected.
 */
 bool BehaviourController::detectPossibleLegCrossing(const Vector3d& swingFootPos, Vector3d* viaPoint){
-	//first, compute the world coords of the swing foot pos, since this is in the char. frame 
+	//first, compute the world coords of the swing foot pos, since this is in the char. frame
 	Point3d desSwingFootPos = lowLCon->characterFrame.rotate(swingFootPos) + lowLCon->comPosition;
 	//now, this is the segment that starts at the current swing foot pos and ends at the final
 	//swing foot position
 
-	Segment swingFootTraj(lowLCon->swingFoot->state.position, desSwingFootPos); swingFootTraj.a.y = 0; swingFootTraj.b.y = 0;
-	
+	Segment swingFootTraj(lowLCon->swingFoot->state.position, desSwingFootPos);
+	swingFootTraj.a.y = 0;
+	swingFootTraj.b.y = 0;
+
 	//and now compute the segment originating at the stance foot that we don't want the swing foot trajectory to pass...
 	Vector3d segDir = Vector3d(100, 0, 0);
 	if (lowLCon->stance == RIGHT_STANCE) segDir.x = -segDir.x;
-	segDir = lowLCon->stanceFoot->getWorldCoordinates(segDir); segDir.y = 0;
-	Segment stanceFootSafety(lowLCon->stanceFoot->state.position, lowLCon->stanceFoot->state.position + segDir);
-	stanceFootSafety.a.y = 0; stanceFootSafety.b.y = 0;
+	segDir = lowLCon->stanceFoot->getWorldCoordinates(segDir);
+	segDir.y = 0;
+
+	Point3d stanceFootCOM = lowLCon->stanceFoot->getCMPosition();
+    Point3d p3d = stanceFootCOM + segDir;
+    Segment stanceFootSafety(stanceFootCOM, p3d);
+	stanceFootSafety.a.y = 0;
+	stanceFootSafety.b.y = 0;
 
 	//now check to see if the two segments intersect...
 	Segment intersect;
@@ -387,7 +394,7 @@ bool BehaviourController::detectPossibleLegCrossing(const Vector3d& swingFootPos
 		}
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -423,7 +430,7 @@ Vector3d BehaviourController::computeSwingFootLocationEstimate(const Point3d& co
 	if (needToStepAroundStanceAnkle){
 		//use the via point...
 		Vector3d currentSwingStepPos(comPos, lowLCon->swingFoot->state.position);
-		currentSwingStepPos = lowLCon->characterFrame.inverseRotate(initialStep);currentSwingStepPos.y = 0;		
+		currentSwingStepPos = lowLCon->characterFrame.inverseRotate(initialStep);currentSwingStepPos.y = 0;
 		//compute the phase for the via point based on: d1/d2 = 1-x / x-phase, where d1 is the length of the vector from
 		//the via point to the final location, and d2 is the length of the vector from the swing foot pos to the via point...
 		double d1 = (step - suggestedViaPoint).length(); double d2 = (suggestedViaPoint - currentSwingStepPos).length(); if (d2 < 0.0001) d2 = d1 + 0.001;

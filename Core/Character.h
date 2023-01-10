@@ -29,7 +29,7 @@ private:
 	void setHeading(Quaternion heading);
 
 	/**
-		this method is used to rotate the character (well, the character whose state is passed in as a parameter) 
+		this method is used to rotate the character (well, the character whose state is passed in as a parameter)
 		about the vertical axis, so that it's default heading has the value that is given as a parameter.
 	*/
 	void setHeading(Quaternion heading, ReducedCharacterStateArray* state, int start = 0);
@@ -58,7 +58,7 @@ public:
 
 	/**
 		This method is used to get the relative angular velocities of the parent and child bodies of joint i,
-		expressed in parent's local coordinates. 
+		expressed in parent's local coordinates.
 	*/
 	void getRelativeAngularVelocity(int i, Vector3d* wRel);
 
@@ -89,11 +89,11 @@ public:
 		For the state, we consider the 13-dimensional state of the root, and then only
 		the relative orientation and angular velocity (as measured in parent coordinates) for
 		every other link. The velocities of the CM are derived from this information,
-		using the velocity propagation technique (if that's what it is called).		
-		The order in which the bodies appear is given by the array of joints. 
-		This works under the assumption that in the joint 
+		using the velocity propagation technique (if that's what it is called).
+		The order in which the bodies appear is given by the array of joints.
+		This works under the assumption that in the joint
 		sequence, the parent of any rigid body appears before its children (assuming that for each joint
-		we read the parent first and then the child). 
+		we read the parent first and then the child).
 	*/
 	void getState(ReducedCharacterStateArray* state);
 
@@ -133,7 +133,7 @@ public:
 	void recenter();
 
 	/**
-		this method is used to rotate the character (well, the character whose state is passed in as a parameter) 
+		this method is used to rotate the character (well, the character whose state is passed in as a parameter)
 		about the vertical axis, so that it's default heading has the value that is given as a parameter
 	*/
 	void setHeading(double val, ReducedCharacterStateArray* state, int start = 0);
@@ -339,7 +339,7 @@ public:
 		result += 3 * (va-vb).dotProductWith(va-vb);
 
 		//now go through all the joints that are relevant, and penalize the differences in the orientations and angular velocities
-		for (int i=0;i<sizeof(joints)/sizeof(joints[1]);i++){
+		for (uint i=0;i<sizeof(joints)/sizeof(joints[1]);i++){
 			qa = this->getJointRelativeOrientation(joints[i].jIndex);
 			qb = other->getJointRelativeOrientation(joints[i].jIndex);
 			va = this->getJointRelativeAngVelocity(joints[i].jIndex);
@@ -378,7 +378,7 @@ public:
 		result += 3 * (va-vb).dotProductWith(va-vb);
 
 		//now go through all the joints that are relevant, and penalize the differences in the orientations and angular velocities
-		for (int i=0;i<sizeof(joints)/sizeof(joints[1]);i++){
+		for (uint i=0;i<sizeof(joints)/sizeof(joints[1]);i++){
 			qa = this->getJointRelativeOrientation(joints[i].jIndex);
 			qb = other->getJointRelativeOrientation(joints[i].jIndex);
 			va = this->getJointRelativeAngVelocity(joints[i].jIndex);
@@ -418,7 +418,7 @@ public:
 		result += 3 * 0.1 * (va-vb).dotProductWith(va-vb);
 
 		//now go through all the joints that are relevant, and penalize the differences in the orientations and angular velocities
-		for (int i=0;i<sizeof(joints)/sizeof(joints[1]);i++){
+		for (uint i=0;i<sizeof(joints)/sizeof(joints[1]);i++){
 			qa = this->getJointRelativeOrientation(joints[i].jIndex);
 			qb = other->getJointRelativeOrientation(joints[i].jIndex);
 			va = this->getJointRelativeAngVelocity(joints[i].jIndex);
