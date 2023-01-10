@@ -30,11 +30,27 @@ public:
 	*/
 	Vector3d(const Point3d &p1, const Point3d &p2);
 
+    Vector3d(double value);
+
 	/**
 		Destructor
 	*/
 	~Vector3d();
 
+    /** Pythonized Vector3d elements indexing.
+    */
+
+    #ifndef CW_SWIG_INCLUDE
+    // %extend version in MathLib.swg
+    inline double operator [] (int index) const {
+        int modi = index % 3;
+        if ( modi == 0 ) return this->x;
+        if ( modi == 1 ) return this->y;
+        if ( modi == 2 ) return this->z;
+        throwError("Vector3d index %d modulus %d not in range [0-2]:", index, modi);
+        return 0.0;
+    }
+    #endif // CW_SWIG_INCLUDE
 
 	/**
 		a copy operator
@@ -238,7 +254,7 @@ public:
 								-------------------
 			Cross product is given by cross multiplying the items in the box, and subing the other
 			diagonal
-		*/	
+		*/
 		Vector3d result;
 		const Vector3d& u = *this;
 		result.x = u.y * v.z - u.z * v.y;
@@ -261,7 +277,7 @@ public:
 	/*  Here's how it goes...
 		proj = V/|V| * |U| * cos(angle) = V/|V| * |U| * U.V / |U| / |V|
 		after simplifying we get:
-				U.V 
+				U.V
 		proj = ------- * V
 			   |V|*|V|
 	*/

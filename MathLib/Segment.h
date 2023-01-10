@@ -14,13 +14,13 @@ public:
 	//the end points of the segment
 	Point3d a, b;
 
-	Segment(Point3d& a_, Point3d& b_);
-	
+	Segment(const Point3d& a_, Point3d& b_);
+
 	Segment(){
 		a = Point3d();
 		b = Point3d();
 	}
-	
+
 	/**
 		Copy constructor
 	*/

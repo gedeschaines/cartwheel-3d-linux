@@ -15,7 +15,7 @@ ThreeTuple::ThreeTuple(double x,double y){
 	this->z = 0;
 }
 
-ThreeTuple::ThreeTuple(ThreeTuple& p){
+ThreeTuple::ThreeTuple(const ThreeTuple& p){
 	this->x = p.x;
 	this->y = p.y;
 	this->z = p.z;
@@ -31,6 +31,12 @@ ThreeTuple::ThreeTuple(){
 	this->x = 0.0;
 	this->y = 0.0;
 	this->z = 0.0;
+}
+
+ThreeTuple::ThreeTuple(double value){
+    this->x = value;
+    this->y = value;
+    this->z = value;
 }
 
 /*destructor*/

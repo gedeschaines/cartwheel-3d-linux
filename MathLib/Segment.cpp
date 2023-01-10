@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "segment.h"
+#include "Segment.h"
 
 //#include <Include/glHeaders.h>
 
@@ -8,7 +8,7 @@
 /**
 	Constructor
 */
-Segment::Segment(Point3d& a_, Point3d& b_){
+Segment::Segment(const Point3d& a_, Point3d& b_){
 	this->a = a_;
 	this->b = b_;
 }
@@ -17,10 +17,10 @@ Segment::Segment(Point3d& a_, Point3d& b_){
 	Destructor
 */
 Segment::~Segment(){
-	
+
 }
 
-	
+
 /**
 	Copy constructor
 */
@@ -74,7 +74,7 @@ void Segment::getClosestPointTo(const Point3d& c, Point3d* result) const{
 		*result = a;
 		return;
 	}
-	
+
 	double mu = Vector3d(a, c).dotProductWith(v) / len_squared;
 	if (mu<0)
 		mu = 0;

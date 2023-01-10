@@ -5,13 +5,14 @@
 
 #include <MathLib/MathLibDll.h>
 
-
 #include <MathLib/MathLib.h>
 #include <MathLib/ThreeTuple.h>
 
-
+#ifdef USE_SYSTEM_GSL
+#include <gsl/gsl_matrix.h>
+#else
 #include <gsl/matrix/gsl_matrix.h>
-
+#endif
 
 #define MATRIX_AT(m, i, j) (*((m->data + ((i) * m->tda + (j)))))
 
@@ -182,7 +183,6 @@ public:
 	void sub(const Matrix& other, double scaleA = 1.0, double scaleB = 1.0);
 
 };
-
 
 
 MATHLIB_DECLSPEC void testMatrixClass();

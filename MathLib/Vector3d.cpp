@@ -4,7 +4,7 @@
 #include <MathLib/Matrix.h>
 /*
 	This file implements the methods for the Vector3d class.
-*/	
+*/
 
 Vector3d::~Vector3d(){
 }//nothing to do here...
@@ -32,6 +32,8 @@ Vector3d::Vector3d(const Point3d &p1, const Point3d &p2) : ThreeTuple(p2.x - p1.
 Vector3d::Vector3d(const Vector3d &other) : ThreeTuple(other.x, other.y, other.z){
 }//done with constructors
 
+Vector3d::Vector3d(double value) : ThreeTuple(value) {
+}
 
 /**
 	this method returns a vector that is the current vector, rotated by an angle alpha (in radians) around the axis given as parameter.
@@ -74,7 +76,7 @@ Vector3d Vector3d::rotate(double alpha, const Vector3d &axis){
 void Vector3d::setCrossProductMatrix(Matrix *m) const{
 	if (m->getColumnCount()!=3 || m->getRowCount()!=3)
 		throwError("the matrix passed in as a target for the cross product matrix has the wrong dimensions.");
-	double data[9] = 
+	double data[9] =
 	{0,		-z,		y,
 	 z,		0,		-x,
 	 -y,	x,		0 };

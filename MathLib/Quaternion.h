@@ -51,7 +51,7 @@ public:
 		this->s = w;
 		this->v = Vector3d(x,y,z);
 	}
-	
+
 	// Only works if v1 and v2 are unit length
 	Quaternion(const Vector3d& v1, const Vector3d& v2) {
 		v = v1.crossProductWith(v2);
@@ -74,7 +74,7 @@ public:
 		for the multiplication
 	*/
 	void setToProductOf(const Quaternion& a, const Quaternion& b, bool invA = false, bool invB = false);
-	
+
 	/**
 		this method is used to return the rotation angle represented by this quaternion - in the range -pi to pi.
 		Because you can always consider a rotation to be of x degrees around axis v, or by -x degrees around axis -v,
@@ -143,20 +143,20 @@ public:
 	static Quaternion getRotationQuaternion(double angle, const Vector3d &axis);
 
 	/**
-		This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a 
+		This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a
 		unit quaternion).
 	*/
 	Vector3d rotate(const Vector3d& u) const;
 
 
 	/**
-		This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a 
+		This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a
 		unit quaternion).
 	*/
 	Vector3d inverseRotate(const Vector3d& u) const;
 
 	/**
-		This method populates the transformation matrix that is passed in as a parameter with the 
+		This method populates the transformation matrix that is passed in as a parameter with the
 		4x4 matrix that represents an equivalent rotation as the current quaternion.
 	*/
 	void getRotationMatrix(TransformationMatrix* m) const;
@@ -218,7 +218,7 @@ public:
 	inline void fastRotate(const Vector3d& u, Vector3d* result) const{
 		//uRot = q * (0, u) * q' = (s, v) * (0, u) * (s, -v)
 		//working it out manually, we get:
-	
+
 //		Vector3d t = u * s + v.crossProductWith(u);
 //		*result = v*u.dotProductWith(v) + t * s + v.crossProductWith(t);
 
@@ -265,7 +265,7 @@ public:
 		With v specified in frame C's coordinates, this method decomposes the current relative rotation, such that:
 
 		PqC = qA * qB, where qB represents a rotation about axis v.
-		
+
 		This can be thought of us as a twist about axis v - qB - and a more general rotation, and swing
 		- qA - decomposition. Note that qB can be thought of as a rotation from the C frame into a tmp trame T,
 		and qA a rotation from T into P.
@@ -273,7 +273,7 @@ public:
 		In the T coordinate frame, v is the same as in C, and qA is a rotation that aligns v from P to that
 		from T.
 	*/
-	void Quaternion::decomposeRotation(Quaternion* qA, Quaternion* qB, const Vector3d& vC) const;
+	void decomposeRotation(Quaternion* qA, Quaternion* qB, const Vector3d& vC) const;
 
 	/**
 		Assume that the current quaternion represents the relative orientation between two coordinate frames A and B.

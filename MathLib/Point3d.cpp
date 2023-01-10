@@ -14,6 +14,12 @@ void Point3d::drawObject(){
 //	glPointSize(1);
 }
 
+Point3d::Point3d(const Vector3d& v) {
+ 	this->x = v.x;
+    this->y = v.y;
+ 	this->z = v.z;
+}
+
 /**
 	addition of two vectors - results in a new vector.
 */
@@ -37,7 +43,7 @@ Point3d& Point3d::operator += (const Vector3d &v){
 	difference between two points - results in a new vector.
 */
 Vector3d Point3d::operator - (const Point3d &p) const{
-	return Vector3d(this->x - p.x, this->y - p.y,this->z - p.z);
+	return Vector3d(this->x - p.x, this->y - p.y, this->z - p.z);
 }
 
 	//*this = p + v * s

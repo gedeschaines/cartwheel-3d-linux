@@ -1,7 +1,12 @@
-#include "stdafx.h"
+#include "MathLib/stdafx.h"
+#include "MathLib/Matrix.h"
 
-#include "matrix.h"
+#ifdef USE_SYSTEM_GSL
+#include <gsl/gsl_blas.h>
+#else
 #include <gsl/blas/gsl_blas.h>
+#endif
+
 #include <MathLib/Vector3d.h>
 
 /**
@@ -68,7 +73,7 @@ void Matrix::setToOuterproduct(const Vector3d& a, const Vector3d& b){
 
 
 /**
-	this method returns true if the current matrix can be safely overwritten by a matrix with m rows by n columns, or false if 
+	this method returns true if the current matrix can be safely overwritten by a matrix with m rows by n columns, or false if
 	we need to allocate a new matrix to do the job.
 */
 void Matrix::resizeTo(int m, int n){
@@ -190,7 +195,7 @@ void Matrix::setToProductOf(const Matrix& a, const Matrix& b, bool transA, bool	
 	const size_t MB = (!transB) ? b.matrix->size1 : b.matrix->size2;
 	const size_t NB = (!transB) ? b.matrix->size2 : b.matrix->size1;
 
-	//we might be able to perform the multiplication inplace if: 
+	//we might be able to perform the multiplication inplace if:
 	//	- the current matrix has the correct dimensions
 	//	- the current matrix is different than both a and b
 	//	- NOTE: if either a or b is a shallow copy of a then the results are unpredictable
@@ -205,7 +210,7 @@ void Matrix::setToProductOf(const Matrix& a, const Matrix& b, bool transA, bool	
 		gsl_blas_dgemm(TransA, TransB, 1.0, a.matrix, b.matrix, 0.0, this->matrix);
 		return;
 	}
-	
+
 	Matrix *c = new Matrix((int)MA, (int)NB);
 	//otherwise it means that either a or b is the current matrix, so we'll allocate a new one...
 	gsl_blas_dgemm(TransA, TransB, 1.0, a.matrix, b.matrix, 0.0, c->matrix);
@@ -222,11 +227,11 @@ void Matrix::setToProductOf(const Matrix& a, const Matrix& b, bool transA, bool	
 void Matrix::setToInverseOf(const Matrix &a, double t){
 		if (a.matrix->size1 != a.matrix->size2)
 			throwError("Cannot invert a matrix that is not square");
-	
+
 		int DIM = (int)a.matrix->size1;
 		this->resizeTo(DIM, DIM);
 
-//we'll write some messy code and try to get efficient inverses by means of determinants for 1x1, 2x2 and 3x3 matrices. We'll also safeguard 
+//we'll write some messy code and try to get efficient inverses by means of determinants for 1x1, 2x2 and 3x3 matrices. We'll also safeguard
 //against very small determinants if desired...
 		if (DIM == 1){
 			double a00 = MATRIX_AT(a.matrix, 0, 0);
@@ -241,7 +246,7 @@ void Matrix::setToInverseOf(const Matrix &a, double t){
 			double a12 = MATRIX_AT(a.matrix, 0, 1);
 			double a21 = MATRIX_AT(a.matrix, 1, 0);
 			double a22 = MATRIX_AT(a.matrix, 1, 1);
-			
+
 			double det = a11*a22-a12*a21;
 			if (fabs(det)<t)
 				det = t * fabs(det)/det;
@@ -265,7 +270,7 @@ void Matrix::setToInverseOf(const Matrix &a, double t){
 			double a31 = MATRIX_AT(a.matrix, 2, 0);
 			double a32 = MATRIX_AT(a.matrix, 2, 1);
 			double a33 = MATRIX_AT(a.matrix, 2, 2);
-			
+
 			double det = a11*(a33*a22-a32*a23)-a21*(a33*a12-a32*a13)+a31*(a23*a12-a22*a13);
 
 			if (fabs(det)<t)
@@ -292,14 +297,14 @@ void Matrix::setToInverseOf(const Matrix &a, double t){
 
 		double val, val2;
 		int i, j, k, ind;
-		
+
 		//make a copy of the current matrix
 		Matrix tmp = a;
 
 		this->loadIdentity();
-    
+
 		for (i = 0; i != DIM; i++) {
-			
+
 			val = MATRIX_AT(tmp.matrix, i, i);			/* find pivot */
 			ind = i;
 			for (j = i + 1; j != DIM; j++) {
@@ -308,8 +313,8 @@ void Matrix::setToInverseOf(const Matrix &a, double t){
 					val = MATRIX_AT(tmp.matrix, j, i);
 				}
 			}
-            
-			if (ind != i) {			
+
+			if (ind != i) {
 				for (j = 0; j != DIM; j++) {
 					val2 = MATRIX_AT(this->matrix, i, j);
 					MATRIX_AT(this->matrix,i,j) = MATRIX_AT(this->matrix, ind, j);
@@ -326,13 +331,13 @@ void Matrix::setToInverseOf(const Matrix &a, double t){
 
 			if (IS_ZERO(val))
 				throwError("Matrix is singular.");
-            
+
 			for (j = 0; j != DIM; j++) {
 				MATRIX_AT(tmp.matrix, i, j) /= val;
 				MATRIX_AT(this->matrix, i, j) /= val;
 			}
-        
-			for (j = 0; j != DIM; j++) {		
+
+			for (j = 0; j != DIM; j++) {
 				if (j == i)
 					continue;                       /* eliminate column */
 				val = MATRIX_AT(tmp.matrix, j, i);
@@ -354,7 +359,7 @@ void Matrix::printMatrix() const{
 		for (unsigned int j=0;j<this->matrix->size2;j++)
 			tprintf("%2.6lf\t", this->get(i,j));
 		tprintf("\n");
-	}	
+	}
 }
 
 /**
@@ -433,7 +438,10 @@ void Matrix::add(const Matrix& other, double scaleA, double scaleB){
 	if (scaleA == 1.0 && scaleB == 1)
 		gsl_matrix_add(this->matrix, other.matrix);
 	else
-		gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, scaleB);
+		//gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, scaleB);
+        gsl_matrix_scale(this->matrix, scaleA);
+		gsl_matrix_scale(other.matrix, scaleB);
+		gsl_matrix_add(this->matrix, other.matrix);
 }
 
 /**
@@ -445,7 +453,10 @@ void Matrix::sub(const Matrix& other, double scaleA, double scaleB){
 	if (scaleA == 1.0 && scaleB == 1)
 		gsl_matrix_sub(this->matrix, other.matrix);
 	else
-		gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, -scaleB);	
+		//gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, -scaleB);
+        gsl_matrix_scale(this->matrix, scaleA);
+		gsl_matrix_scale(other.matrix, -scaleB);
+		gsl_matrix_add(this->matrix, other.matrix);
 }
 
 
@@ -489,7 +500,7 @@ void testMatrixClass(){
 	A.loadIdentity();
 	A.set(3,2,5);
 	A.printMatrix();
-	
+
 	tprintf("------\n");
 
 	Matrix B(3,5);
@@ -547,13 +558,13 @@ void testMatrixClass(){
 	C.printMatrix();
 	tprintf("------\n");
 
-	E.printMatrix();	
+	E.printMatrix();
 	tprintf("------\n");
 
 	D.setToSubmatrix(E, 1, 1, 3, 3);
 	D.deepCopy(C);
 
-	E.printMatrix();	
+	E.printMatrix();
 	tprintf("------\n");
 
 

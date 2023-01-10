@@ -1,15 +1,20 @@
 #include "stdafx.h"
 
-#include "vector.h"
+#include "Vector.h"
 
+#ifdef USE_SYSTEM_GSL
+#include <gsl/gsl_blas.h>
+#else
 #include <gsl/blas/gsl_blas.h>
+#endif
+
 #include <Utils/Utils.h>
 
 /**
 	constructor - creates an n row vector that is not initialized to any particular values
 */
 Vector::Vector(int n) : Matrix(n,1){
-	
+
 }
 
 /**
@@ -122,7 +127,7 @@ void Vector::setToRow(const Matrix& A, int row, int start, int howManyCols){
 	//this vector will have as many rows as the row we're copying has columns
 	this->matrix->size1 = howManyCols;
 	this->matrix->size2 = 1;
-	//set this to 1 - as long as on a row of the matrix, elements are packed (i.e. MULTIPLICITY is 1), then this is fine. 
+	//set this to 1 - as long as on a row of the matrix, elements are packed (i.e. MULTIPLICITY is 1), then this is fine.
 	this->matrix->tda = 1;
 	this->matrix->block = A.matrix->block;
 	this->matrix->owner = 0;
@@ -145,7 +150,7 @@ void Vector::setToCol(const Matrix& A, int col, int start, int howManyRows){
 	//this vector will have as many rows as the column we're copying has rows
 	this->matrix->size1 = howManyRows;
 	this->matrix->size2 = 1;
-	//set this to 1 - as long as on a row of the matrix, elements are packed (i.e. MULTIPLICITY is 1), then this is fine. 
+	//set this to 1 - as long as on a row of the matrix, elements are packed (i.e. MULTIPLICITY is 1), then this is fine.
 	this->matrix->tda = A.matrix->tda;
 	this->matrix->block = A.matrix->block;
 	this->matrix->owner = 0;
@@ -177,5 +182,5 @@ void testVectorClass(){
 	v.printVector();
 	tprintf("------\n");
 
-    
+
 }

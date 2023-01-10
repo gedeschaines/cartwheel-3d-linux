@@ -13,6 +13,9 @@
 */
 #define EPSILON 0.0000000001
 
+#ifdef INFINITY
+#undef INFINITY
+#endif
 #define INFINITY DBL_MAX
 
 #define TINY_NUMBER 0.000000001
@@ -115,5 +118,3 @@ inline double linearlyInterpolate(double v1, double v2, double t1, double t2, do
 		return v2;
 	return (t-t1)/(t2-t1) * v2 + (t2-t)/(t2-t1) * v1;
 }
-
-

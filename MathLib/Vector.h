@@ -5,13 +5,16 @@
 
 #include <MathLib/MathLibDll.h>
 
-
 #include <MathLib/MathLib.h>
 #include <MathLib/ThreeTuple.h>
 
-
+#ifdef USE_SYSTEM_GSL
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_vector.h>
+#else
 #include <gsl/matrix/gsl_matrix.h>
 #include <gsl/vector/gsl_vector.h>
+#endif // USE_SYSTEM_GSL
 
 #include <MathLib/Matrix.h>
 
@@ -53,7 +56,7 @@ public:
 	/**
 		copy operator - performs a deep copy of the Vector passed in as a parameter.
 	*/
-	Vector& operator=(const Matrix &other);	
+	Vector& operator=(const Matrix &other);
 
 	/**
 		this method performs a shallow copy of the Vector that is passed in as a parameter.

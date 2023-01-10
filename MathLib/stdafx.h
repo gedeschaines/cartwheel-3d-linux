@@ -5,7 +5,9 @@
 
 #pragma once
 
-#include "targetver.h"
+#if defined _WIN32 || defined __CYGWIN__
+//#include "targetver.h"
+#endif
 
 #include <math.h>
 #include <float.h>
@@ -14,10 +16,11 @@
 #include <string.h>
 #include <malloc.h>
 
-//#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#if defined _WIN32 || defined __CYGWIN__
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
-//#include <windows.h>
-
+#include <windows.h>
+#endif
 
 
 // TODO: reference additional headers your program requires here

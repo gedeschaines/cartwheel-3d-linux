@@ -32,10 +32,13 @@ public:
 	Point3d(double x, double y) : ThreeTuple(x, y){
 	}
 
-	Point3d(ThreeTuple &p) : ThreeTuple(p){
+	Point3d(const ThreeTuple &p) : ThreeTuple(p){
 	}
 
-	Point3d(const Point3d& other){
+    Point3d(const Vector3d& v);
+
+	Point3d(const Point3d& other) :
+	ThreeTuple() {
 		this->x = other.x;
 		this->y = other.y;
 		this->z = other.z;
@@ -52,7 +55,7 @@ public:
 		default destructor.
 	*/
 	~Point3d(){}
-	
+
 	/**
 		this method is used to set the w component.
 	*/
@@ -86,7 +89,7 @@ public:
 	}
 
 	/**
-		difference betewwn two points - results in a vector
+		difference between two points - results in a vector
 	*/
 	Vector3d operator - (const Point3d &p) const;
 

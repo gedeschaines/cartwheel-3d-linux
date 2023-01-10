@@ -1,10 +1,12 @@
 #include "stdafx.h"
 
-#include "transformationmatrix.h"
+#include "TransformationMatrix.h"
+
+#ifdef USE_SYSTEM_GSL
+#include <gsl/gsl_blas.h>
+#else
 #include <gsl/blas/gsl_blas.h>
-
-
-#pragma once
+#endif
 
 #include <MathLib/Matrix.h>
 #include <MathLib/Point3d.h>
@@ -290,7 +292,7 @@ void TransformationMatrix::setToTranspose(){
 
 /**
 	This method returns a matrix that can be used to change coordinate frames, from a local frame to a global one. The three vectors that are
-	passed in as a parameter represent the specifications of the x, y and z axes of the local frame, expressed (in global coordinates)as a function of the 
+	passed in as a parameter represent the specifications of the x, y and z axes of the local frame, expressed (in global coordinates)as a function of the
 	X, Y and Z axes	of the global frame. The origin represents the origin of the local frame in the global one, expressed in global frame coordinates.
 	It is assumed that the vectors form an orthonormal basis!!!
 */
@@ -298,7 +300,7 @@ void TransformationMatrix::setToCoordFrameTransformation(const Vector3d &x, cons
 	//NOTE: The transformation below is equivalent to Ttr * Trot, where Trot transforms the axes of the child (local) frame into the parent (global) frame
 	//and Ttr is the transformation that changes the location of the origin from the child to the parent frame (coordinates expressed in parent frame!!).
 	//The inverse transformation is Trot^-1 * Ttr^-1. TRot^-1 is the transpose of TRot (because it is an orthonormal matrix), and Ttr^-1 is just moving
-	//to -coordinate of origin - the inverse goes from world space to local space (or parent to child) - it is implemented in the method 
+	//to -coordinate of origin - the inverse goes from world space to local space (or parent to child) - it is implemented in the method
 	//getInverseCoordFrameTransformation
 	double data[16]  = {x.x, y.x, z.x, origin.x,
 						x.y, y.y, z.y, origin.y,
@@ -322,8 +324,8 @@ void TransformationMatrix::setToInverseCoordFrameTransformation(){
 }
 
 /*
-	This method returns the inverse of the matrix that is passed in as a parameter, assuming that it (the current matrix) represents a matrix that is 
-	used to change coordinate systems (i.e. go from a local frame to a global one by multiplying by this matrix. The 3x3 matrix in the left, top corner 
+	This method returns the inverse of the matrix that is passed in as a parameter, assuming that it (the current matrix) represents a matrix that is
+	used to change coordinate systems (i.e. go from a local frame to a global one by multiplying by this matrix. The 3x3 matrix in the left, top corner
 	should be orthonormal!!!
 */
 void TransformationMatrix::setToInverseCoordFrameTransformationOf(const TransformationMatrix& other){

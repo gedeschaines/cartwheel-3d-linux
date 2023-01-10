@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "quaternion.h"
+#include "Quaternion.h"
 #include <Utils/Utils.h>
 
 /**
@@ -47,7 +47,7 @@ Quaternion Quaternion::linearlyInterpolateWith(const Quaternion &other, double t
 
 
 /**
-	This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a 
+	This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a
 	unit quaternion).
 */
 Vector3d Quaternion::rotate(const Vector3d& u) const{
@@ -59,7 +59,7 @@ Vector3d Quaternion::rotate(const Vector3d& u) const{
 
 
 /**
-	This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a 
+	This method is used to rotate the vector that is passed in as a parameter by the current quaternion (which is assumed to be a
 	unit quaternion).
 */
 Vector3d Quaternion::inverseRotate(const Vector3d& u) const{
@@ -77,7 +77,7 @@ Vector3d Quaternion::inverseRotate(const Vector3d& u) const{
 */
 Quaternion Quaternion::sphericallyInterpolateWith(const Quaternion &other, double t) const{
 
-	//make sure that we return the same value if either of the quaternions involved is q or -q 
+	//make sure that we return the same value if either of the quaternions involved is q or -q
 	if (this->dotProductWith(other) < 0){
 		Quaternion temp;
 		temp.s = -other.s;
@@ -111,7 +111,7 @@ Quaternion Quaternion::getRotationQuaternion(double angle, const Vector3d &axis)
 */
 void Quaternion::getRotationMatrix(TransformationMatrix* m) const{
 	double w = s, x = v.getX(), y = v.getY(), z = v.getZ();
-	double values[16] = {1-2*y*y-2*z*z,	2*x*y - 2*w*z,	2*x*z + 2*w*y,	0, 
+	double values[16] = {1-2*y*y-2*z*z,	2*x*y - 2*w*z,	2*x*z + 2*w*y,	0,
 						 2*x*y + 2*w*z,	1-2*x*x-2*z*z,	2*y*z - 2*w*x,	0,
 						 2*x*z - 2*w*y,	2*y*z + 2*w*x,	1-2*x*x-2*y*y,	0,
 								0,			0,				0,			1};
@@ -247,7 +247,7 @@ Quaternion Quaternion::decomposeRotation(const Vector3d vB) const{
 	With v specified in frame C's coordinates, this method decomposes the current relative rotation, such that:
 
 	PqC = qA * qB, where qB represents a rotation about axis v.
-	
+
 	This can be thought of us as a twist about axis v - qB - and a more general rotation, and swing
 	- qA - decomposition. Note that qB can be thought of as a rotation from the C frame into a tmp trame T,
 	and qA a rotation from T into P.

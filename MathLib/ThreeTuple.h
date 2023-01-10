@@ -1,17 +1,13 @@
 #pragma once
 
 #include <stdio.h>
-
 #include <Utils/Utils.h>
-
 #include <MathLib/MathLibDll.h>
-
-#include <MathLib/mathLib.h>
-
+#include <MathLib/MathLib.h>
 
 
 class MATHLIB_DECLSPEC ThreeTuple {
-	
+
 //these variables are declared public because they provide faster access
 public:
 	double x;
@@ -20,13 +16,14 @@ public:
 
 public:
 	/**
-		some useful constructors 
+		some useful constructors
 	*/
 	ThreeTuple();
-	ThreeTuple(ThreeTuple&);
+	ThreeTuple(const ThreeTuple&);
 	ThreeTuple(double x, double y, double z);
 	ThreeTuple(double x, double y);
 	ThreeTuple(double*);
+	ThreeTuple(double value);
 	~ThreeTuple();
 
 	/**
@@ -80,11 +77,19 @@ public:
 	inline bool operator != (const ThreeTuple& p) const{
 		return !(*this == p);
 	}
+
+    /**
+		This method prints the x, y and z components.
+	*/
+	inline void _print(){
+		fprintf(stdout, "(%lf, %lf, %lf)\n", this->x, this->y, this->z);
+	}
+
 	/**
 		This method is used for debugging purposes. It prints the x, y and z components.
 	*/
 	inline void printTuple(){
-		tprintf("(%lf, %lf, %lf)\n", x, y, z);
+		int result = tprintf("(%lf, %lf, %lf)\n", this->x, this->y, this->z);
 	}
 
 
