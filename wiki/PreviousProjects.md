@@ -27,4 +27,4 @@ The character animation group at UBC has been working on Simbicon for a while no
 
   * _KangKang Yin, Kevin Loken, Michiel van de Panne. SIMBICON: Simple Biped Locomotion Control. ACM Transactions on Graphics 26 (3), 2008. (Proc. of SIGGRAPH)_
   * See the [project page](http://cs.ubc.ca/~van/papers/Simbicon.htm).
-  * Play with the [java applet](http://www.cs.ubc.ca/~scoros/JSimbicon/Simbicon.html).
+  * Play with the [java applet](https://github.com/gedeschaines/JSimbicon).
