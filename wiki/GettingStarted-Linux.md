@@ -2,7 +2,7 @@
 ---
 ## Introduction ##
 
-This page will give you all the steps required to compile and execute the project on a x86_64 GNU/Linux platform. Right now it works uunder Ubuntu 18.04 LTS and this document focuses on a Code::Blocks + Spyder IDE environment.
+This page will give you all the steps required to compile and execute the project on a x86_64 GNU/Linux platform. Right now it works under Ubuntu 18.04 LTS and this document focuses on a Code::Blocks + Spyder IDE environment.
 
 ## Initial set-up ##
 
