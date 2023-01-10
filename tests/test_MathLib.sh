@@ -8,7 +8,7 @@
 #       MathLib library components such as implementation of Pythonized Vector3d
 #       element indexing.
 
-INCS="-I${CW3D_HOME} -I{CW3D_HOME}/Utils -I{CW3D_HOME}/MathLib"
+INCS="-I${CW3D_HOME} -I${CW3D_HOME}/Utils -I${CW3D_HOME}/MathLib"
 LIBS="-L${CW3D_HOME}/lib/Debug -l_Utils -l_MathLib"
 
 # Build test_MathLib.exe
