@@ -19,7 +19,7 @@ In additon to `build-essential`, `gcc`, `swig3`, `git`, `python2`, `codeblocks` 
 * libgsl-dev
 * libgslcblas0
 
-Additionally, the `python-opengl` package is required to run the Basic Editor and `ffmpeg` is used to combine a sequence of saved screenshot BMP image files into a MP4 video file (see [bmptomp4](../tools/bmptomp4) shell script).
+Additionally, `python-wxgtk3.0` and `python-opengl` packages are required to run the Basic Editor and `ffmpeg` is used to combine a sequence of saved screenshot BMP image files into a MP4 video file (see [bmptomp4](../tools/bmptomp4) shell script).
 
 **Important!** The project creates shared libraries and Python library interface modules in `$CW3D_HOME/lib/[Release|Debug]`. You will therefore need to add those directories to your LD_LIBRARY_PATH and PYTHONPATH environment variables as is done in the `start_*` shell scripts if you intend to execute the Basic Editor or other cartwheel-3d Python scripts external to the `start_*` scripts or Spyder-IDE.
 
