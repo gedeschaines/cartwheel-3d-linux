@@ -1,4 +1,4 @@
-#include ".\stiffjoint.h"
+#include "StiffJoint.h"
 
 #include <Physics/ArticulatedRigidBody.h>
 

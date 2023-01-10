@@ -22,7 +22,7 @@ int Joint::getJointLimitsToEnforce(const Quaternion& qRel, const Vector3d &relAn
 /**
 	This method is used to set up the P matrix using the vectors in the constrained vector above.
 */
-void Joint::setUpProjectionMatrix(){
+void RBDynJoint::setUpProjectionMatrix(){
 	if (cVecs.size()==0 || cVecs.size()>3)
 		return;
 

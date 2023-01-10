@@ -1,29 +1,29 @@
 /*
-	Simbicon 1.5 Controller Editor Framework, 
+	Simbicon 1.5 Controller Editor Framework,
 	Copyright 2009 Stelian Coros, Philippe Beaudoin and Michiel van de Panne.
 	All rights reserved. Web: www.cs.ubc.ca/~van/simbicon_cef
 
 	This file is part of the Simbicon 1.5 Controller Editor Framework.
 
-	Simbicon 1.5 Controller Editor Framework is free software: you can 
+	Simbicon 1.5 Controller Editor Framework is free software: you can
 	redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
-	Simbicon 1.5 Controller Editor Framework is distributed in the hope 
-	that it will be useful, but WITHOUT ANY WARRANTY; without even the 
-	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+	Simbicon 1.5 Controller Editor Framework is distributed in the hope
+	that it will be useful, but WITHOUT ANY WARRANTY; without even the
+	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with Simbicon 1.5 Controller Editor Framework. 
+	along with Simbicon 1.5 Controller Editor Framework.
 	If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
 
-#include <typeinfo>
+#include <Utils/TypeName.h>
 
 #include <MathLib/Vector3d.h>
 #include <MathLib/Quaternion.h>
@@ -64,10 +64,10 @@ protected:
 	ArticulatedRigidBody* parent;
 	//this is the location of the joint on the parent body - expressed in the parent's local coordinates
 	Point3d pJPos;
-	
+
 	//this is the child link
 	ArticulatedRigidBody* child;
-	//this is the location of the joint on the child body - expressed in the child's local coordinates 
+	//this is the location of the joint on the child body - expressed in the child's local coordinates
 	//NOTE: the locations of the parent and child joint locations must overlap in world coordinates
 	Point3d cJPos;
 	//this variable is used to indicate if this joint has joint limits or not (the details regarding the limits are specified on a per joint type basis)
@@ -91,7 +91,7 @@ protected:
 	Quaternion tmpQ1, tmpQ2, tmpQ3, tmpQ4;
 
 	/**
-		This method is used to compute the relative orientation between the parent and the child rigid bodies, expressed in 
+		This method is used to compute the relative orientation between the parent and the child rigid bodies, expressed in
 		the frame coordinate of the parent.
 	*/
 	void computeRelativeOrientation(Quaternion& qRel);
@@ -125,8 +125,15 @@ public:
 	*/
 	virtual ~Joint(void);
 
-	const char* typeName(){
-		return typeid(*this).name();
+	//const char* typeName() {
+	//	return typeid(*this).name();
+	//}
+
+    /**
+        type name
+    */
+	const char* typeName() {
+		return classType(*this);
 	}
 
 	/**

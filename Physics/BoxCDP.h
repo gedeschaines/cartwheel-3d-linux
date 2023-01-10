@@ -24,9 +24,10 @@ public:
 		p2(point2) {}
 	BoxCDP(RigidBody* theBody = NULL ) :
 		CollisionDetectionPrimitive( BOX_CDP, theBody ) {}
+
 	virtual ~BoxCDP(void);
 
-	virtual char* save() { return "BoxCDP"; }
+	virtual const char* save() { return "BoxCDP"; }
 
 	virtual void updateToWorldPrimitive(){}
 

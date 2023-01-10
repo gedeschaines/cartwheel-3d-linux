@@ -61,7 +61,7 @@ public:
 		This method adds one rigid body (articulated or not).
 	*/
 	virtual void addArticulatedRigidBody( ArticulatedRigidBody* articulatedRigidBody_disown );
-	
+
 	ArticulatedRigidBody* getArticulatedRigidBody( int i ) { return arbs[i]; }
 	int getArticulatedRigidBodyCount() const { return arbs.size(); }
 
@@ -76,14 +76,14 @@ public:
 	/**
 		This method returns an ARB that is a child of this articulated figure
 	*/
-	ArticulatedRigidBody* getARBByName(char* name) const {
+	ArticulatedRigidBody* getARBByName(const char* name) const {
 		if( root != NULL ) {
-			if (strcmp(root->name, name) == NULL)
+			if (strcmp(root->name, name) == 0)
 				return root;
 		}
 
 		for (uint i=0;i<arbs.size();i++)
-			if (strcmp(arbs[i]->name, name) == NULL)
+			if (strcmp(arbs[i]->name, name) == 0)
 				return arbs[i];
 		return NULL;
 	}
@@ -92,7 +92,7 @@ public:
 		This is an empty function as the joints are not tracked
 		by the ArticulatedFigure.
 		This makes it possible to disown Python of the joint pointer
-		so that it doesn't garbage collect it. 
+		so that it doesn't garbage collect it.
 		The real place where Python should be disowned is when
 		Joint.setParent() is called since the parent is responsible
 		for deleting the joint. However, I don't know how to force
@@ -149,9 +149,9 @@ public:
 		this method is used to return a reference to the joint whose name is passed as a parameter, or NULL
 		if it is not found.
 	*/
-	inline Joint* getJointByName(char* jName){
+	inline Joint* getJointByName(const char* jName){
 		for (uint i=0;i<joints.size();i++)
-			if (strcmp(joints[i]->name, jName) == NULL)
+			if (strcmp(joints[i]->name, jName) == 0)
 				return joints[i];
 		return NULL;
 	}
@@ -161,7 +161,7 @@ public:
 	*/
 	inline int getJointIndex(const char* jName){
 		for (uint i=0;i<joints.size();i++)
-			if (strcmp(joints[i]->name, jName) == NULL)
+			if (strcmp(joints[i]->name, jName) == 0)
 				return i;
 		return -1;
 	}

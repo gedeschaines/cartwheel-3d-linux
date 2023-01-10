@@ -1,4 +1,4 @@
-#include ".\planecdp.h"
+#include "PlaneCDP.h"
 #include <Physics/SphereCDP.h>
 #include <Physics/CapsuleCDP.h>
 #include <Physics/RigidBody.h>
@@ -6,7 +6,7 @@
 PlaneCDP::~PlaneCDP(void){
 }
 
-	
+
 /**
 	Draw an outline of the capsule
 */

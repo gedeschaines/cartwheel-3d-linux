@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <assert.h>
 
 #include "World.h"
 #include <Physics/RBUtils.h>
@@ -67,16 +68,16 @@ void World::drawRBs(int flags){
 }
 
 /**
-	This method renders all the rigid bodies as a set of vertices 
+	This method renders all the rigid bodies as a set of vertices
 	and faces that will be appended to the passed OBJ file.
 
 	vertexIdxOffset indicates the index of the first vertex for this object, this makes it possible to render
 	multiple different meshes to the same OBJ file
-	
+
 	Returns the number of vertices written to the file
 */
 uint World::renderRBsToObjFile(FILE* fp, uint vertexIdxOffset){
-	
+
 	uint nbVerts = 0;
 	for (uint i=0;i<objects.size();i++)
 		nbVerts += objects[i]->renderToObjFile(fp, vertexIdxOffset + nbVerts);
@@ -86,7 +87,7 @@ uint World::renderRBsToObjFile(FILE* fp, uint vertexIdxOffset){
 
 
 /**
-	This method returns the reference to the first articulated rigid body with 
+	This method returns the reference to the first articulated rigid body with
 	its name and its articulared figure name, or NULL if it is not found
 */
 ArticulatedRigidBody* World::getARBByName(char* name, char* articulatedFigureName){
@@ -101,7 +102,7 @@ ArticulatedRigidBody* World::getARBByName(char* name, char* articulatedFigureNam
 }
 
 /**
-	This method returns the reference to the first articulated rigid body with 
+	This method returns the reference to the first articulated rigid body with
 	its name and its articulared figure name, or NULL if it is not found
 */
 ArticulatedRigidBody* World::getARBByName(char* name, const ArticulatedFigure* articulatedFigure){
@@ -128,7 +129,7 @@ RigidBody* World::getRBByName(char* name){
 /**
 	This method reads a list of rigid bodies from the specified file.
 */
-void World::loadRBsFromFile(char* fName){
+void World::loadRBsFromFile(const char* fName){
 	if (fName == NULL)
 		throwError("NULL file name provided.");
 	FILE *f = fopen(fName, "r");
@@ -142,7 +143,7 @@ void World::loadRBsFromFile(char* fName){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);

@@ -3,7 +3,7 @@
 */
 #pragma once
 
-#include <MathLib/mathLib.h>
+#include <MathLib/MathLib.h>
 #include <MathLib/Sphere.h>
 #include <MathLib/Plane.h>
 #include <MathLib/Capsule.h>
@@ -95,7 +95,7 @@ PHYSICS_DECLSPEC inline int getContactPoints(Plane* a, Capsule* b, DynamicArray<
 PHYSICS_DECLSPEC inline int getContactPoints(Capsule* a, Sphere* b, DynamicArray<ContactPoint> *cps){
 	//a capsule is really an infinite number of spheres, whose centers lie on a segment.
 	//so we need to find the point on the segment that is closest to the center of the sphere,
-	//and then we'll use the two spheres that 
+	//and then we'll use the two spheres that
 	Segment s(a->p1, a->p2);
 	Sphere tmpSphere;
 	s.getClosestPointTo(b->pos, &tmpSphere.pos);
@@ -117,11 +117,13 @@ PHYSICS_DECLSPEC inline int getContactPoints(Capsule* a, Capsule* b, DynamicArra
 	//a capsule is really an infinite number of spheres, whose centers lie on a segment.
 	//so we need to find the closest segment between the segments of the two capsules,
 	//then we'll place some spheres at the end points of that segment, and get the collisions
-	//of that the 
+	//of that the
 	Segment s;
 
 	Segment(a->p1, a->p2).getShortestSegmentTo(Segment(b->p1, b->p2), &s);
-	
-	return getContactPoints(&Sphere(s.a, a->radius), &Sphere(s.b, b->radius), cps);
-}
 
+	Sphere s1(s.a, a->radius);
+ 	Sphere s2(s.b, b->radius);
+
+    return getContactPoints(&s1, &s2, cps);
+}

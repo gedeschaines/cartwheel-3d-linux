@@ -24,7 +24,7 @@ private:
 	Plane p;
 	//and this is the plane expressed in world coordinates
 	Plane wP;
-	
+
 public:
 	PlaneCDP(const Vector3d& normal, const Point3d& origin, RigidBody* theBody = NULL ) :
 	  CollisionDetectionPrimitive( PLANE_CDP, theBody )
@@ -37,7 +37,7 @@ public:
 		CollisionDetectionPrimitive( PLANE_CDP, theBody ) {}
 	~PlaneCDP(void);
 
-	virtual char* save() { return "PlaneCDP"; }
+	virtual const char* save() { return "PlaneCDP"; }
 
 	virtual void updateToWorldPrimitive();
 

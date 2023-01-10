@@ -1,4 +1,4 @@
-#include ".\spherecdp.h"
+#include "SphereCDP.h"
 #include <GLUtils/GLUtils.h>
 #include <MathLib/Segment.h>
 #include <Physics/CapsuleCDP.h>

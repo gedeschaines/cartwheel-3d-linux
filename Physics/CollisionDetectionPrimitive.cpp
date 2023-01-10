@@ -1,4 +1,4 @@
-#include ".\Collisiondetectionprimitive.h"
+#include "CollisionDetectionPrimitive.h"
 #include <Physics/RigidBody.h>
 #include <Utils/Utils.h>
 

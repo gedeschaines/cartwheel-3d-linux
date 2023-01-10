@@ -1,4 +1,4 @@
-#include ".\hingejoint.h"
+#include "HingeJoint.h"
 #include <Utils/Utils.h>
 
 #include <Physics/ArticulatedRigidBody.h>

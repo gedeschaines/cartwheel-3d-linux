@@ -14,7 +14,7 @@
 /*========================================================================================================================================================================*
  * This class implements a sphere class that will be used as a collision detection primitive.                                                                             *
  * A sphere is represented by the position of the center and the radius length. We will also store a temp position for the world coordinates of the center of the sphere. *
- * This will be used when evaluating the contact points with other primitives, and it will be automatically 
+ * This will be used when evaluating the contact points with other primitives, and it will be automatically
  *========================================================================================================================================================================*/
 class PHYSICS_DECLSPEC SphereCDP : public CollisionDetectionPrimitive{
 friend class CapsuleCDP;
@@ -34,10 +34,10 @@ public:
 
 	SphereCDP( RigidBody* theBody = NULL ) :
 	  CollisionDetectionPrimitive( SPHERE_CDP, theBody ) {}
-	
+
 	virtual ~SphereCDP(void);
 
-	virtual char* save() { return "SphereCDP"; }
+	virtual const char* save() { return "SphereCDP"; }
 
 	virtual void updateToWorldPrimitive();
 
@@ -85,7 +85,7 @@ public:
 	virtual int computeCollisionsWithSphereCDP(SphereCDP* sp,  DynamicArray<ContactPoint> *cps){
 		return getContactPoints(&this->wS, &sp->wS, cps);
 	}
-	
+
 	virtual int computeCollisionsWithPlaneCDP(PlaneCDP* p,  DynamicArray<ContactPoint> *cps);
 	virtual int computeCollisionsWithCapsuleCDP(CapsuleCDP* sp,  DynamicArray<ContactPoint> *cps);
 	virtual int computeCollisionsWithBoxCDP(BoxCDP* sp,  DynamicArray<ContactPoint> *cps){return 0;}

@@ -1,27 +1,27 @@
 /*
-	Simbicon 1.5 Controller Editor Framework, 
+	Simbicon 1.5 Controller Editor Framework,
 	Copyright 2009 Stelian Coros, Philippe Beaudoin and Michiel van de Panne.
 	All rights reserved. Web: www.cs.ubc.ca/~van/simbicon_cef
 
 	This file is part of the Simbicon 1.5 Controller Editor Framework.
 
-	Simbicon 1.5 Controller Editor Framework is free software: you can 
+	Simbicon 1.5 Controller Editor Framework is free software: you can
 	redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
-	Simbicon 1.5 Controller Editor Framework is distributed in the hope 
-	that it will be useful, but WITHOUT ANY WARRANTY; without even the 
-	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+	Simbicon 1.5 Controller Editor Framework is distributed in the hope
+	that it will be useful, but WITHOUT ANY WARRANTY; without even the
+	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with Simbicon 1.5 Controller Editor Framework. 
+	along with Simbicon 1.5 Controller Editor Framework.
 	If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include ".\rigidbody.h"
+#include "RigidBody.h"
 #include <Physics/RBUtils.h>
 #include <GLUtils/OBJReader.h>
 #include <Physics/CapsuleCDP.h>
@@ -112,7 +112,7 @@ void RigidBody::draw(int flags){
 		return;
 	//multiply the gl matrix with the transformations needed to go from local space into world space
 	glPushMatrix();
-	
+
 	GLboolean lighting = glIsEnabled(GL_LIGHTING);
 
 	TransformationMatrix toWorld;
@@ -191,12 +191,12 @@ void RigidBody::updateWorldCDPs(){
 }
 
 /**
-	This method renders the rigid body in its current state as a set of vertices 
+	This method renders the rigid body in its current state as a set of vertices
 	and faces that will be appended to the passed OBJ file.
 
 	vertexIdxOffset indicates the index of the first vertex for this object, this makes it possible to render
 	multiple different meshes to the same OBJ file
-	 
+
 	Returns the number of vertices written to the file
 */
 uint RigidBody::renderToObjFile(FILE* fp, uint vertexIdxOffset) {
@@ -236,7 +236,7 @@ void RigidBody::loadFromFile(FILE* f){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);
@@ -362,7 +362,7 @@ void RigidBody::addMeshObj( char* objFilename, const Vector3d& offset, const Vec
 /**
 	This method sets the colour of the last mesh loaded
 */
-void RigidBody::setColour( double r, double g, double b, double a ) {	
+void RigidBody::setColour( double r, double g, double b, double a ) {
 	if (meshes.size()>0)
 		meshes[meshes.size()-1]->setColour(r, g, b, a);
 }

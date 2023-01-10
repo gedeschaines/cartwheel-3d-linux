@@ -103,7 +103,7 @@ void ArticulatedFigure::loadFromFile(FILE* f, World* world){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);

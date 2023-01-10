@@ -1,4 +1,4 @@
-#include ".\ballinsocketjoint.h"
+#include "BallInSocketJoint.h"
 #include <Utils/Utils.h>
 
 #include <Physics/ArticulatedRigidBody.h>

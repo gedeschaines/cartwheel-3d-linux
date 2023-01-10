@@ -12,8 +12,8 @@
 
 /*========================================================================================================================================================================*
  * This class implements a capsule class that will be used as a collision detection primitive.                                                                            *
- * A capsule is represented by the position of the two end points and the radius length. We will also store a temp position for the world coordinates of the endppoints   * 
- * of the capsule. This will be used when evaluating the contact points with other primitives, and it needs to be updated any time the world position of the object that  *                      
+ * A capsule is represented by the position of the two end points and the radius length. We will also store a temp position for the world coordinates of the endppoints   *
+ * of the capsule. This will be used when evaluating the contact points with other primitives, and it needs to be updated any time the world position of the object that  *
  * owns this capsule changes.                                                                                                                                             *
  *========================================================================================================================================================================*/
 class PHYSICS_DECLSPEC CapsuleCDP : public CollisionDetectionPrimitive{
@@ -30,13 +30,13 @@ public:
 	  CollisionDetectionPrimitive( CAPSULE_CDP, theBody ) {
 		c.p1 = point1;
 		c.p2 = point2;
-		c.radius = radius; 
+		c.radius = radius;
 	}
 	CapsuleCDP(RigidBody* theBody = NULL) :
 		CollisionDetectionPrimitive( CAPSULE_CDP, theBody ) {}
 	~CapsuleCDP(void);
-	
-	virtual char* save() { return "CapsuleCDP"; }
+
+	virtual const char* save() { return "CapsuleCDP"; }
 
 	virtual void updateToWorldPrimitive();
 

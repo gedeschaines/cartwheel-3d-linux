@@ -1,4 +1,4 @@
-#include ".\rbproperties.h"
+#include "RBProperties.h"
 
 /**
 	default constructor.

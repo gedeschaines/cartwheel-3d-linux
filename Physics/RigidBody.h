@@ -1,25 +1,25 @@
 /*
-	Simbicon 1.5 Controller Editor Framework, 
+	Simbicon 1.5 Controller Editor Framework,
 	Copyright 2009 Stelian Coros, Philippe Beaudoin and Michiel van de Panne.
 	All rights reserved. Web: www.cs.ubc.ca/~van/simbicon_cef
 
 	This file is part of the Simbicon 1.5 Controller Editor Framework.
 
-	Simbicon 1.5 Controller Editor Framework is free software: you can 
+	Simbicon 1.5 Controller Editor Framework is free software: you can
 	redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
 	You should have received a copy of the GNU General Public License
-	along with Simbicon 1.5 Controller Editor Framework. 
+	along with Simbicon 1.5 Controller Editor Framework.
 	If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
 
+#include <Utils/TypeName.h>
 #include <Utils/Utils.h>
-
 
 #include <MathLib/TransformationMatrix.h>
 
@@ -104,8 +104,8 @@ public:
 	*/
 	virtual ~RigidBody(void);
 
-	const char* typeName(){
-		return typeid(*this).name();
+    const char* typeName(){
+		return classType(*this);
 	}
 
 	void setExternalForce( const Vector3d& ef ) { externalForce = ef; }
@@ -160,7 +160,7 @@ public:
 		This method sets the world coordinate of the posision of the center of mass of the object
 	*/
 	inline void setCMPosition(const Point3d& newCMPos){
-		state.position = newCMPos;		
+		state.position = newCMPos;
 	}
 
 	/**
@@ -208,12 +208,12 @@ public:
 	virtual void draw(int flags);
 
 	/**
-		This method renders the rigid body in its current state as a set of vertices 
+		This method renders the rigid body in its current state as a set of vertices
 		and faces that will be appended to the passed OBJ file.
 
 		vertexIdxOffset indicates the index of the first vertex for this object, this makes it possible to render
 		multiple different meshes to the same OBJ file
-		 
+
 		Returns the number of vertices written to the file
 	*/
 	uint renderToObjFile(FILE* fp, uint vertexIdxOffset);
@@ -293,7 +293,7 @@ public:
 		cdp_disown->attachBody( this );
 		cdps.push_back( cdp_disown );
 	}
-	
+
 	CollisionDetectionPrimitive* getCollisionDetectionPrimitive( int index ) {
 		return cdps[index];
 	}
@@ -301,7 +301,7 @@ public:
 	int getCollisionDetectionPrimitiveCount() const {
 		return cdps.size();
 	}
-	
+
 	/**
 		This method makes it possible to lock the body
 	*/
@@ -337,7 +337,7 @@ public:
 		props.groundSoftness = softness;
 		props.groundPenalty = penalty;
 	}
-	
+
 	double getODEGroundSoftness() const { return props.groundSoftness; }
 	double getODEGroundPenalty() const { return props.groundPenalty; }
 

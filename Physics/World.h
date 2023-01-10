@@ -22,7 +22,7 @@ private:
 protected:
 	//this is a list of all the objects in the world
 	DynamicArray<RigidBody*> objects;
-	//keep a list of all the articulated rigid bodies in the world as well, because we need to make sure that the user 
+	//keep a list of all the articulated rigid bodies in the world as well, because we need to make sure that the user
 	//only ever links through joints articulated bodies, not just simple rigid bodies
 	DynamicArray<ArticulatedRigidBody*> ABs;
 	//we will also keep a list of all the articulated figures in the world, because we will need to access their joints, etc.
@@ -44,7 +44,7 @@ protected:
 
 public:
 	inline static World& instance() {
-		if( _instance == NULL ) create();	
+		if( _instance == NULL ) create();
 		return *_instance;
 	}
 
@@ -57,12 +57,12 @@ public:
 	void drawRBs(int flags = SHOW_MESH);
 
 	/**
-		This method renders all the rigid bodies as a set of vertices 
+		This method renders all the rigid bodies as a set of vertices
 		and faces that will be appended to the passed OBJ file.
 
 		vertexIdxOffset indicates the index of the first vertex for this object, this makes it possible to render
 		multiple different meshes to the same OBJ file
-		 
+
 		Returns the number of vertices written to the file
 	*/
 	uint renderRBsToObjFile(FILE* fp, uint vertexIdxOffset);
@@ -83,7 +83,7 @@ public:
 	/**
 		This method reads a list of rigid bodies from the specified file.
 	*/
-	virtual void loadRBsFromFile(char* fName);
+	virtual void loadRBsFromFile(const char* fName);
 
 	/**
 		This method adds one rigid body (articulated or not).
@@ -96,13 +96,13 @@ public:
 	virtual void addArticulatedFigure( ArticulatedFigure* articulatedFigure_disown );
 
 	/**
-		This method returns the reference to the first articulated rigid body with 
+		This method returns the reference to the first articulated rigid body with
 		its name and its articulared figure name, or NULL if it is not found
 	*/
 	ArticulatedRigidBody* getARBByName(char* name, char* articulatedFigureName = NULL);
 
 	/**
-		This method returns the reference to the first articulated rigid body with 
+		This method returns the reference to the first articulated rigid body with
 		its name and its articulared figure name, or NULL if it is not found
 	*/
 	ArticulatedRigidBody* getARBByName(char* name, const ArticulatedFigure* articulatedFigure);

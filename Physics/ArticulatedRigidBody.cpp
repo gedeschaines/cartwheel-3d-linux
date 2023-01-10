@@ -1,4 +1,4 @@
-#include "articulatedrigidbody.h"
+#include "ArticulatedRigidBody.h"
 #include <Physics/Joint.h>
 
 
@@ -19,7 +19,7 @@ void ArticulatedRigidBody::draw(int flags){
 		GLboolean lighting = glIsEnabled(GL_LIGHTING);
 		if (lighting){
 			glDisable(GL_LIGHTING);
-			
+
 			Point3d start = state.position;
 
 			if (this->pJoint)
@@ -41,7 +41,7 @@ void ArticulatedRigidBody::draw(int flags){
 	}
 
 	RigidBody::draw(flags);
-	
+
 	if (!pJoint)
 		return;
 

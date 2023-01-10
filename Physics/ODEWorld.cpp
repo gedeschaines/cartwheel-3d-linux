@@ -1,5 +1,5 @@
 #include "ODEWorld.h"
-#include <Utils/utils.h>
+#include <Utils/Utils.h>
 #include <Physics/Joint.h>
 #include <Physics/StiffJoint.h>
 #include <Physics/HingeJoint.h>
@@ -7,10 +7,13 @@
 #include <Physics/BallInSocketJoint.h>
 #include <Physics/PhysicsGlobals.h>
 
+#include <algorithm>
+
 /**
 	Default constructor
 */
 ODEWorld::ODEWorld() : World(){
+    dInitODE();
 	setupWorld();
 }
 
@@ -19,7 +22,7 @@ ODEWorld::ODEWorld() : World(){
 */
 ODEWorld::~ODEWorld(void){
 	//destroy the ODE physical world, simulation space and joint group
-	
+
 	dCloseODE();
 }
 
@@ -29,7 +32,7 @@ void ODEWorld::destroyWorld() {
 	delete pcQuery;
 	dJointGroupDestroy(contactGroupID);
 	dSpaceDestroy(spaceID);
-	dWorldDestroy(worldID);	
+	dWorldDestroy(worldID);
 	odeToRbs.clear();
 	World::destroyWorld();
 }
@@ -41,12 +44,12 @@ void ODEWorld::setupWorld() {
 
 	//set a few of the constants that ODE needs to be aware of
 	dWorldSetContactSurfaceLayer(worldID,0.001);							// the ammount of interpenetration allowed between objects
-	dWorldSetContactMaxCorrectingVel(worldID, 1.0);							// maximum velocity that contacts are allowed to generate  
+	dWorldSetContactMaxCorrectingVel(worldID, 1.0);							// maximum velocity that contacts are allowed to generate
 
 	//set the gravity...
 	Vector3d gravity = PhysicsGlobals::up * PhysicsGlobals::gravity;
-	dWorldSetGravity(worldID, gravity.x, gravity.y, gravity.z);	
-	
+	dWorldSetGravity(worldID, gravity.x, gravity.y, gravity.z);
+
 	//Initialize the world, simulation space and joint groups
     spaceID = dHashSpaceCreate(0);
 	contactGroupID = dJointGroupCreate(0);
@@ -96,7 +99,7 @@ void ODEWorld::setODEStateFromRB(int i){
 	tempQ[1] = odeToRbs[i].rb->state.orientation.v.x;
 	tempQ[2] = odeToRbs[i].rb->state.orientation.v.y;
 	tempQ[3] = odeToRbs[i].rb->state.orientation.v.z;
-	
+
 	dBodySetPosition(odeToRbs[i].id, odeToRbs[i].rb->state.position.x, odeToRbs[i].rb->state.position.y, odeToRbs[i].rb->state.position.z);
 	dBodySetQuaternion(odeToRbs[i].id, tempQ);
 	dBodySetLinearVel(odeToRbs[i].id, odeToRbs[i].rb->state.velocity.x, odeToRbs[i].rb->state.velocity.y, odeToRbs[i].rb->state.velocity.z);
@@ -104,7 +107,7 @@ void ODEWorld::setODEStateFromRB(int i){
 }
 
 /**
-	this method is used to copy the state of the ith rigid body, from the ode object to its rigid body counterpart 
+	this method is used to copy the state of the ith rigid body, from the ode object to its rigid body counterpart
 */
 void ODEWorld::setRBStateFromODE(int i){
 	const dReal *tempData;
@@ -121,8 +124,8 @@ void ODEWorld::setRBStateFromODE(int i){
 	   quat_ptr = dBodyGetQuaternion( odeToRbs[i].id );
 	   quat[0] = quat_ptr[0];
 	   quat[1] = quat_ptr[1];
-	   quat[2] = 0; 
-	   quat[3] = 0; 
+	   quat[2] = 0;
+	   quat[3] = 0;
 	   quat_len = sqrt( quat[0] * quat[0] + quat[1] * quat[1] );
 	   quat[0] /= quat_len;
 	   quat[1] /= quat_len;
@@ -196,7 +199,7 @@ dGeomID ODEWorld::getCapsuleGeom(CapsuleCDP* c){
 	Point3d b = c->getPoint2();
 	Vector3d ab(a, b);
 	dGeomID g = dCreateCCylinder(0, c->getRadius(), ab.length());
-	
+
 	Point3d cen = a + ab/2.0;
 	dGeomSetPosition(g, cen.x, cen.y, cen.z);
 
@@ -210,7 +213,7 @@ dGeomID ODEWorld::getCapsuleGeom(CapsuleCDP* c){
 	double rotAngle = defA.angleWith(ab);
 
 	Quaternion relOrientation = Quaternion::getRotationQuaternion(rotAngle, axis);
-	
+
 	dQuaternion q;
 	q[0] = relOrientation.s;
 	q[1] = relOrientation.v.x;
@@ -312,7 +315,7 @@ void ODEWorld::setupODEBallAndSocketJoint(BallInSocketJoint* basj){
 
 	dJointSetAMotorParam(aMotor, dParamLoStop, basj->minSwingAngle1);
 	dJointSetAMotorParam(aMotor, dParamHiStop, basj->maxSwingAngle1);
-	
+
 	dJointSetAMotorParam(aMotor, dParamLoStop2, basj->minSwingAngle2);
 	dJointSetAMotorParam(aMotor, dParamHiStop2, basj->maxSwingAngle1);
 
@@ -410,7 +413,7 @@ void ODEWorld::loadRBsFromFile(char* fName){
 	// Check every newly added articulated figures
 	for (uint i=index_afs;i<AFs.size();i++){
 
-		// For each, add the articulated bodies they contain to ODE		
+		// For each, add the articulated bodies they contain to ODE
 		for (uint j=0;j<objects.size();j++){
 			if( !objects[j]->isArticulated() )
 				continue;
@@ -469,7 +472,7 @@ void ODEWorld::addRigidBody( RigidBody* rigidBody ) {
 void ODEWorld::addArticulatedFigure(ArticulatedFigure* articulatedFigure){
 	World::addArticulatedFigure( articulatedFigure );
 
-	// Add the articulated bodies contained into that figure to ODE		
+	// Add the articulated bodies contained into that figure to ODE
 	for (uint j=0;j<objects.size();j++){
 		if( !objects[j]->isArticulated() )
 			continue;
@@ -508,14 +511,14 @@ void ODEWorld::addArticulatedFigure(ArticulatedFigure* articulatedFigure){
 	This methods creates an ODE object and links it to the passed RigidBody
 */
 void ODEWorld::linkRigidBodyToODE( int index ) {
-	
-	RigidBody* rigidBody = odeToRbs[index].rb; 
+
+	RigidBody* rigidBody = odeToRbs[index].rb;
 
 	//CREATE AND LINK THE ODE BODY WITH OUR RIGID BODY
 	//if the body is fixed, we'll only create the colission detection primitives
 	if (!rigidBody->isLocked()){
 		odeToRbs[index].id = dBodyCreate(worldID);
-		//the ID of this rigid body will be its index in the 
+		//the ID of this rigid body will be its index in the
 		rigidBody->setBodyID( index );
 		//we will use the user data of the object to store the index in this mapping as well, for easy retrieval
 		dBodySetData(odeToRbs[index].id, (void*)index);
@@ -538,10 +541,10 @@ void ODEWorld::linkRigidBodyToODE( int index ) {
 		//set the mass and principal moments of inertia for this object
 		m.setZero();
 		Vector3d principalMoments = odeToRbs[index].rb->getPMI();
-		m.setParameters(odeToRbs[index].rb->getMass(), 0, 0, 0, 
-			principalMoments.x, 
-			principalMoments.y, 
-			principalMoments.z, 
+		m.setParameters(odeToRbs[index].rb->getMass(), 0, 0, 0,
+			principalMoments.x,
+			principalMoments.y,
+			principalMoments.z,
 			0, 0, 0);
 
 		dBodySetMass(odeToRbs[index].id, &m);
@@ -573,10 +576,10 @@ void ODEWorld::processCollisions(dGeomID o1, dGeomID o2){
 	//we'll use the minimum of the two coefficients of friction of the two bodies.
 	double mu1 = rb1->getFrictionCoefficient();
 	double mu2 = rb2->getFrictionCoefficient();
-	double mu_to_use = min(mu1, mu2);
+	double mu_to_use = std::min(mu1, mu2);
 	double eps1 = rb1->getRestitutionCoefficient();
 	double eps2 = rb2->getRestitutionCoefficient();
-	double eps_to_use = min(eps1, eps2);
+	double eps_to_use = std::min(eps1, eps2);
 
 	int num_contacts = dCollide(o1,o2,maxContactCount,&(cps[0].geom), sizeof(dContact));
 
@@ -631,7 +634,7 @@ void ODEWorld::setState(DynamicArray<double>* state, int start){
 }
 
 /**
-	This method is a simple call back function that passes the message to the world whose objects are being acted upon. 
+	This method is a simple call back function that passes the message to the world whose objects are being acted upon.
 */
 void collisionCallBack(void* odeWorld, dGeomID o1, dGeomID o2){
 	((ODEWorld*)odeWorld)->processCollisions(o1, o2);
@@ -676,7 +679,7 @@ void ODEWorld::advanceInTime(double deltaT){
 
 	//go through all the rigid bodies in the world, and apply their external force
 	for (uint j=0;j<objects.size();j++){
-		if( objects[j]->isLocked() ) 
+		if( objects[j]->isLocked() )
 			continue;
 		const Vector3d& f = objects[j]->externalForce;
 		if( !f.isZeroVector() )
@@ -751,9 +754,8 @@ void ODEWorld::testAdvanceInTime(double deltaT){
 	dSpaceCollide(spaceID, this, &collisionCallBack);
 
 	//advance the simulation
-//	dWorldStep(worldID, deltaT);
-	runTestStep(worldID, deltaT);
-
+    dWorldStep(worldID, deltaT);
+//	runTestStep(worldID, deltaT);
 
 	//copy over the state of the ODE bodies to the rigid bodies...
 	setRBStateFromEngine();

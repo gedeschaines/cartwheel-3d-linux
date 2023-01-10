@@ -10,6 +10,7 @@
 #include <Physics/BoxCDP.h>
 #include <Physics/PlaneCDP.h>
 #include <Physics/PreCollisionQuery.h>
+#include <Physics/StiffJoint.h>
 
 #define MAX_CONTACT_FEEDBACK 200
 
@@ -85,7 +86,7 @@ private:
 	void setODEStateFromRB(int i);
 
 	/**
-		this method is used to copy the state of the ith rigid body, from the ode object to its rigid body counterpart 
+		this method is used to copy the state of the ith rigid body, from the ode object to its rigid body counterpart
 	*/
 	void setRBStateFromODE(int i);
 

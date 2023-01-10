@@ -1,4 +1,4 @@
-#include ".\rbstate.h"
+#include "RBState.h"
 
 /**
 	Default constructor - populate the data members using safe values..
@@ -22,7 +22,7 @@ RBState::RBState(const RBState& other){
 }
 
 /**
-	and a copy operator	
+	and a copy operator
 */
 RBState& RBState::operator = (const RBState& other){
 	this->position = other.position;
@@ -33,6 +33,6 @@ RBState& RBState::operator = (const RBState& other){
 }
 
 RBState::~RBState(void){
-		
+
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <typeinfo>
+#include <Utils/TypeName.h>
 
 #include <Utils/Utils.h>
 
@@ -38,11 +38,18 @@ public:
 	  type(type), bdy( theBody ) {}
 	virtual ~CollisionDetectionPrimitive(void);
 
-	const char* typeName(){
-		return typeid(*this).name();
+	//const char* typeName() {
+	//	return typeid(*this).name();
+	//}
+
+    /**
+        type name
+    */
+	const char* typeName() {
+		return classType(*this);
 	}
 
-	virtual char* save() = 0;
+	virtual const char* save() = 0;
 
 	void attachBody( RigidBody* body ) {
 		bdy = body;
@@ -69,3 +76,5 @@ public:
 };
 
 PHYSICS_TEMPLATE( DynamicArray<CollisionDetectionPrimitive*> )
+
+//typedef DynamicArray<CollisionDetectionPrimitive*> DynamicArrayCDPp;

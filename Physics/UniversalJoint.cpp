@@ -1,4 +1,4 @@
-#include ".\universaljoint.h"
+#include "UniversalJoint.h"
 #include <Utils/Utils.h>
 
 #include <Physics/ArticulatedRigidBody.h>

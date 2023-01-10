@@ -1,27 +1,27 @@
 /*
-	Simbicon 1.5 Controller Editor Framework, 
+	Simbicon 1.5 Controller Editor Framework,
 	Copyright 2009 Stelian Coros, Philippe Beaudoin and Michiel van de Panne.
 	All rights reserved. Web: www.cs.ubc.ca/~van/simbicon_cef
 
 	This file is part of the Simbicon 1.5 Controller Editor Framework.
 
-	Simbicon 1.5 Controller Editor Framework is free software: you can 
+	Simbicon 1.5 Controller Editor Framework is free software: you can
 	redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
-	Simbicon 1.5 Controller Editor Framework is distributed in the hope 
-	that it will be useful, but WITHOUT ANY WARRANTY; without even the 
-	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+	Simbicon 1.5 Controller Editor Framework is distributed in the hope
+	that it will be useful, but WITHOUT ANY WARRANTY; without even the
+	implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with Simbicon 1.5 Controller Editor Framework. 
+	along with Simbicon 1.5 Controller Editor Framework.
 	If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include ".\joint.h"
+#include "Joint.h"
 #include <Physics/RBUtils.h>
 #include <Physics/World.h>
 #include <Physics/BallInSocketJoint.h>
@@ -45,7 +45,7 @@ Joint::~Joint(void){
 }
 
 /**
-	This method is used to compute the relative orientation between the parent and the child rigid bodies, expressed in 
+	This method is used to compute the relative orientation between the parent and the child rigid bodies, expressed in
 	the frame coordinate of the parent.
 */
 void Joint::computeRelativeOrientation(Quaternion& qRel){
@@ -67,7 +67,7 @@ void Joint::fixJointConstraints(bool fixOrientations, bool fixVelocities, bool r
 	//if it has a parent, we will assume that the parent's position is correct, and move the children to satisfy the joint constraint
 	if (parent){
 		//fix the orientation problems here... hopefully no rigid body is locked (except for the root, which is ok)
-		
+
 		//first fix the relative orientation, if desired
 		if (fixOrientations){
 			Quaternion qRel;
@@ -89,7 +89,7 @@ void Joint::fixJointConstraints(bool fixOrientations, bool fixVelocities, bool r
 		if (fixVelocities){
 			//to get the relative velocity, we note that the child rotates with wRel about the joint (axis given by wRel
 			//d = vector from joint position to CM of the child),
-			//but it also rotates together with the parent with the parent's angular velocity, 
+			//but it also rotates together with the parent with the parent's angular velocity,
 			//so we need to combine these (all velocities are expressed in world coordinates already) (r is the vector
 			//from the CM of the parent, to that of the child).
 			Vector3d wRel = child->state.angularVelocity - parent->state.angularVelocity;
@@ -122,7 +122,7 @@ void Joint::loadFromFile(FILE* f, World* world){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		if (strlen(buffer)>195)
 			throwError("The input file contains a line that is longer than ~200 characters - not allowed");
 		char *line = lTrim(buffer);
@@ -176,7 +176,7 @@ void Joint::loadFromFile(FILE* f, World* world){
 				throwError("Incorrect articulated body input file: \'%s\' - unexpected line.", buffer);
 		}
 	}
-	throwError("Incorrect articulated body input file! No /ArticulatedFigure found");	
+	throwError("Incorrect articulated body input file! No /ArticulatedFigure found");
 }
 
 /**

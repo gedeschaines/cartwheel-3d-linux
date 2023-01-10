@@ -1,5 +1,11 @@
 #pragma once
 
+#include <Utils/Utils.h>
+#include <MathLib/Matrix.h>
+#include <MathLib/Point3d.h>
+#include <MathLib/Quaternion.h>
+#include <Physics/Joint.h>
+
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------*
  * This class provides an interface, and some of the common and necessary class members + methods that the joints used in the RBDyn library will need. *
  *-----------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -10,7 +16,7 @@ private:
 	//permitted along a certain axis, so it shouldn't be allowed in the plane that the axis is perpendicular on.
 	Matrix P;
 	//this list of vectors is used to easily set up the P matrix. The entries in this vector represent the axis along which rotation should be constrained
-	PODDynamicArray<Vector3d*> cVecs;
+	DynamicArray<Vector3d*> cVecs;
 
 	//this is the location, in world coordinates, of the joint. It is located at the mid-point between the world coordinates of the
 	//child and parent's joint poisition - this should really be the same point in world coordinates, otherwise we have drift problems!!!
@@ -34,13 +40,13 @@ private:
 	Quaternion getPredictedRelativeOrientation(const Quaternion& qRel, const Vector3d &relAngVel);
 
 	/**
-		This method returns true if there is a need for an angular impulse, false otherwise. 
+		This method returns true if there is a need for an angular impulse, false otherwise.
 	*/
 	virtual bool needAngularImpulse() = 0;
 
 	/**
-		This method is used to prepare the proper quantities (i.e. P, the joint angles, etc) for the current joint. 
-		The relative orientation and relative angular velocity are passed in so that we can predict 
+		This method is used to prepare the proper quantities (i.e. P, the joint angles, etc) for the current joint.
+		The relative orientation and relative angular velocity are passed in so that we can predict
 		if joint limits need to be enforced or not.
 	*/
 	virtual void prepareAngularConstraint(const Quaternion& qRel, const Vector3d &relAngVel) = 0;
