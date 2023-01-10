@@ -4,6 +4,7 @@ lib/*
 obj/
 screenShots/*
 tmp/*
+*.layout
 *.o
 *.exe
 .pyc

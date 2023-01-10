@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="cartwheel-3d">
+		<Project filename="ode-0.9/ode.cbp" />
+		<Project filename="Utils/Utils.cbp" />
+		<Project filename="MathLib/MathLib.cbp">
+			<Depends filename="Utils/Utils.cbp" />
+		</Project>
+		<Project filename="GLUtils/GLUtils.cbp">
+			<Depends filename="Utils/Utils.cbp" />
+			<Depends filename="MathLib/MathLib.cbp" />
+		</Project>
+		<Project filename="Physics/Physics.cbp">
+			<Depends filename="Utils/Utils.cbp" />
+			<Depends filename="ode-0.9/ode.cbp" />
+			<Depends filename="MathLib/MathLib.cbp" />
+			<Depends filename="GLUtils/GLUtils.cbp" />
+		</Project>
+		<Project filename="Core/Core.cbp">
+			<Depends filename="Utils/Utils.cbp" />
+			<Depends filename="ode-0.9/ode.cbp" />
+			<Depends filename="MathLib/MathLib.cbp" />
+			<Depends filename="GLUtils/GLUtils.cbp" />
+			<Depends filename="Physics/Physics.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>
