@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="gsl" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+                <Option platforms="Unix;" />
+				<Option output="$(WORKSPACE_DIR)/lib/Debug/gsl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-W" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="-DGSL_DLL" />
+					<Add option="-DDLL_EXPORT" />
+					<Add directory="$(PROJECT_DIR)/.." />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(PROJECT_DIR)/.." />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Release">
+                <Option platforms="Unix;" />
+				<Option output="$(WORKSPACE_DIR)/lib/Release/gsl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-W" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="-DGSL_DLL" />
+					<Add option="-DDLL_EXPORT" />
+					<Add directory="$(PROJECT_DIR)/.." />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(PROJECT_DIR)/.." />
+				</ResourceCompiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++98" />
+			<Add option="-std=c99" />
+			<Add option="-fPIC" />
+			<Add option="-m64" />
+			<Add option="-fpermissive" />
+			<Add directory="$(PROJECT_DIR)/.." />
+		</Compiler>
+		<Linker>
+			<Add option="-m64" />
+		</Linker>
+		<Unit filename="blas/blas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="blas/cblas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="blas/cblas.h" />
+		<Unit filename="blas/f2c.h" />
+		<Unit filename="blas/gsl_blas.h" />
+		<Unit filename="blas/gsl_blas_types.h" />
+		<Unit filename="block/block.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="block/file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="block/gsl_block.h" />
+		<Unit filename="block/gsl_block_double.h" />
+		<Unit filename="block/gsl_check_range.h" />
+		<Unit filename="block/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="error.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gsl_errno.h" />
+		<Unit filename="gsl_math.h" />
+		<Unit filename="gsl_nan.h" />
+		<Unit filename="gsl_pow_int.h" />
+		<Unit filename="gsl_precision.h" />
+		<Unit filename="gsl_types.h" />
+		<Unit filename="matrix/copy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/getset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/gsl_matrix.h" />
+		<Unit filename="matrix/gsl_matrix_double.h" />
+		<Unit filename="matrix/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/minmax.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/oper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/prop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix/swap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="templates_off.h" />
+		<Unit filename="templates_on.h" />
+		<Unit filename="vector/copy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vector/file.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vector/gsl_vector.h" />
+		<Unit filename="vector/gsl_vector_double.h" />
+		<Unit filename="vector/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vector/minmax.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vector/oper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vector/prop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vector/swap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vector/vector.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
