@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Core" />
+		<Option platforms="Unix;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Unix;" />
+				<Option output="$(WORKSPACE_DIR)/lib/Debug/_Core" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/Debug" />
+				<Option external_deps="$(WORKSPACE_DIR)/lib/Debug/_Utils.so;$(WORKSPACE_DIR)/lib/Debug/libode.so;$(WORKSPACE_DIR)/lib/Debug/_GLUtils.so;$(WORKSPACE_DIR)/lib/Debug/_MathLib.so;$(WORKSPACE_DIR)/lib/Debug/_Physics.so;" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-g" />
+					<Add option="-W" />
+					<Add option="-O0" />
+					<Add option="-fpermissive" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DCORE_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_WARNINGS" />
+					<Add directory="/usr/include/python2.7" />
+					<Add directory="$(PROJECT_DIR)/include" />
+					<Add directory="$(PROJECT_DIR)/ode-0.9/include" />
+					<Add directory="$(PROJECT_DIR)/." />
+					<Add directory="$(PROJECT_DIR)/.." />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(WORKSPACE_DIR)" />
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/include" />
+					<Add directory="$(WORKSPACE_DIR)/include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m64" />
+					<Add library="python2.7" />
+					<Add library="GLEW" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="_Utils" />
+					<Add library="ode" />
+					<Add library="_MathLib" />
+					<Add library="_GLUtils" />
+					<Add library="_Physics" />
+					<Add library="gsl" />
+					<Add library="gslcblas" />
+					<Add directory="$(WORKSPACE_DIR)/lib/Debug" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="echo Compiling Python interface" />
+					<Add before="echo off" />
+					<Add before="/usr/bin/swig -c++ -python -o $(PROJECT_NAME)_wrap.cpp -oh $(PROJECT_NAME)_wrap.h $(PROJECT_NAME).swg" />
+					<Add after="echo Creating python library" />
+					<Add after="mv $(PROJECT_DIR)/$(PROJECT_NAME).py $(WORKSPACE_DIR)/lib/Debug/$(PROJECT_NAME).py" />
+					<Add after="if [ ! -e  $(WORKSPACE_DIR)/lib/Debug/lib_$(PROJECT_NAME).so ]; then ln -s $(WORKSPACE_DIR)/lib/Debug/_$(PROJECT_NAME).so $(WORKSPACE_DIR)/lib/Debug/lib_$(PROJECT_NAME).so; fi" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option platforms="Unix;" />
+				<Option output="$(WORKSPACE_DIR)/lib/Release/_Core" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/Release" />
+				<Option external_deps="$(WORKSPACE_DIR)/lib/Release/_Utils.so;$(WORKSPACE_DIR)/lib/Release/libode.so;$(WORKSPACE_DIR)/lib/Release/_GLUtils.so;$(WORKSPACE_DIR)/lib/Release/_MathLib.so;$(WORKSPACE_DIR)/lib/Release/_Physics.so;" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-W" />
+					<Add option="-fpermissive" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DCORE_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_WARNINGS" />
+					<Add directory="/usr/include/python2.7" />
+					<Add directory="$(PROJECT_DIR)/include" />
+					<Add directory="$(PROJECT_DIR)/ode-0.9/include" />
+					<Add directory="$(PROJECT_DIR)/." />
+					<Add directory="$(PROJECT_DIR)/.." />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(WORKSPACE_DIR)" />
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/include" />
+					<Add directory="$(WORKSPACE_DIR)/include" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m64" />
+					<Add library="python2.7" />
+					<Add library="GLEW" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="_Utils" />
+					<Add library="ode" />
+					<Add library="_MathLib" />
+					<Add library="_GLUtils" />
+					<Add library="_Physics" />
+					<Add library="gsl" />
+					<Add library="gslcblas" />
+					<Add directory="$(WORKSPACE_DIR)/lib/Release" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="echo Compiling Python interface" />
+					<Add before="echo off" />
+					<Add before="/usr/bin/swig -c++ -python -o $(PROJECT_NAME)_wrap.cpp -oh $(PROJECT_NAME)_wrap.h $(PROJECT_NAME).swg" />
+					<Add after="echo Creating python library" />
+					<Add after="mv $(PROJECT_DIR)/$(PROJECT_NAME).py $(WORKSPACE_DIR)/lib/Release/$(PROJECT_NAME).py" />
+					<Add after="if [ ! -e  $(WORKSPACE_DIR)/lib/Release/lib_$(PROJECT_NAME).so ]; then ln -s $(WORKSPACE_DIR)/lib/Release/_$(PROJECT_NAME).so $(WORKSPACE_DIR)/lib/Release/lib_$(PROJECT_NAME).so; fi" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="../Python/CoreTest.py" />
+		<Unit filename="ActionCollectionPolicy.cpp" />
+		<Unit filename="ActionCollectionPolicy.h" />
+		<Unit filename="BalanceFeedback.cpp" />
+		<Unit filename="BalanceFeedback.h" />
+		<Unit filename="BehaviourController.cpp" />
+		<Unit filename="BehaviourController.h" />
+		<Unit filename="BipV3BalanceController.cpp" />
+		<Unit filename="BipV3BalanceController.h" />
+		<Unit filename="Character.cpp" />
+		<Unit filename="Character.h" />
+		<Unit filename="CompositeController.cpp" />
+		<Unit filename="CompositeController.h" />
+		<Unit filename="ConUtils.cpp" />
+		<Unit filename="ConUtils.h" />
+		<Unit filename="Controller.cpp" />
+		<Unit filename="Controller.h" />
+		<Unit filename="ControllerPerturbator.cpp" />
+		<Unit filename="ControllerPerturbator.h" />
+		<Unit filename="Core.swg" />
+		<Unit filename="CoreDll.h" />
+		<Unit filename="Core_wrap.cpp" />
+		<Unit filename="DuckController.cpp" />
+		<Unit filename="DuckController.h" />
+		<Unit filename="ExtReferenceFrame.h" />
+		<Unit filename="ExtendedCharacterState.h" />
+		<Unit filename="HumanoidIKCharacter.cpp" />
+		<Unit filename="HumanoidIKCharacter.h" />
+		<Unit filename="IKVMCController.cpp" />
+		<Unit filename="IKVMCController.h" />
+		<Unit filename="PoseController.cpp" />
+		<Unit filename="PoseController.h" />
+		<Unit filename="SimBiConState.cpp" />
+		<Unit filename="SimBiConState.h" />
+		<Unit filename="SimBiController.cpp" />
+		<Unit filename="SimBiController.h" />
+		<Unit filename="SimGlobals.cpp" />
+		<Unit filename="SimGlobals.h" />
+		<Unit filename="SimpleControlPolicy.cpp" />
+		<Unit filename="SimpleControlPolicy.h" />
+		<Unit filename="SimpleStyleParameters.cpp" />
+		<Unit filename="SimpleStyleParameters.h" />
+		<Unit filename="TurnController.cpp" />
+		<Unit filename="TurnController.h" />
+		<Unit filename="TwoLinkIK.cpp" />
+		<Unit filename="TwoLinkIK.h" />
+		<Unit filename="UserInteractionPolicy.cpp" />
+		<Unit filename="UserInteractionPolicy.h" />
+		<Unit filename="VirtualModelController.cpp" />
+		<Unit filename="VirtualModelController.h" />
+		<Unit filename="WorldOracle.cpp" />
+		<Unit filename="WorldOracle.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
