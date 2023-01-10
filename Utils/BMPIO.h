@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,7 +33,7 @@ public:
 	/**
 		Default constructor.
 	*/
-	BMPIO(char* fileName): ImageIO(fileName){}
+	BMPIO(const char* fileName): ImageIO(fileName){}
 	/**
 		Default destructor.
 	*/
@@ -66,7 +66,7 @@ private:
 	//this is the size of the file.
 	unsigned int fileSize;
 	//we won't be using these variables
-	unsigned short int reserved1, reserved2;	
+	unsigned short int reserved1, reserved2;
 	//this is where the image data can be found - relative to the start of the file.
 	unsigned int offset;
 public:
@@ -126,12 +126,12 @@ public:
 		Default destructor.
 	*/
 	~BMPInfoHeader();
-	
+
 	/**
 		this method writes the header of the BMP to a file.
 	*/
 	void writeInfoHeader(FILE* fp);
-	
+
 	//and a list of getters - nothing fancy here
 	inline unsigned int getWidth(){ return this->width; }
 	inline unsigned int getHeight(){ return this->height; }

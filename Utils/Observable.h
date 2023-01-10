@@ -1,12 +1,12 @@
 // An observable is a class that can hold a list of observers
 // Based on the java.util.Observable class
-#pragma once 
+#pragma once
 
 #include <Utils/UtilsDll.h>
 #include <Utils/Utils.h>
 #include <Utils/Observer.h>
+#include <Utils/TypeName.h>
 
-#include <typeinfo>
 #include <algorithm>
 
 
@@ -50,8 +50,8 @@ public:
 
 	Observable() : hasChangedFlag(false), batchChangeDepth(0) {}
 
-	virtual ~Observable() { 
-		observers.clear(); 
+	virtual ~Observable() {
+		observers.clear();
 	}
 
 	bool hasChanged() const {
@@ -83,8 +83,8 @@ public:
 		return observers.size();
 	}
 
-	const char* typeName(){
-		return typeid(*this).name();
+	const char* typeName() {
+		return classType(*this);
 	}
 
 };

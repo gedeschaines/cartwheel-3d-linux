@@ -1,36 +1,48 @@
 #pragma once
-#include <Python.h>
 
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdexcept>
 
+#if defined(_MSC_VER)
 #pragma warning (push)
 #pragma warning (disable : 4275 4251)
+#endif
+
 #include <vector>
+
+#if defined(_MSC_VER)
 #pragma warning (pop)
+#endif
 
 #include <Utils/UtilsDll.h>
 
 #define DynamicArray std::vector
-typedef unsigned int uint;
 
+typedef unsigned int uint;
 
 // Define a prototype to a generic output function
 // It can be overriden in python to print to a log file, for example
-UTILS_DECLSPEC
-int tprintf(const char *format, ...);
-//the same function with vargs
-UTILS_DECLSPEC
-int tvprintf(const char *format, va_list ap);
 
-// This makes it possible to redirect printing (tprintf) to a Python function
+// the same function with vargs
+#ifndef CW_SWIG_INCLUDE
+  UTILS_DECLSPEC
+  int tprintf(const char *format, ...);
+  UTILS_DECLSPEC
+  int tvprintf(const char *format, va_list ap);
+#else
+  %{
+  extern int tprintf(const char *format, ...);
+  extern int tvprintf(const char *format, va_list ap);
+  %}
+#endif
 UTILS_DECLSPEC
-void registerPrintFunction(PyObject * printFunction);
+void test(void);
 
 /**
-	This method throws an error with a specified text and arguments 
+	This method throws an error with a specified text and arguments
 */
 UTILS_DECLSPEC
 inline void throwError(const char *fmt, ...){		// Custom error creation method
@@ -42,13 +54,12 @@ inline void throwError(const char *fmt, ...){		// Custom error creation method
 		return;											// Do Nothing
 
 	va_start(ap, fmt);									// Parses The String For Variables
-	    vsprintf(text, fmt, ap);						// And Converts Symbols To Actual Numbers
+    vsprintf(text, fmt, ap);						    // And Converts Symbols To Actual Numbers
 	va_end(ap);											// Results Are Stored In Text
 
 	tprintf( text );
-	throw text;
+	throw std::runtime_error(text);
 }
-
 
 /**
 	This method reads all the doubles from the given file and stores them in the array of doubles that is passed in
@@ -59,7 +70,6 @@ inline void readDoublesFromFile(FILE* f, DynamicArray<double> *d){
 	while (fscanf(f, "%lf\n", &temp) == 1)
 		d->push_back(temp);
 }
-
 
 /**
 	This method returns a pointer to the first non-white space character location in the provided buffer
@@ -97,7 +107,7 @@ inline char* trim(char* buffer){
 UTILS_DECLSPEC
 inline bool readValidLine(char* line, FILE* fp){
 	while (!feof(fp)){
-		fgets(line, 100, fp);
+		char* cp = fgets(line, 100, fp);
 		char* tmp = trim(line);
 		if (tmp[0]!='#' && tmp[0]!='\0')
 			return true;
@@ -125,4 +135,3 @@ inline DynamicArray<char*> getTokens(char* input){
 }
 
 #define __max__(x,y) (((x)>(y))?(x):(y))
-

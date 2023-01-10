@@ -8,7 +8,6 @@
 #define RGB_MODEL 0
 #define RGBA_MODEL 1
 
-
 #include "Image.h"
 #include <string.h>
 #include <stdlib.h>
@@ -16,14 +15,17 @@
 #include <Utils/UtilsDll.h>
 
 
-
 class UTILS_DECLSPEC ImageIO {
 protected:
 	//the file name of the image to be written or read
 	char* fileName;
 public:
-	ImageIO(char* fileName){
-		this->fileName = _strdup(fileName);
+	ImageIO(const char* fileName){
+		#ifdef __linux__
+		this->fileName = strdup(fileName);
+		#else
+ 		this->fileName = _strdup(fileName);
+		#endif
 	}
 	~ImageIO(void){
 		if (this->fileName != NULL)
@@ -40,3 +42,4 @@ public:
 	*/
 	virtual void writeToFile(Image* img) = 0;
 };
+
