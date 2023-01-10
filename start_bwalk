@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# FILE: start_bwalk
+# DATE: 2 JAN 2023
+# AUTH: G. E. Deschaines
+# PROG: Shell script invoked in cartwheel-3d home directory.
+# DESC: Script preparing shell environment and invoking the Python 2
+#       interpeter bundled with Python 2 packages installed on Ubuntu
+#       18.04 LTS distributions, for running Cartwheel-3d BasicWalker 
+#       Python script.
+
+# Set Cartwheel-3d home path if not already defined.
+if [ "${CW3D_HOME}" == "" ]
+then 
+  CW3D_HOME=`/bin/pwd`
+fi
+
+# Set Cartwheel-3d target to ["Debug"|"Release"].
+TARGET="Release"
+
+# Pre-pend Cartwheel-3d target shared library path to the
+# LD_LIBRARY_PATH environment variable.
+LD_LIBRARY_PATH=${CW3D_HOME}/lib/${TARGET}:${LD_LIBRARY_PATH}
+
+# Add Cartwheel-3d target shared library and Python module
+# paths to the PYTHONPATH environment variable.
+PYTHONPATH=${CW3D_HOME}/lib/${TARGET}:${CW3D_HOME}/Python
+
+# Start BasicWalker as a foreground process, then exit.
+if [ -e "./BasicWalker.py" ]
+then
+  /usr/bin/python2 BasicWalker.py & 
+else
+  cd ${CW3D_HOME}/Python; /usr/bin/python2 BasicWalker.py 
+fi
+
