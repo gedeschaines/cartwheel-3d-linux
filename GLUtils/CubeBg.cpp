@@ -1,4 +1,4 @@
-#include ".\cubebg.h"
+#include "CubeBg.h"
 #include <stdio.h>
 #include <MathLib/Point3d.h>
 
@@ -8,8 +8,9 @@
 	to the root file name.
 */
 CubeBg::CubeBg(char* rootFileName){
-	char *ext[] = {"+x","-x","+y","-y","+z","-z"};
+	const char *ext[] = {"+x","-x","+y","-y","+z","-z"};
 	char fName[200];
+	    tprintf("**** WARNING **** GLUtils.CubeBG: Instantiating CubeBG with texture file %s\n", rootFileName);
 	for (int i=0;i<6;i++){
 		sprintf(fName, "%s%s.bmp", rootFileName, ext[i]);
 		this->faceTex[i] = new GLTexture(fName);
@@ -47,7 +48,7 @@ void drawTexturedQuad(){
 
 /**
 	This is the method that needs to be used to draw the sky box on the screen. The OpenGL matrices should be manipulated
-	in order to place the sky box where desirable. 
+	in order to place the sky box where desirable.
 */
 void CubeBg::drawBox(){
 	//draw the +x plane:

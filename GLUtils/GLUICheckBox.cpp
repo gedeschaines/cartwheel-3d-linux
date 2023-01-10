@@ -1,7 +1,15 @@
 #include "GLUICheckBox.h"
 
 #include <GLUtils/GLUtils.h>
+
+#ifdef __linux__
+// use native glut.h on linux
+#include <GL/glut.h>
+#else
 #include <Include/glut.h>
+#endif
+
+#include <algorithm>
 
 #define MIN_WIDTH 14
 #define MIN_HEIGHT 14
@@ -22,19 +30,19 @@ GLUICheckBox::GLUICheckBox(GLUIContainer* parent, int x, int y, int width, int h
 	// Set a reasonable min size
 	if( minWidth < 0 ) {
 		if( width == 0 ) minWidth = MIN_WIDTH;
-		else minWidth = min( width, MIN_WIDTH );
+		else minWidth = std::min( width, MIN_WIDTH );
 	}
 
 	if( minHeight < 0 ) {
 		if( height == 0 ) minHeight = MIN_HEIGHT;
-		else minHeight = min( height, MIN_HEIGHT );
+		else minHeight = std::min( height, MIN_HEIGHT );
 	}
-	
+
 	setMinSize( minWidth, minHeight );
 }
 
-	
-/** 
+
+/**
 	Draw the curve editor in the top-left corner of the OpenGL window
 */
 void GLUICheckBox::draw() {
@@ -62,7 +70,7 @@ void GLUICheckBox::draw() {
 }
 
 bool GLUICheckBox::onLeftDown( GLUIMouseEvent* mouseEvent ) {
-	
+
 	int x0 = (rect.width-SIZE_X)/2;
 	int y0 = (rect.height-SIZE_X)/2;
 

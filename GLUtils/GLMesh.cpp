@@ -107,7 +107,9 @@ void GLMesh::addPoly(GLIndexedPoly &p){
 		n2index = p.indexes[(i-1+p.indexes.size())%p.indexes.size()];
 		if (index<0 || index >= vertexCount ||n1index<0 || n1index >= vertexCount ||n2index<0 || n2index >= vertexCount)
 			return;
-		sharedVertices[index]->addVertexInfo(VertexInfo(n1index, n2index));
+        VertexInfo info = VertexInfo(n1index, n2index);
+        sharedVertices[index]->addVertexInfo(info);
+		//sharedVertices[index]->addVertexInfo(VertexInfo(n1index, n2index));
 	}
 	polygons->addPoly(p);
 	nrPolys++;
@@ -149,7 +151,7 @@ void GLMesh::scale( const Vector3d& scaling ){
 	should indicate if the polygons in this mesh have their vertices expressed in clockwise or anticlockwise order.
 */
 void GLMesh::computeNormals(double modifier){
-/*	Replace this... store the indexes of the two neighbours, instead of storing the way to retrieve them... 
+/*	Replace this... store the indexes of the two neighbours, instead of storing the way to retrieve them...
 		makes the code simpler*/
 	useNormals = true;
 	for (int i=0;i<vertexCount;i++){
@@ -246,26 +248,26 @@ void GLMesh::drawMesh(bool useColours){
 
 
 /**
-	This method renders the mesh, including its current transformations, as a set of vertices 
-	and faces that will be appended to the passed OBJ file.	
+	This method renders the mesh, including its current transformations, as a set of vertices
+	and faces that will be appended to the passed OBJ file.
 
 	vertexIdxOffset indicates the index of the first vertex for this object, this makes it possible to render
 	multiple different meshes to the same OBJ file
-	
+
 	The passed transformation matrix transforms from the model coordinate to the world
 
 	Returns the number of vertices written to the file
-*/	
+*/
 uint GLMesh::renderToObjFile( FILE* fp, uint vertexIdxOffset, TransformationMatrix toWorld ) {
 
 	Point3d vertex;
 	uint nbVerts = vertexList.size()/3;
 	for( uint i = 0; i < nbVerts; i++ ) {
-	
+
 		vertex.setValues(vertexList[i*3], vertexList[i*3+1], vertexList[i*3+2]);
 		vertex = toWorld * vertex;
 		fprintf( fp, "v %lf %lf %lf\n", vertex.getX(), vertex.getY(), vertex.getZ() );
-	
+
 	}
 
 	fprintf( fp, "\n" );

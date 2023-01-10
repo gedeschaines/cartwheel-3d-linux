@@ -1,9 +1,9 @@
 #pragma once
 
-#include <mathLib/Vector3d.h>
-#include <mathLib/Quaternion.h>
-#include <mathLib/Point3d.h>
-#include <mathLib/TransformationMatrix.h>
+#include <MathLib/Vector3d.h>
+#include <MathLib/Quaternion.h>
+#include <MathLib/Point3d.h>
+#include <MathLib/TransformationMatrix.h>
 
 #include <GLUtils/GLUtilsDll.h>
 
@@ -31,7 +31,7 @@ public:
 	GLCamera(void);
 	~GLCamera(void);
 
-	//this method is used to apply the transofmations 
+	//this method is used to apply the transofmations
 	void applyCameraTransformations();
 
 	void translateTarget( const Vector3d& vec ) { target += vec; }

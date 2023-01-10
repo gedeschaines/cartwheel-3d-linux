@@ -1,4 +1,10 @@
-#include <include/glew.h>
+#ifdef __linux__
+// use native glew.h on linux
+#include <GL/glew.h>
+#else
+#include <Include/glew.h>
+#endif
+
 #include "GLShader.h"
 #include <GLUtils/GLUtils.h>
 
@@ -7,7 +13,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
+#ifdef __linux__
+#include <unistd.h>
+#else
 #include <io.h>
+#endif
 
 /**
   Print out the information log for a shader object
@@ -145,10 +155,20 @@ int GLShader::shaderSize(char *fileName){
     //
     // Open the file, seek to the end to find its length
     //
+    #ifdef __linux__
+    fd = open(fileName, O_RDONLY);
+    #else
     fd = _open(fileName, _O_RDONLY);
+    #endif
+
     if (fd != -1) {
+        #ifdef __linux__
+        count = lseek(fd, 0, SEEK_END) + 1;
+        close(fd);
+        #else
         count = _lseek(fd, 0, SEEK_END) + 1;
         _close(fd);
+        #endif
     }
 
     return count;
@@ -193,6 +213,7 @@ int GLShader::readShaderSource(char *fileName, char **buffer){
         tprintf("Cannot determine size of the shader %s\n", fileName);
         return 0;
     }
+    tprintf("**** WARNING **** GLUtils.GLShader: Reading shader file %s\n", fileName);
 
     *buffer = (char *) malloc(size);
 

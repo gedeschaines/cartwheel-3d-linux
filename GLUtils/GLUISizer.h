@@ -65,9 +65,9 @@ protected:
 public:
 	GLUISizer() :
 		rect(0,0,-1,-1) {}
-	virtual ~GLUISizer() { 
+	virtual ~GLUISizer() {
 		deleteAllSizers();
-		windows.clear(); 
+		windows.clear();
 	}
 
 	void add( GLUIWindow* window, int proportion = 0, int flag = 0 ) {
@@ -149,12 +149,11 @@ public:
 	  orientation(orientation) {}
 
 	virtual GLUISize calcMinSize(int* totalProportionOut = NULL, int* leftOverSpaceOut = NULL) const {
-		
 		// Major is width if orientation is HORIZONTAL, or height is orientation is VERTICAL
 		int minSizeMajor=0, minSizeMinor=0;
 		int totalProportion=0;
 		int otherOrientation = GLUIFlipOrientation(orientation);
-		for( uint i=0; i < windows.size(); ++i ) {			
+		for( uint i=0; i < windows.size(); ++i ) {
 			if( windows[i].window != NULL && !windows[i].window->isVisible() )
 				continue;
 
@@ -166,12 +165,12 @@ public:
 				const GLUISize& size = windows[i].window->getMinSize();
 				if( windows[i].proportion == 0 )
 					minSizeMajor += size.get(orientation);
-				minSizeMinor = max( minSizeMinor, size.get(otherOrientation) );
+				minSizeMinor = std::max( minSizeMinor, size.get(otherOrientation) );
 			} else if( windows[i].sizer != NULL ) {
 				GLUISize size = windows[i].sizer->calcMinSize();
 				if( windows[i].proportion == 0 )
 					minSizeMajor += size.get(orientation);
-				minSizeMinor = max( minSizeMinor, size.get(otherOrientation) );
+				minSizeMinor = std::max( minSizeMinor, size.get(otherOrientation) );
 			}
 		}
 
@@ -189,9 +188,9 @@ public:
 		if( leftOverSpaceOut != NULL )
 			*leftOverSpaceOut = leftOverSpace;
 
-		return result;	
+		return result;
 	}
-	
+
 	virtual void layout() {
 
 		int totalProportion;
@@ -226,7 +225,7 @@ public:
 				size = windows[i].size;
 
 			if( usedSpace >= 0 )
-				size.setOrientation( orientation, max( usedSpace, size.get(orientation) ) );
+				size.setOrientation( orientation, std::max( usedSpace, size.get(orientation) ) );
 			if( windows[i].flag == GLUI_EXPAND )
 				size.setOrientation( otherOrientation, minSize.get(otherOrientation) );
 			if( windows[i].window != NULL ) {
@@ -236,6 +235,7 @@ public:
 			}
 			pos.setOrientation( orientation, pos.get( orientation ) + size.get( orientation ) );
 		}
-	
+
 	}
 };
+

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Include/glHeaders.h>
+#include <Include/GLheaders.h>
 
 #include <Utils/Utils.h>
 

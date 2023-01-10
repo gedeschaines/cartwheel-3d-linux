@@ -1,4 +1,4 @@
-#include ".\objreader.h"
+#include "OBJReader.h"
 #include <MathLib/Point3d.h>
 #include <Utils/Utils.h>
 
@@ -89,7 +89,7 @@ char* getNextIndex(char* line, int &vertexIndex, int &texcoordIndex, int&flags){
 GLMesh* OBJReader::loadOBJFile(const char* fileName){
 	if (fileName == NULL)
 		throwError("fileName is NULL.");
-	
+
 //	Logger::out()<< "Loading mesh: " << fileName <<std::endl;
 
 	FILE* f = fopen(fileName, "r");
@@ -113,7 +113,7 @@ GLMesh* OBJReader::loadOBJFile(const char* fileName){
 	//this is where it happens.
 	while (!feof(f)){
 		//get a line from the file...
-		fgets(buffer, 200, f);
+		char* cp = fgets(buffer, 200, f);
 		//see what line it is...
 		int lineType = getLineType(buffer);
 		if (lineType == VERTEX_INFO){

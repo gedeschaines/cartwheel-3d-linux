@@ -1,4 +1,4 @@
-#include ".\glutils.h"
+#include "GLUtils.h"
 #include <MathLib/Quaternion.h>
 #include <math.h>
 #include <fstream>
@@ -8,7 +8,12 @@
 #include <Utils/Image.h>
 #include <Utils/BMPIO.h>
 
+#ifdef __linux__
+// use native glut.h on linux
+#include <GL/glut.h>
+#else
 #include <Include/glut.h>
+#endif
 
 #include "GLTexture.h"
 
@@ -195,7 +200,7 @@ void GLUtils::drawSphere(Point3d origin, double r, int nrPoints){
 	glTranslated(origin.x, origin.y, origin.z);
 
 	Point3d p, q;
-	
+
 	glBegin(GL_QUAD_STRIP);
 		p.x = r*cos(-PI/2);
 		p.y = r*sin(-PI/2);
@@ -342,14 +347,14 @@ void GLUtils::drawCapsule(double r, Vector3d dir, Point3d org, int nrPoints){
 			}
 			p = q;
 			glEnd();
-		}	
+		}
 
 	org += dir;
 
 //	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//and now draw the other half - horrible, quick research code...
-	
+
 		p.x = r*cos(PI/2);
 		p.y = r*sin(PI/2);
 		p.z = 0;
@@ -383,7 +388,7 @@ void GLUtils::drawCapsule(double r, Vector3d dir, Point3d org, int nrPoints){
 			p = q;
 			glEnd();
 		}
-	
+
 
 	glPopMatrix();
 
@@ -603,7 +608,7 @@ void GLUtils::drawGrid(int n, double w, double h){
 	}
 	glLineWidth(1);
 
-//draw a thicker line in the middle now, 
+//draw a thicker line in the middle now,
 	glColor3d(0.7f, 0.7f, 0.7f);
 	glLineWidth(2);
 	glBegin(GL_LINES);
@@ -620,7 +625,7 @@ void GLUtils::drawGrid(int n, double w, double h){
 /**
 	Prints the openGL errors
 */
-int GLUtils::printOglError(char *file, int line){
+int GLUtils::printOglError(const char *file, int line){
     //
     // Returns 1 if an OpenGL error occurred, 0 otherwise.
     //
@@ -659,13 +664,14 @@ void GLUtils::drawGround(double size, double spotRadius, int nb){
 
 	double x, z, x1, z1;
 
-	if (groundTexture == NULL )
+	if (groundTexture == NULL ) {
 		groundTexture = new GLTexture("../data/textures/grid.bmp");
+    }
 
 	glEnable(GL_TEXTURE_2D);
 	groundTexture->activate();
-	glBegin(GL_QUADS);
 
+	glBegin(GL_QUADS);
 	double smallSize = 2 * size / (float)nb;
 	for (int i=0; i<nb; ++i) {
 		x1 = -size + i * smallSize;

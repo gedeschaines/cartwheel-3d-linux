@@ -2,7 +2,7 @@
 
 #include <MathLib/Point3d.h>
 #include <MathLib/Vector3d.h>
-#include <Include/glHeaders.h>
+#include <Include/GLheaders.h>
 #include <Utils/Utils.h>
 
 #define printOpenGLError() GLUtils::printOglError(__FILE__, __LINE__)
@@ -98,10 +98,8 @@ public:
 	/**
 		Prints the openGL errors
 	*/
-	static int printOglError(char *file, int line);
+	static int printOglError(const char *file, int line);
 
 	static void drawGround(double size, double spotRadius, int nbSquares);
 
 };
-
-

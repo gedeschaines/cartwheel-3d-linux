@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Include/glHeaders.h>
-
+#include <Include/GLheaders.h>
 
 #include <GLUtils/GLUtilsDll.h>
 
@@ -19,8 +18,8 @@ public:
 		The constructor takes as input the name of a .bmp file that contains the texture to be loaded.
 		This constructor throws errors if the file cannot be found, or if it's height and width are not powers of 2
 	*/
-	GLTexture(char* fileName);
-	
+	GLTexture(const char* fileName);
+
 	/*
 		destructor
 	*/

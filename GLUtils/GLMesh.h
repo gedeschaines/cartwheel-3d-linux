@@ -2,11 +2,11 @@
 
 #include <Utils/Utils.h>
 
-#include <mathLib/mathLib.h>
+#include <MathLib/MathLib.h>
 #include <MathLib/Point3d.h>
 #include <MathLib/TransformationMatrix.h>
 
-#include <Include/glHeaders.h>
+#include <Include/GLheaders.h>
 
 #include <GLUtils/GLUtilsDll.h>
 
@@ -90,7 +90,7 @@ private:
 	/**
 		Adding a new vertexInfo object.
 	*/
-	void addVertexInfo(VertexInfo &vi){
+	void addVertexInfo(const VertexInfo &vi){
 		vertexInstances.push_back(vi);
 	}
 };
@@ -111,14 +111,14 @@ class GLUTILS_DECLSPEC GLIndexedPoly {
 //private:
 public:
 	DynamicArray<int> indexes;
-	
+
 	/**
 		clear the indices
 	*/
 	void clear(){
 		indexes.clear();
 	}
-		
+
 	/**
 		adding the index of a new vertex
 	*/
@@ -150,8 +150,8 @@ public:
 
 /**
 	This class contains an array of tightly packed indeces of vertices that belong to polygons that have the same number of vertices. As an
-	example the indices of all vertices that belong to traingles in the mesh, would be tightly packed together in one instance of this class. 
-	There will be one of these objects for all the triangles in the mesh, one for all the quads, and so on. 
+	example the indices of all vertices that belong to traingles in the mesh, would be tightly packed together in one instance of this class.
+	There will be one of these objects for all the triangles in the mesh, one for all the quads, and so on.
 */
 class GLUTILS_DECLSPEC GLPolyIndexList {
 	friend class GLPolyCategory;
@@ -220,7 +220,7 @@ private:
 	*/
 	GLPolyIndexList* getIndexList(int vertexCount){
 		for (uint i=0;i<categories.size();i++){
-			if (categories[i]->polyVertexCount == vertexCount)
+			if (categories[i]->polyVertexCount == (uint)vertexCount)
 				return categories[i];
 		}
 		return NULL;
@@ -242,7 +242,7 @@ private:
 	//this array holds the texture coordinates - NOTE: there can only be one set of texture coordinates for each vertex
 	DynamicArray<double> texCoordList;
 	//this variable is used to store information related to which polys share each vertex. Only used for computation of normals
-	DynamicArray<SharedVertexInfo*> sharedVertices;	
+	DynamicArray<SharedVertexInfo*> sharedVertices;
 
 	//this is the total number of vertices in the mesh
 	int vertexCount;
@@ -320,7 +320,7 @@ public:
 		should indicate if the polygons in this mesh have their vertices expressed in clockwise or anticlockwise order.
 	*/
 	void computeNormals(double modifier = 1);
-	
+
 	/**
 		This is the method that adds new polygons to the mesh. The polygons have to be populated by the class that reads in the
 		mesh from a file.
@@ -337,19 +337,19 @@ public:
 	*/
 	void drawNormals();
 
-	
+
 	/**
-		This method renders the mesh, including its current transformations, as a set of vertices 
-		and faces that will be appended to the passed OBJ file.	
+		This method renders the mesh, including its current transformations, as a set of vertices
+		and faces that will be appended to the passed OBJ file.
 
 		vertexIdxOffset indicates the index of the first vertex for this object, this makes it possible to render
 		multiple different meshes to the same OBJ file
-		
+
 		The passed transformation matrix transforms from the model coordinate to the world
 
 		Returns the number of vertices written to the file
 
-	*/	
+	*/
 	uint renderToObjFile( FILE* fp, uint vertexIdxOffset, TransformationMatrix toWorld );
 
 

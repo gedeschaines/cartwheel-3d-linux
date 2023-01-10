@@ -2,7 +2,7 @@
 
 #include <GLUtils/GLUtilsDll.h>
 
-#include <GLUtils/GlTexture.h>
+#include <GLUtils/GLTexture.h>
 
 /*---------------------------------------------------------------------------------------------------------------------------*
  *	This class is used to store and draw the six faces of a cube that represents the background of a scene in a 3d setting.  *
@@ -26,7 +26,7 @@ public:
 
 	/**
 		This is the method that needs to be used to draw the sky box on the screen. The OpenGL matrices should be manipulated
-		in order to place the sky box where desirable. 
+		in order to place the sky box where desirable.
 	*/
 	void drawBox();
 };

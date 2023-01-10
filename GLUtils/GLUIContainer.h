@@ -19,8 +19,8 @@ protected:
 
 	DynamicArray<GLUIWindow*> children;
 
-	virtual bool onMouseEventHandler( MouseEventHandler handler, GLUIMouseEvent* mouseEvent ) { 
-		
+	virtual bool onMouseEventHandler( MouseEventHandler handler, GLUIMouseEvent* mouseEvent ) {
+
 		// Change mouseEvent to relative position
 		for( uint i=0; i<children.size(); ++i ) {
 			if( !children[i]->isVisible() ) continue;
@@ -41,11 +41,11 @@ protected:
 
 public:
 
-	GLUIContainer(GLUIContainer* parent, int x=0, int y=0, int width=0, int height=0, int minWidth=-1, int minHeight=-1 ) : 
-		GLUIWindow(parent,x,y,width,height,minWidth) {
+	GLUIContainer(GLUIContainer* parent, int x=0, int y=0, int width=0, int height=0, int minWidth=-1, int minHeight=-1 ) :
+		GLUIWindow(parent,x,y,width,height,minWidth,minHeight) {
 		setHasContent(false);
 	}
-	
+
 	virtual ~GLUIContainer() {
 		detachAllChildren();
 	}

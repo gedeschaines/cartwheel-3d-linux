@@ -5,7 +5,7 @@
 #include <GLUtils/GLUtilsDll.h>
 
 #include <Utils/Utils.h>
-#include <Include/glHeaders.h>
+#include <Include/GLheaders.h>
 
 // All GLUI elements are defined with respect to top-left corner (as typical UI, not OGL)
 

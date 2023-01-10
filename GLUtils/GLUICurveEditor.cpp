@@ -1,7 +1,15 @@
 #include "GLUICurveEditor.h"
 
 #include <GLUtils/GLUtils.h>
+
+#ifdef __linux__
+// use native glut.h on linux
+#include <GL/glut.h>
+#else
 #include <Include/glut.h>
+#endif
+
+#include <algorithm>
 
 #define MIN_WIDTH 150
 #define MIN_HEIGHT 100
@@ -30,8 +38,8 @@ GLUICurveEditor::GLUICurveEditor(GLUIContainer* parent, int x, int y, int width,
 	if( width == 0 ) width = MIN_WIDTH;
 	if( height == 0 ) height = MIN_HEIGHT;
 
-	setMinSize( min(width,MIN_WIDTH), min(height,MIN_HEIGHT) );
-	
+	setMinSize( std::min(width,MIN_WIDTH), std::min(height,MIN_HEIGHT) );
+
 }
 
 /**
@@ -80,7 +88,7 @@ double GLUICurveEditor::pixelToVal( int posY ) {
 }
 
 
-/** 
+/**
 	Draw the curve editor in the top-left corner of the OpenGL window
 */
 void GLUICurveEditor::draw() {
@@ -90,7 +98,7 @@ void GLUICurveEditor::draw() {
 	glPushMatrix();
 	glLoadIdentity();
 	gluOrtho2D(minPos, maxPos, minVal, maxVal);
-	
+
 
 	// Drow vertical ticks
 	double vTickSize = pow( 10, floor(log10(maxPos-minPos)+0.5) - 1.0 );
@@ -134,7 +142,7 @@ void GLUICurveEditor::draw() {
 
 	// Print tick values
 	double vTickDensity = (double)rect.width / nbVTicks;
-	int vTickModulo = max(1, (int)(44.0/vTickDensity + 0.5));
+	int vTickModulo = std::max(1, (int)(44.0/vTickDensity + 0.5));
 	glColor3d(1,1,1);
 	double deltaPos = (maxPos - minPos) * 0.025;
 	double deltaVal = (maxVal - minVal) * 0.025;
@@ -149,7 +157,7 @@ void GLUICurveEditor::draw() {
 
 
 	double hTickDensity = (double)rect.height / nbHTicks;
-	int hTickModulo = max(1, (int)(16.0/hTickDensity + 0.5));
+	int hTickModulo = std::max(1, (int)(16.0/hTickDensity + 0.5));
 	nbDigit = 0;
 	if( hTickSize < 1 ) nbDigit = (int)((-log10(hTickSize))+0.5);
 	for( double val = hTickStart; val <= maxVal; val += hTickSize ) {
@@ -161,7 +169,7 @@ void GLUICurveEditor::draw() {
 
 
 	if( trajectory && trajectory->getKnotCount() > 0 ) {
-	
+
 		// Draw the trajectory itself
 		glColor3d(0.8,0.8,0.8);
 		glLineWidth( 2.0f );
@@ -184,7 +192,7 @@ void GLUICurveEditor::draw() {
 			glVertex2d( pos, val );
 		}
 		glEnd();
-	
+
 	}
 
 	// Draw the current time
@@ -248,7 +256,7 @@ void GLUICurveEditor::captureControlPoint( int index, int x, int y ) {
 	holdPosY = y;
 	captureMouse();
 }
-	
+
 void GLUICurveEditor::checkReleaseCapture( GLUIMouseEvent* mouseEvent ) {
 	if( !hasCapture() ) return;
 	if( mouseEvent->leftDown || mouseEvent->rightDown ) return;
@@ -277,7 +285,7 @@ bool GLUICurveEditor::onLeftDown( GLUIMouseEvent* mouseEvent )  {
 	}
 
 	// Capture a point if we're close enough, or the background
-	captureControlPoint( findClosestControlPoint(x,y), x, y ); 
+	captureControlPoint( findClosestControlPoint(x,y), x, y );
 
 	return true;
 }
@@ -298,7 +306,7 @@ bool GLUICurveEditor::onRightDown( GLUIMouseEvent* mouseEvent )  {
 
 	// Hold the background for resizing
 	captureControlPoint(-1, x, y);
-	
+
 	return true;
 }
 
@@ -333,15 +341,15 @@ bool GLUICurveEditor::onMotion( GLUIMouseEvent* mouseEvent )  {
 
 			// Compute the new position
 			double newPos = pixelToPos( x );
-		
+
 			// Make sure new position is legal (> than previous knot, < than next knot, > 0)
 			if( pointHeldIdx > 0 ) {
-				if( newPos <= trajectory->getKnotPosition(pointHeldIdx-1) ) 
+				if( newPos <= trajectory->getKnotPosition(pointHeldIdx-1) )
 					newPos = trajectory->getKnotPosition(pointHeldIdx-1) + 0.00001;
 			}
 
 			if( pointHeldIdx < trajectory->getKnotCount()-1 ) {
-				if( newPos >= trajectory->getKnotPosition(pointHeldIdx+1) ) 
+				if( newPos >= trajectory->getKnotPosition(pointHeldIdx+1) )
 					newPos = trajectory->getKnotPosition(pointHeldIdx+1) - 0.00001;
 			}
 
@@ -353,14 +361,14 @@ bool GLUICurveEditor::onMotion( GLUIMouseEvent* mouseEvent )  {
 
 	// No, then we're dragging the background
 	if( mouseEvent->leftDown ) {
-		// Translate view						
+		// Translate view
 
 		double deltaY = pixelVecToVal(holdPosY - y);
 		minVal += deltaY;
 		maxVal += deltaY;
 		holdPosY = y;
 
-		if( canMoveHorizontally ) {		
+		if( canMoveHorizontally ) {
 			double deltaX = pixelVecToPos(holdPosX - x);
 			minPos += deltaX;
 			maxPos += deltaX;
@@ -370,9 +378,9 @@ bool GLUICurveEditor::onMotion( GLUIMouseEvent* mouseEvent )  {
 
 	if( mouseEvent->rightDown ) {
 		// Scale view
-		
+
 		double scaleY = (y - holdPosY)/(double)rect.height * 2.0f;
-		if( scaleY >= 0 ) 
+		if( scaleY >= 0 )
 			scaleY = 1.0+scaleY;
 		else
 			scaleY = 1.0 / (1.0-scaleY);
@@ -382,10 +390,10 @@ bool GLUICurveEditor::onMotion( GLUIMouseEvent* mouseEvent )  {
 		minVal = midVal - sizeY/2.0;
 		maxVal = midVal + sizeY/2.0;
 		holdPosY = y;
-	
-		if( canScaleHorizontally ) {		
+
+		if( canScaleHorizontally ) {
 			double scaleX = (holdPosX - x)/(double)rect.width * 2.0f;
-			if( scaleX >= 0 ) 
+			if( scaleX >= 0 )
 				scaleX = 1.0+scaleX;
 			else
 				scaleX = 1.0 / (1.0-scaleX);
