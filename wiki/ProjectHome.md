@@ -15,7 +15,7 @@ S. Coros, P. Beaudoin and M. van de Panne. <b>Generalized Biped Walking Control<
 
 ---
 
-Continuing research on 3D physics-based character animation by the character animation folks at UBC Imager graphics lab. You can [RunTheEditor](./RunTheEditor.md) right now. Want to compile and execute the project? See [GettingStarted](./GettingStarted.md)! Don't hesitate to join the discussion on the [Cartwheel Google Group](http://groups.google.com/group/cartwheel-3d). You might also be interested in our [PreviousProjects](./PreviousProjects.md).<br><br>
+Continuing research on 3D physics-based character animation by the character animation folks at UBC Imager graphics lab. You can [RunTheEditor](./RunTheEditor.md) right now. Want to compile and execute the project? See [GettingStarted](./GettingStarted-WIN32.md)! Don't hesitate to join the discussion on the [Cartwheel Google Group](http://groups.google.com/group/cartwheel-3d). You might also be interested in our [PreviousProjects](./PreviousProjects.md).<br><br>
 
 ### Screenshots ###
 
