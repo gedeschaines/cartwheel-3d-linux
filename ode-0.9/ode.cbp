@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ode" />
+		<Option platforms="Unix;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Unix;" />
+				<Option output="$(WORKSPACE_DIR)/lib/Debug/ode" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++98" />
+					<Add option="-std=c99" />
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-g" />
+					<Add option="-W" />
+					<Add option="-O0" />
+					<Add option="-fpermissive" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DODE_DLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add directory="$(PROJECT_DIR)/include" />
+					<Add directory="$(PROJECT_DIR)/OPCODE" />
+					<Add directory="$(PROJECT_DIR)/ode/src" />
+					<Add directory="$(PROJECT_DIR)/." />
+					<Add directory="$(PROJECT_DIR)/.." />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/include" />
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/OPCODE" />
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/" />
+					<Add directory="$(WORKSPACE_DIR)" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m64" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option platforms="Unix;" />
+				<Option output="$(WORKSPACE_DIR)/lib/Release/ode" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++98" />
+					<Add option="-std=c99" />
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-W" />
+					<Add option="-fpermissive" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DODE_DLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add directory="$(PROJECT_DIR)/include" />
+					<Add directory="$(PROJECT_DIR)/OPCODE" />
+					<Add directory="$(PROJECT_DIR)/ode/src" />
+					<Add directory="$(PROJECT_DIR)/." />
+					<Add directory="$(PROJECT_DIR)/.." />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/include" />
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/OPCODE" />
+					<Add directory="$(WORKSPACE_DIR)/ode-0.9/" />
+					<Add directory="$(WORKSPACE_DIR)" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-m64" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="GIMPACT/include/GIMPACT/gim_boxpruning.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_contact.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_geometry.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_math.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_memory.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_radixsort.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_tri_capsule_collision.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_tri_collision.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_tri_sphere_collision.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gim_trimesh.h" />
+		<Unit filename="GIMPACT/include/GIMPACT/gimpact.h" />
+		<Unit filename="GIMPACT/src/gim_boxpruning.cpp" />
+		<Unit filename="GIMPACT/src/gim_contact.cpp" />
+		<Unit filename="GIMPACT/src/gim_math.cpp" />
+		<Unit filename="GIMPACT/src/gim_memory.cpp" />
+		<Unit filename="GIMPACT/src/gim_tri_tri_overlap.cpp" />
+		<Unit filename="GIMPACT/src/gim_trimesh.cpp" />
+		<Unit filename="GIMPACT/src/gim_trimesh_capsule_collision.cpp" />
+		<Unit filename="GIMPACT/src/gim_trimesh_ray_collision.cpp" />
+		<Unit filename="GIMPACT/src/gim_trimesh_sphere_collision.cpp" />
+		<Unit filename="GIMPACT/src/gim_trimesh_trimesh_collision.cpp" />
+		<Unit filename="GIMPACT/src/gimpact.cpp" />
+		<Unit filename="OPCODE/Ice/IceAABB.cpp" />
+		<Unit filename="OPCODE/Ice/IceAABB.h" />
+		<Unit filename="OPCODE/Ice/IceAxes.h" />
+		<Unit filename="OPCODE/Ice/IceBoundingSphere.h" />
+		<Unit filename="OPCODE/Ice/IceContainer.cpp" />
+		<Unit filename="OPCODE/Ice/IceContainer.h" />
+		<Unit filename="OPCODE/Ice/IceFPU.h" />
+		<Unit filename="OPCODE/Ice/IceHPoint.cpp" />
+		<Unit filename="OPCODE/Ice/IceHPoint.h" />
+		<Unit filename="OPCODE/Ice/IceIndexedTriangle.cpp" />
+		<Unit filename="OPCODE/Ice/IceIndexedTriangle.h" />
+		<Unit filename="OPCODE/Ice/IceLSS.h" />
+		<Unit filename="OPCODE/Ice/IceMatrix3x3.cpp" />
+		<Unit filename="OPCODE/Ice/IceMatrix3x3.h" />
+		<Unit filename="OPCODE/Ice/IceMatrix4x4.cpp" />
+		<Unit filename="OPCODE/Ice/IceMatrix4x4.h" />
+		<Unit filename="OPCODE/Ice/IceMemoryMacros.h" />
+		<Unit filename="OPCODE/Ice/IceOBB.cpp" />
+		<Unit filename="OPCODE/Ice/IceOBB.h" />
+		<Unit filename="OPCODE/Ice/IcePairs.h" />
+		<Unit filename="OPCODE/Ice/IcePlane.cpp" />
+		<Unit filename="OPCODE/Ice/IcePlane.h" />
+		<Unit filename="OPCODE/Ice/IcePoint.cpp" />
+		<Unit filename="OPCODE/Ice/IcePoint.h" />
+		<Unit filename="OPCODE/Ice/IcePreprocessor.h" />
+		<Unit filename="OPCODE/Ice/IceRandom.cpp" />
+		<Unit filename="OPCODE/Ice/IceRandom.h" />
+		<Unit filename="OPCODE/Ice/IceRay.cpp" />
+		<Unit filename="OPCODE/Ice/IceRay.h" />
+		<Unit filename="OPCODE/Ice/IceRevisitedRadix.cpp" />
+		<Unit filename="OPCODE/Ice/IceRevisitedRadix.h" />
+		<Unit filename="OPCODE/Ice/IceSegment.cpp" />
+		<Unit filename="OPCODE/Ice/IceSegment.h" />
+		<Unit filename="OPCODE/Ice/IceTriList.h" />
+		<Unit filename="OPCODE/Ice/IceTriangle.cpp" />
+		<Unit filename="OPCODE/Ice/IceTriangle.h" />
+		<Unit filename="OPCODE/Ice/IceTypes.h" />
+		<Unit filename="OPCODE/Ice/IceUtils.cpp" />
+		<Unit filename="OPCODE/Ice/IceUtils.h" />
+		<Unit filename="OPCODE/OPC_AABBCollider.cpp" />
+		<Unit filename="OPCODE/OPC_AABBCollider.h" />
+		<Unit filename="OPCODE/OPC_AABBTree.cpp" />
+		<Unit filename="OPCODE/OPC_AABBTree.h" />
+		<Unit filename="OPCODE/OPC_BaseModel.cpp" />
+		<Unit filename="OPCODE/OPC_BaseModel.h" />
+		<Unit filename="OPCODE/OPC_BoxBoxOverlap.h" />
+		<Unit filename="OPCODE/OPC_BoxPruning.cpp" />
+		<Unit filename="OPCODE/OPC_BoxPruning.h" />
+		<Unit filename="OPCODE/OPC_Collider.cpp" />
+		<Unit filename="OPCODE/OPC_Collider.h" />
+		<Unit filename="OPCODE/OPC_Common.h" />
+		<Unit filename="OPCODE/OPC_HybridModel.cpp" />
+		<Unit filename="OPCODE/OPC_HybridModel.h" />
+		<Unit filename="OPCODE/OPC_IceHook.h" />
+		<Unit filename="OPCODE/OPC_LSSAABBOverlap.h" />
+		<Unit filename="OPCODE/OPC_LSSCollider.cpp" />
+		<Unit filename="OPCODE/OPC_LSSCollider.h" />
+		<Unit filename="OPCODE/OPC_LSSTriOverlap.h" />
+		<Unit filename="OPCODE/OPC_MeshInterface.cpp" />
+		<Unit filename="OPCODE/OPC_MeshInterface.h" />
+		<Unit filename="OPCODE/OPC_Model.cpp" />
+		<Unit filename="OPCODE/OPC_Model.h" />
+		<Unit filename="OPCODE/OPC_OBBCollider.cpp" />
+		<Unit filename="OPCODE/OPC_OBBCollider.h" />
+		<Unit filename="OPCODE/OPC_OptimizedTree.cpp" />
+		<Unit filename="OPCODE/OPC_OptimizedTree.h" />
+		<Unit filename="OPCODE/OPC_PlanesAABBOverlap.h" />
+		<Unit filename="OPCODE/OPC_PlanesCollider.cpp" />
+		<Unit filename="OPCODE/OPC_PlanesCollider.h" />
+		<Unit filename="OPCODE/OPC_PlanesTriOverlap.h" />
+		<Unit filename="OPCODE/OPC_RayAABBOverlap.h" />
+		<Unit filename="OPCODE/OPC_RayCollider.cpp" />
+		<Unit filename="OPCODE/OPC_RayCollider.h" />
+		<Unit filename="OPCODE/OPC_RayTriOverlap.h" />
+		<Unit filename="OPCODE/OPC_Settings.h" />
+		<Unit filename="OPCODE/OPC_SphereAABBOverlap.h" />
+		<Unit filename="OPCODE/OPC_SphereCollider.cpp" />
+		<Unit filename="OPCODE/OPC_SphereCollider.h" />
+		<Unit filename="OPCODE/OPC_SphereTriOverlap.h" />
+		<Unit filename="OPCODE/OPC_SweepAndPrune.cpp" />
+		<Unit filename="OPCODE/OPC_SweepAndPrune.h" />
+		<Unit filename="OPCODE/OPC_TreeBuilders.cpp" />
+		<Unit filename="OPCODE/OPC_TreeBuilders.h" />
+		<Unit filename="OPCODE/OPC_TreeCollider.cpp" />
+		<Unit filename="OPCODE/OPC_TreeCollider.h" />
+		<Unit filename="OPCODE/OPC_TriBoxOverlap.h" />
+		<Unit filename="OPCODE/OPC_TriTriOverlap.h" />
+		<Unit filename="OPCODE/OPC_VolumeCollider.cpp" />
+		<Unit filename="OPCODE/OPC_VolumeCollider.h" />
+		<Unit filename="OPCODE/Opcode.cpp" />
+		<Unit filename="OPCODE/Opcode.h" />
+		<Unit filename="ReadMe.txt" />
+		<Unit filename="include/ode/collision.h" />
+		<Unit filename="include/ode/collision_space.h" />
+		<Unit filename="include/ode/collision_trimesh.h" />
+		<Unit filename="include/ode/common.h" />
+		<Unit filename="include/ode/compatibility.h" />
+		<Unit filename="include/ode/config.h" />
+		<Unit filename="include/ode/contact.h" />
+		<Unit filename="include/ode/error.h" />
+		<Unit filename="include/ode/export-dif.h" />
+		<Unit filename="include/ode/mass.h" />
+		<Unit filename="include/ode/matrix.h" />
+		<Unit filename="include/ode/memory.h" />
+		<Unit filename="include/ode/misc.h" />
+		<Unit filename="include/ode/objects.h" />
+		<Unit filename="include/ode/ode.h" />
+		<Unit filename="include/ode/odecpp.h" />
+		<Unit filename="include/ode/odecpp_collision.h" />
+		<Unit filename="include/ode/odemath.h" />
+		<Unit filename="include/ode/rotation.h" />
+		<Unit filename="include/ode/timer.h" />
+		<Unit filename="ode/src/array.cpp" />
+		<Unit filename="ode/src/array.h" />
+		<Unit filename="ode/src/box.cpp" />
+		<Unit filename="ode/src/capsule.cpp" />
+		<Unit filename="ode/src/collision_cylinder_box.cpp" />
+		<Unit filename="ode/src/collision_cylinder_plane.cpp" />
+		<Unit filename="ode/src/collision_cylinder_sphere.cpp" />
+		<Unit filename="ode/src/collision_cylinder_trimesh.cpp" />
+		<Unit filename="ode/src/collision_kernel.cpp" />
+		<Unit filename="ode/src/collision_kernel.h" />
+		<Unit filename="ode/src/collision_quadtreespace.cpp" />
+		<Unit filename="ode/src/collision_space.cpp" />
+		<Unit filename="ode/src/collision_space_internal.h" />
+		<Unit filename="ode/src/collision_std.h" />
+		<Unit filename="ode/src/collision_transform.cpp" />
+		<Unit filename="ode/src/collision_transform.h" />
+		<Unit filename="ode/src/collision_trimesh_box.cpp" />
+		<Unit filename="ode/src/collision_trimesh_ccylinder.cpp" />
+		<Unit filename="ode/src/collision_trimesh_distance.cpp" />
+		<Unit filename="ode/src/collision_trimesh_internal.h" />
+		<Unit filename="ode/src/collision_trimesh_opcode.cpp" />
+		<Unit filename="ode/src/collision_trimesh_plane.cpp" />
+		<Unit filename="ode/src/collision_trimesh_ray.cpp" />
+		<Unit filename="ode/src/collision_trimesh_sphere.cpp" />
+		<Unit filename="ode/src/collision_trimesh_trimesh.cpp" />
+		<Unit filename="ode/src/collision_util.cpp" />
+		<Unit filename="ode/src/collision_util.h" />
+		<Unit filename="ode/src/convex.cpp" />
+		<Unit filename="ode/src/cylinder.cpp" />
+		<Unit filename="ode/src/error.cpp" />
+		<Unit filename="ode/src/export-dif.cpp" />
+		<Unit filename="ode/src/fastdot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ode/src/fastldlt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ode/src/fastlsolve.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ode/src/fastltsolve.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ode/src/heightfield.cpp" />
+		<Unit filename="ode/src/heightfield.h" />
+		<Unit filename="ode/src/joint.cpp" />
+		<Unit filename="ode/src/joint.h" />
+		<Unit filename="ode/src/lcp.cpp" />
+		<Unit filename="ode/src/lcp.h" />
+		<Unit filename="ode/src/mass.cpp" />
+		<Unit filename="ode/src/mat.cpp" />
+		<Unit filename="ode/src/mat.h" />
+		<Unit filename="ode/src/matrix.cpp" />
+		<Unit filename="ode/src/memory.cpp" />
+		<Unit filename="ode/src/misc.cpp" />
+		<Unit filename="ode/src/objects.h" />
+		<Unit filename="ode/src/obstack.cpp" />
+		<Unit filename="ode/src/obstack.h" />
+		<Unit filename="ode/src/ode.cpp" />
+		<Unit filename="ode/src/odemath.cpp" />
+		<Unit filename="ode/src/plane.cpp" />
+		<Unit filename="ode/src/quickstep.cpp" />
+		<Unit filename="ode/src/quickstep.h" />
+		<Unit filename="ode/src/ray.cpp" />
+		<Unit filename="ode/src/rotation.cpp" />
+		<Unit filename="ode/src/sphere.cpp" />
+		<Unit filename="ode/src/step.cpp" />
+		<Unit filename="ode/src/step.h" />
+		<Unit filename="ode/src/stepfast.cpp" />
+		<Unit filename="ode/src/testing.cpp" />
+		<Unit filename="ode/src/testing.h" />
+		<Unit filename="ode/src/timer.cpp" />
+		<Unit filename="ode/src/util.cpp" />
+		<Unit filename="ode/src/util.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
