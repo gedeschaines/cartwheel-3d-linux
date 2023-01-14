@@ -9,6 +9,9 @@
 #       18.04 LTS distributions, for running named Cartwheel-3d module 
 #       Python test script.
 
+# Set path to Python 2 exectuable
+PTYHON_EXE=/usr/bin/python2
+
 # Set Cartwheel-3d home path if not already defined.
 if [ "${CW3D_HOME}" == "" ]
 then 
@@ -32,7 +35,7 @@ function check_named_module() {
       if [ ! -e $MODULE ]
       then
         echo "error:  $MODULE does not exist."
-        echo "        Use Cartwheel-3d CodeBlocks IDE workspace to build module."
+        echo "        Use Cartwheel-3d Code::Blocks IDE workspace to build module."
         return 0
       fi
       return 1
@@ -67,7 +70,12 @@ LD_LIBRARY_PATH=${CW3D_HOME}/lib/${TARGET}:${LD_LIBRARY_PATH}
 # Add Cartwheel-3d target shared library and Python module
 # paths to the PYTHONPATH environment variable.
 PYTHONPATH=${CW3D_HOME}/lib/${TARGET}:${CW3D_HOME}/Python
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/App
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/Controllers
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/Data
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/PyUtils
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/UI
 
 # Start named module test as a foreground process, then exit.
-cd ./Python; /usr/bin/python2 ${NAME}Test.py; cd ..
+cd ./Python; $PYTHON_EXE ${NAME}Test.py; cd ..
 

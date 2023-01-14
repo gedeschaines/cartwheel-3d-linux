@@ -4,9 +4,12 @@
 # DATE: 2 JAN 2023
 # AUTH: G. E. Deschaines
 # PROG: Shell script invoked in cartwheel-3d home directory.
-# DESC: Script preparing shell environment and invoking Spyder 3 IDE
+# DESC: Script preparing shell environment and invoking Spyder IDE
 #       bundled with Python 2 packages installed on Ubuntu 18.04 LTS
 #       distributions, for working with Cartwheel-3d/Python project.
+
+# Set path to Spyder (Python 2) exectuable
+SPYDER_EXE=/usr/bin/spyder
 
 # Set Cartwheel-3d home path if not already defined.
 if [ "${CW3D_HOME}" == "" ]
@@ -26,6 +29,6 @@ if [ -e "${CW3D_HOME}/Python/.spyproject/workspace.ini" ]
 then
   /usr/bin/spyder --project="${CW3D_HOME}/Python" & 
 else
-  cd ./Python; /usr/bin/spyder &
+  cd ./Python; $SPYDER_EXE &
 fi
 

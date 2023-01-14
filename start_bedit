@@ -9,6 +9,9 @@
 #       18.04 LTS distributions, for running Cartwheel-3d BasicEditor 
 #       Python script.
 
+# Set path to Python 2 exectuable
+PTYHON_EXE=/usr/bin/python2
+
 # Set Cartwheel-3d home path if not already defined.
 if [ "${CW3D_HOME}" == "" ]
 then 
@@ -25,12 +28,17 @@ LD_LIBRARY_PATH=${CW3D_HOME}/lib/${TARGET}:${LD_LIBRARY_PATH}
 # Add Cartwheel-3d target shared library and Python module
 # paths to the PYTHONPATH environment variable.
 PYTHONPATH=${CW3D_HOME}/lib/${TARGET}:${CW3D_HOME}/Python
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/App
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/Controllers
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/Data
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/PyUtils
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python/UI
 
 # Start BasicEditor as a foreground process, then exit.
 if [ -e "./BasicEditor.py" ]
 then
-  /usr/bin/python2 BasicEditor.py 
+  $PYTHON_EXE BasicEditor.py 
 else
-  cd ${CW3D_HOME}/Python; /usr/bin/python2 BasicEditor.py 
+  cd ${CW3D_HOME}/Python; $PYTHON_EXE BasicEditor.py 
 fi
 
