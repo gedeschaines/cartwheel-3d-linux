@@ -7,7 +7,7 @@
 # DESC: Script preparing shell environment and invoking the Python 3
 #       interpeter bundled with Python 3 packages installed on Ubuntu
 #       18.04 LTS distributions, for running Cartwheel-3d BasicEditor 
-#       Python script.
+#       Python 3 script.
 
 # Set path to Python 3 exectuable
 VER=3
@@ -20,7 +20,7 @@ then
 fi
 
 # Set Cartwheel-3d target to ["Debug"|"Release"].
-TARGET="Debug"
+TARGET="Release"
 
 # Pre-pend Cartwheel-3d target shared library path to the
 # LD_LIBRARY_PATH environment variable.

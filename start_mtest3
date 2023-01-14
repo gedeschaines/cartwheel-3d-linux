@@ -7,7 +7,7 @@
 # DESC: Script preparing shell environment and invoking the Python 3
 #       interpeter bundled with Python 3 packages installed on Ubuntu
 #       18.04 LTS distributions, for running named Cartwheel-3d module 
-#       Python test script.
+#       Python 3 test script.
 
 # Set path to Python 3 exectuable
 VER=3
@@ -20,7 +20,7 @@ then
 fi
 
 # Set Cartwheel-3d target to ["Debug"|"Release"].
-TARGET="Debug"
+TARGET="Release"
 
 # Extract module names from listing of *Test.py files in ./Python${VER} directory.
 TESTS_LIST="`ls -x -w 0 ./Python${VER}/*Test.py | sed -E 's/\w*.\/Python3\///g' | sed 's/Test.py//g'`"
