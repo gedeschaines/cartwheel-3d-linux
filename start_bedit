@@ -29,7 +29,7 @@ PYTHONPATH=${CW3D_HOME}/lib/${TARGET}:${CW3D_HOME}/Python
 # Start BasicEditor as a foreground process, then exit.
 if [ -e "./BasicEditor.py" ]
 then
-  /usr/bin/python2 BasicEditor.py & 
+  /usr/bin/python2 BasicEditor.py 
 else
   cd ${CW3D_HOME}/Python; /usr/bin/python2 BasicEditor.py 
 fi

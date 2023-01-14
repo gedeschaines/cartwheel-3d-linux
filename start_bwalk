@@ -29,7 +29,7 @@ PYTHONPATH=${CW3D_HOME}/lib/${TARGET}:${CW3D_HOME}/Python
 # Start BasicWalker as a foreground process, then exit.
 if [ -e "./BasicWalker.py" ]
 then
-  /usr/bin/python2 BasicWalker.py & 
+  /usr/bin/python2 BasicWalker.py 
 else
   cd ${CW3D_HOME}/Python; /usr/bin/python2 BasicWalker.py 
 fi
