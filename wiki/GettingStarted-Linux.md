@@ -35,12 +35,12 @@ If you want to edit and debug the Python code, including all the user interface 
 
 ### Spyder with Python 2 ###
 
-In Spyder, check that the $CW3D_HOME/lib/Debug path has been added to the PYTHONPATH manager. Go to 'Tools' --> 'PYTHONPATH manager', remove $CW3D_HOME/lib/Release if present and add $CW3D_HOME/lib/Debug in its place. Also, the paths to Python `App`, `Controllers`, `Data`, `PyUtils` and `UI` modules should be entered in the PYTHONPATH manager.
+In Spyder, check that the $CW3D_HOME/lib/Debug path has been added to the PYTHONPATH manager as the **top most entry**. Go to 'Tools' --> 'PYTHONPATH manager', remove $CW3D_HOME/lib/Release if present and add $CW3D_HOME/lib/Debug in its place. Also, the paths to Python `App`, `Controllers`, `Data`, `PyUtils` and `UI` modules should be entered in this order below the $CW3D_HOME/lib/Debug entry.
 
 The appropriate Run Configuration setting per file should be 'Execute in current console' for Console, 'Directly enter debugging when errors appear' for General Settings and 'The following directory: $CW3D_HOME/Python' for Working Directory settings. Also, the default Python2.7 interpreter should be selected under 'Tools' --> 'Preferences' --> 'Python interpreter'.
 
 ### Spyder with Python 3 ###
 
-In Spyder, check that the $CW3D_HOME/lib/Debug3 has been added to the PYTHONPATH manager. Go to 'Tools' --> 'PYTHONPATH manager', remove $CW3D_HOME/lib/Release3 if present and add $CW3D_HOME/lib/Debug3 in its place. Also, the paths to Python3 `App`, `Controllers`, `Data`, `PyUtils` and `UI` modules must be entered in the PYTHONPATH manager.
+In Spyder, check that the $CW3D_HOME/lib/Debug3 path has been added to the PYTHONPATH manager as the **top most entry**. Go to 'Tools' --> 'PYTHONPATH manager', remove $CW3D_HOME/lib/Release3 if present and add $CW3D_HOME/lib/Debug3 in its place. Also, the paths to Python3 `App`, `Controllers`, `Data`, `PyUtils` and `UI` modules **must be** entered in this order below the $CW3D_HOME/lib/Debug3 entry.
 
 The appropriate Run Configuration setting per file should be 'Execute in current console' for Console, 'Directly enter debugging when errors appear' for General Settings and 'The following directory: $CW3D_HOME/Python3' for Working Directory settings. Also, the default Python3.6 interpreter should be selected under 'Tools' --> 'Preferences' --> 'Python interpreter'.
