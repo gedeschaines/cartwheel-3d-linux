@@ -239,7 +239,7 @@ def fromTrajectory1d( traj ):
     return [ (traj.getKnotPosition(i), traj.getKnotValue(i)) for i in range(traj.getKnotCount()) ]
         
 def fancify( expr ):
-    """Add new line, spaces and intentation to the passed expression"""
+    """Add new line, spaces and indentation to the passed expression"""
     import ast
     import Fancify
     tree = ast.parse( expr )
