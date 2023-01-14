@@ -1,4 +1,5 @@
-__pycache__
+__pycache__/*
+.spyproject/*
 Core/Core_wrap.cpp
 Core/Core_wrap.h
 GLUtils/GLUtils_wrap.cpp
