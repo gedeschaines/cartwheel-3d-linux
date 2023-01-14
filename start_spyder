@@ -9,7 +9,7 @@
 #       distributions, for working with Cartwheel-3d/Python project.
 
 # Set path to Spyder (Python 2) exectuable
-SPYDER_EXE=/usr/bin/spyder
+SPYDER_EXE=`which spyder`
 
 # Set Cartwheel-3d home path if not already defined.
 if [ "${CW3D_HOME}" == "" ]

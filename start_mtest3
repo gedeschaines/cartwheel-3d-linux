@@ -11,7 +11,7 @@
 
 # Set path to Python 3 exectuable
 VER=3
-PYTHON_EXE=/usr/bin/python${VER}
+PYTHON_EXE=`which python${VER}`
 
 # Set Cartwheel-3d home path if not already defined.
 if [ "${CW3D_HOME}" == "" ]

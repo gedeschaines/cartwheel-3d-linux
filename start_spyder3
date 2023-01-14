@@ -10,7 +10,7 @@
 
 # Set path to Spyder (Python 3) exectuable
 VER=3
-SPYDER_EXE=/usr/bin/spyder${VER}
+SPYDER_EXE=`which spyder${VER}`
 
 # Set Cartwheel-3d home path if not already defined.
 if [ "${CW3D_HOME}" == "" ]

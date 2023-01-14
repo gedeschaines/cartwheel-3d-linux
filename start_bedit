@@ -10,7 +10,7 @@
 #       Python script.
 
 # Set path to Python 2 exectuable
-PYTHON_EXE=/usr/bin/python2
+PYTHON_EXE=`which python2`
 
 # Set Cartwheel-3d home path if not already defined.
 if [ "${CW3D_HOME}" == "" ]
