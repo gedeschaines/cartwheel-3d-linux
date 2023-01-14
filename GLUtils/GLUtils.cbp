@@ -49,7 +49,7 @@
 					<Add before="echo off" />
 					<Add before="/usr/bin/swig -c++ -python -o $(PROJECT_NAME)_wrap.cpp -oh $(PROJECT_NAME)_wrap.h $(PROJECT_NAME).swg" />
 					<Add after="echo Creating python library" />
-					<Add after="mv $(PROJECT_DIR)/$(PROJECT_NAME).py  $(WORKSPACE_DIR)/lib/Debug/$(PROJECT_NAME).py" />
+					<Add after="mv $(PROJECT_DIR)$(PROJECT_NAME).py $(WORKSPACE_DIR)/lib/Debug/$(PROJECT_NAME).py" />
 					<Add after="if [ ! -e  $(WORKSPACE_DIR)/lib/Debug/lib_$(PROJECT_NAME).so ]; then ln -s $(WORKSPACE_DIR)/lib/Debug/_$(PROJECT_NAME).so $(WORKSPACE_DIR)/lib/Debug/lib_$(PROJECT_NAME).so; fi" />
 				</ExtraCommands>
 			</Target>
@@ -94,13 +94,12 @@
 					<Add before="echo off" />
 					<Add before="/usr/bin/swig -c++ -python -o $(PROJECT_NAME)_wrap.cpp -oh $(PROJECT_NAME)_wrap.h $(PROJECT_NAME).swg" />
 					<Add after="echo Creating python library" />
-					<Add after="mv $(PROJECT_DIR)/$(PROJECT_NAME).py ${WORKSPACE_DIR)/lib/Release/$(PROJECT_NAME).py" />
+					<Add after="mv $(PROJECT_DIR)$(PROJECT_NAME).py ${WORKSPACE_DIR)/lib/Release/$(PROJECT_NAME).py" />
 					<Add after="if [ ! -e  $(WORKSPACE_DIR)/lib/Release/lib_$(PROJECT_NAME).so ]; then ln -s $(WORKSPACE_DIR)/lib/Release/_$(PROJECT_NAME).so $(WORKSPACE_DIR)/lib/Release/lib_$(PROJECT_NAME).so; fi" />
 				</ExtraCommands>
 			</Target>
 		</Build>
 		<Unit filename="../Include/GLheaders.h" />
-		<Unit filename="../Python/GLUtilsTest.py" />
 		<Unit filename="CubeBg.cpp" />
 		<Unit filename="CubeBg.h" />
 		<Unit filename="GLCamera.cpp" />
