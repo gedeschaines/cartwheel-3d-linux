@@ -27,7 +27,7 @@ LD_LIBRARY_PATH=${CW3D_HOME}/lib/${TARGET}:${LD_LIBRARY_PATH}
 # Invoke Spyder IDE as a background process, then exit.
 if [ -e "${CW3D_HOME}/Python/.spyproject/workspace.ini" ]
 then
-  /usr/bin/spyder --project="${CW3D_HOME}/Python" & 
+  $SPYDER_EXE --project="${CW3D_HOME}/Python" & 
 else
   cd ./Python; $SPYDER_EXE &
 fi
