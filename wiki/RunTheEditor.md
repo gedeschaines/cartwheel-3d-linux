@@ -5,7 +5,7 @@
 This page explains how to download and run the style and character editor presented at SIGGRAPH 2010. This application works under Windows using the original downloaded code and under Linux by building cartwheel-3d using source from a GitHub code repository.
 
  * On a Windows platform, get `cartwheel.zip` from the [downloads section](https://code.google.com/archive/p/cartwheel-3d/downloads). Unzip it in the directory of your choice and run `simbicon.bat`.
- * On a Linux platform, clone or copy the [https://github.com/gedeschaines/cartwheel-3d-linux](https://github.com/gedeschaines/cartwheel-3d-linux) repository into a directory of your choice, build cartwheel-3d shared libraries and Python 2 modules with Code::Blocks using the provided `cartwheel-3d.workspace` file, then run `start_bedit` to invoke the basic Style Editor case.
+ * On a Linux platform, clone or copy the [https://github.com/gedeschaines/cartwheel-3d-linux](https://github.com/gedeschaines/cartwheel-3d-linux) repository into a directory of your choice, build cartwheel-3d shared libraries and Python 2 (or 3) compatible modules with Code::Blocks using the provided `cartwheel-3d.workspace` file, then run `start_bedit` (or `start_bedit3`) to invoke the basic Style Editor case (see [GettingStarted-Linux](./GettingStarted-Linux.md) for build instructions).
 
  <div margin="0px" align="left"><br>
  <img src="../web/editorScreenShot.jpg" width="640" height="390" alt="Cartwheel-3d Style Editor screenshot"/>
