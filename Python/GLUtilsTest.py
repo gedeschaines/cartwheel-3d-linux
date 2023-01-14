@@ -1,7 +1,19 @@
 from PyUtils.Utils import fancify
 
-print fancify( 
-"""Character(
+test_str = """Functions(
+    func1 = name1(
+        keyw1 = "a",
+        keyw2 = path.join("home", "a"),
+        keyw3 = -1
+    ),
+    func2 = name2(
+        keyw1 = "b",
+        keyw2 = path.join("home","b"),
+        keyw3 = +2 
+    )
+)"""
+
+data_str = """Character(
                          
     root = ArticulatedRigidBody(
         name = "pelvis",
@@ -292,4 +304,8 @@ print fancify(
             axis = ( 1, 0, 0 ),
             limits = (-0.52, 0.02) )
     ]
-)""")
+)"""
+
+fancified_str = fancify(data_str)
+print(fancified_str)
+
