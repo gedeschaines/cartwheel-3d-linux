@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# FILE: start_bedit3
+# DATE: 14 JAN 2023
+# AUTH: G. E. Deschaines
+# PROG: Shell script invoked in cartwheel-3d home directory.
+# DESC: Script preparing shell environment and invoking the Python 3
+#       interpeter bundled with Python 3 packages installed on Ubuntu
+#       18.04 LTS distributions, for running Cartwheel-3d BasicEditor 
+#       Python script.
+
+# Set path to Python 3 exectuable
+VER=3
+PYTHON_EXE=/usr/bin/python${VER}
+
+# Set Cartwheel-3d home path if not already defined.
+if [ "${CW3D_HOME}" == "" ]
+then 
+  CW3D_HOME=`/bin/pwd`
+fi
+
+# Set Cartwheel-3d target to ["Debug"|"Release"].
+TARGET="Debug"
+
+# Pre-pend Cartwheel-3d target shared library path to the
+# LD_LIBRARY_PATH environment variable.
+LD_LIBRARY_PATH=${CW3D_HOME}/lib/${TARGET}${VER}:${LD_LIBRARY_PATH}
+
+# Add Cartwheel-3d target shared library and Python module
+# paths to the PYTHONPATH environment variable.
+PYTHONPATH=${CW3D_HOME}/lib/${TARGET}${VER}:${CW3D_HOME}/Python${VER}
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/App
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/Controllers
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/Data
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/PyUtils
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/UI
+
+# Start BasicEditor as a foreground process, then exit.
+if [ -e "./BasicEditor.py" ]
+then
+  $PYTHON_EXE BasicEditor.py 
+else
+  cd ${CW3D_HOME}/Python${VER}; $PYTHON_EXE BasicEditor.py 
+fi
+

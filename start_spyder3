@@ -1,0 +1,35 @@
+#!/bin/bash
+#3
+# FILE: start_spyder3
+# DATE: 14 JAN 2023
+# AUTH: G. E. Deschaines
+# PROG: Shell script invoked in cartwheel-3d home directory.
+# DESC: Script preparing shell environment and invoking Spyder IDE
+#       bundled with Python 3 packages installed on Ubuntu 18.04 LTS
+#       distributions, for working with Cartwheel-3d/Python project.
+
+# Set path to Spyder (Python 3) exectuable
+VER=3
+SPYDER_EXE=/home/garyd/venvP36/bin/spyder${VER}
+
+# Set Cartwheel-3d home path if not already defined.
+if [ "${CW3D_HOME}" == "" ]
+then 
+  CW3D_HOME=`/bin/pwd`
+fi
+
+# Set Cartwheel-3d target to ["Debug"|"Release"].
+TARGET="Debug"
+
+# Pre-pend Cartwheel-3d target shared library path to the
+# LD_LIBRARY_PATH environment variable.
+LD_LIBRARY_PATH=${CW3D_HOME}/lib/${TARGET}${VER}:${LD_LIBRARY_PATH}
+
+# Invoke Spyder IDE as a background process, then exit.
+if [ -e "${CW3D_HOME}/Python${VER}/.spyproject/config/workspace.ini" ]
+then
+  $SPYDER_EXE --project="${CW3D_HOME}/Python${VER}" &
+else
+  cd ./Python${VER}; $SPYDER_EXE &
+fi
+

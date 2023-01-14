@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# FILE: start_mtest3
+# DATE: 14 JAN 2023
+# AUTH: G. E. Deschaines
+# PROG: Shell script invoked in cartwheel-3d home directory.
+# DESC: Script preparing shell environment and invoking the Python 3
+#       interpeter bundled with Python 3 packages installed on Ubuntu
+#       18.04 LTS distributions, for running named Cartwheel-3d module 
+#       Python test script.
+
+# Set path to Python 3 exectuable
+VER=3
+PYTHON_EXE=/usr/bin/python${VER}
+
+# Set Cartwheel-3d home path if not already defined.
+if [ "${CW3D_HOME}" == "" ]
+then 
+  CW3D_HOME=`/bin/pwd`
+fi
+
+# Set Cartwheel-3d target to ["Debug"|"Release"].
+TARGET="Debug"
+
+# Extract module names from listing of *Test.py files in ./Python${VER} directory.
+TESTS_LIST="`ls -x -w 0 ./Python${VER}/*Test.py | sed -E 's/\w*.\/Python3\///g' | sed 's/Test.py//g'`"
+
+function check_named_module() {
+# Returns 1 if named module exists; otherwise returns 0.
+  local N=$1
+  for T in $TESTS_LIST
+  do
+    if [ "$N" == "$T" ]
+    then
+      MODULE=${CW3D_HOME}/lib/${TARGET}${VER}/${T}.py 
+      if [ ! -e $MODULE ]
+      then
+        echo "error:  $MODULE does not exist."
+        echo "        Use Cartwheel-3d Code::Blocks IDE workspace to build module."
+        return 0
+      fi
+      return 1
+    fi
+  done
+  echo "error:  Module '${N}' does not exist."
+  echo "        check spelling; name must be in"
+  echo "        [${TESTS_LIST}]"
+  return 0
+}
+
+# Check command line arguments.
+if [ $# -lt 1 ]
+then
+  echo "usage:  start_mtest name"
+  echo "where:  name - a named ./Python${VER}/{name}Test.py file"
+  exit -1
+fi
+NAME=$1
+
+# Check if named module test exists.
+check_named_module $NAME
+if [ $? -eq 0 ]
+then
+  exit -2
+fi
+
+# Pre-pend Cartwheel-3d target shared library path to the
+# LD_LIBRARY_PATH environment variable.
+LD_LIBRARY_PATH=${CW3D_HOME}/lib/${TARGET}${VER}:${LD_LIBRARY_PATH}
+
+# Add Cartwheel-3d target shared library and Python module
+# paths to the PYTHONPATH environment variable.
+PYTHONPATH=${CW3D_HOME}/lib/${TARGET}${VER}:${CW3D_HOME}/Python${VER}
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/App
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/Controllers
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/Data
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/PyUtils
+PYTHONPATH=${PYTHONPATH}:${CW3D_HOME}/Python${VER}/UI
+
+# Start named module test as a foreground process, then exit.
+cd ./Python${VER}; $PYTHON_EXE ${NAME}Test.py; cd ..
+
