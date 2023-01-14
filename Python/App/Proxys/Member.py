@@ -156,6 +156,7 @@ class Object(Basic):
         try:
             # Try to re-fill the existing object
             value = self.getObject(object)
+            if value is None : raise TypeError
             try: value.beginBatchChanges()
             except AttributeError: pass
             try: 
@@ -197,6 +198,7 @@ class ObjectList(TopLevel):
             # Try to re-fill the existing object
             if i >= self.getCount(object) : raise IndexError;
             value = self.getObject(object, i)
+            if value is None : raise TypeError
             try: value.beginBatchChanges()
             except AttributeError: pass
             try: 
