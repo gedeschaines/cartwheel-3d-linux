@@ -3,6 +3,7 @@
 
 #ifdef USE_SYSTEM_GSL
 #include <gsl/gsl_blas.h>
+#include "gsl_matrix_add_scaled.h"
 #else
 #include <gsl/blas/gsl_blas.h>
 #endif
@@ -438,10 +439,10 @@ void Matrix::add(const Matrix& other, double scaleA, double scaleB){
 	if (scaleA == 1.0 && scaleB == 1)
 		gsl_matrix_add(this->matrix, other.matrix);
 	else
-		//gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, scaleB);
-        gsl_matrix_scale(this->matrix, scaleA);
-		gsl_matrix_scale(other.matrix, scaleB);
-		gsl_matrix_add(this->matrix, other.matrix);
+		gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, scaleB);
+        //gsl_matrix_scale(this->matrix, scaleA);
+		//gsl_matrix_scale(other.matrix, scaleB);
+		//gsl_matrix_add(this->matrix, other.matrix);
 }
 
 /**
@@ -453,10 +454,10 @@ void Matrix::sub(const Matrix& other, double scaleA, double scaleB){
 	if (scaleA == 1.0 && scaleB == 1)
 		gsl_matrix_sub(this->matrix, other.matrix);
 	else
-		//gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, -scaleB);
-        gsl_matrix_scale(this->matrix, scaleA);
-		gsl_matrix_scale(other.matrix, -scaleB);
-		gsl_matrix_add(this->matrix, other.matrix);
+		gsl_matrix_add_scaled(this->matrix, other.matrix, scaleA, -scaleB);
+        //gsl_matrix_scale(this->matrix, scaleA);
+		//gsl_matrix_scale(other.matrix, -scaleB);
+		//gsl_matrix_add(this->matrix, other.matrix);
 }
 
 
