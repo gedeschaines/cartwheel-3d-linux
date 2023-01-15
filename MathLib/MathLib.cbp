@@ -217,6 +217,8 @@
 		<Unit filename="Vector.h" />
 		<Unit filename="Vector3d.cpp" />
 		<Unit filename="Vector3d.h" />
+		<Unit filename="gsl_matrix_add_scaled.cpp" />
+		<Unit filename="gsl_matrix_add_scaled.h" />
 		<Unit filename="stdafx.cpp" />
 		<Unit filename="stdafx.h" />
 		<Unit filename="targetver.h" />
