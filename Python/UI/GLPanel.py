@@ -364,7 +364,7 @@ class GLPanel(glcanvas.GLCanvas):
         glLoadIdentity()
         glDisable(GL_DEPTH_TEST)
 
-        glColor4f(0,0,0,1)
+        glColor4f(0,1,0,1)
         glRasterPos2f(200, 15)
         for c in loadString:
             glutBitmapCharacter(GLUT_BITMAP_8_BY_13, ord(c));        
