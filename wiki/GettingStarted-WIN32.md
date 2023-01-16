@@ -4,6 +4,8 @@
 
 This page will give you all the steps required to compile and execute the project. Right now it only works under Windows and the document focuses on a Visual Studio + Eclipse environment. Porting the project to different platforms and environments should not be too difficult, and we're definitely interested in hosting a multi-platform version so you're welcome to contribute this!
 
+**[UP TO DATE](https://gitlab.liris.cnrs.fr/npronost/motion-controller) project working with the following components: msvc14.0, python3.6 32 bits, wxpython4.0.1, pyopengl3.1.2, swigwin 3.0.12, freeglut3.0.0 and glew.**
+
 ## Initial set-up ##
 
 The project has been tested under Visual Studio 2008 and [Eclipse](http://www.eclipse.org/downloads/) with [PyDev](http://pydev.org/). You can install PyDev using Eclipse update manager from http://pydev.org/updates. Eclipse and PyDev are only useful if you want to edit and debug the Python code. The project uses a mercurial repository. Under windows, you can use [TortoiseHg](http://tortoisehg.bitbucket.org/).
@@ -29,4 +31,6 @@ To import the PyDev project select `File --> Import` then `General --> Existing 
 To debug the python code, select `BasicEditor Debug` from the debug drop-down. This will only work if you compiled the debug version of the C++ code.
 
 **[NOTES](http://www.funkboxing.com/wordpress/?p=228) FROM SUCCESSFUL COMPILE W/ VS2010EXPRESS**
+
+
 
