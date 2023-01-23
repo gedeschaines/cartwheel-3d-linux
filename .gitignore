@@ -15,7 +15,7 @@ bin/*
 lib/*
 obj/
 screenShots/*
-tmp/*
+temp/*
 *.depend
 *.layout
 *.a
